@@ -1,0 +1,303 @@
+import { useState, useEffect } from "react";
+import { X, Calendar, Edit, Plus, Info, AlertTriangle } from "lucide-react";
+import { useFormModal } from "../../hooks/useModal";
+import { Input, Select } from "../common/FormElements";
+import { Loading, Button } from "../common/UIComponents";
+
+const CONTENT_TYPES = ["POST", "REEL"];
+const PUBLICATION_STATUSES = ["DRAFT", "SCHEDULED", "PUBLISHED"];
+
+// Traducciones de estados para la UI
+const STATUS_LABELS = {
+  DRAFT: "En Proceso",
+  SCHEDULED: "Programada",
+  PUBLISHED: "Editada",
+};
+
+const emptyForm = {
+  title: "",
+  content_type: "",
+  status: "DRAFT",
+  publish_date: "",
+};
+
+const PublicationForm = ({
+  selectedPublication,
+  clientId,
+  isOpen,
+  onClose,
+  onSave,
+  isLoading,
+}) => {
+  const isEditing = !!selectedPublication;
+  const [formData, setFormData] = useState(emptyForm);
+  const [validationErrors, setValidationErrors] = useState({});
+  const [contentTypeChanged, setContentTypeChanged] = useState(false);
+  const [hasMedia, setHasMedia] = useState(false);
+
+  // Usar el hook para modal con los manejadores de scroll y ESC
+  const { modalRef, handleBackdropClick, handleContentClick } = useFormModal({
+    isOpen,
+    onClose,
+  });
+
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    // produce yyyy-MM-ddTHH:mm
+    const parts = new Intl.DateTimeFormat("sv-SE", {
+      timeZone: "America/Lima",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
+      .format(date)
+      .replace(" ", "T")
+      .slice(0, 16);
+    return parts;
+  };
+
+  useEffect(() => {
+    if (selectedPublication) {
+      const formattedDate = formatDateForInput(
+        selectedPublication.publish_date
+      );
+      setFormData({
+        title: selectedPublication.title || "",
+        content_type: selectedPublication.content_type || "POST",
+        status: selectedPublication.status || "DRAFT",
+        publish_date: formattedDate,
+      });
+      // Detectar si tiene media
+      setHasMedia(
+        selectedPublication.media && selectedPublication.media.length > 0
+      );
+    } else {
+      setFormData(emptyForm);
+      setHasMedia(false);
+    }
+    setValidationErrors({});
+    setContentTypeChanged(false);
+  }, [selectedPublication, isOpen]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // Detectar cambio en content_type
+    if (
+      name === "content_type" &&
+      isEditing &&
+      selectedPublication?.content_type &&
+      value !== selectedPublication.content_type
+    ) {
+      setContentTypeChanged(true);
+    } else if (
+      name === "content_type" &&
+      isEditing &&
+      selectedPublication?.content_type &&
+      value === selectedPublication.content_type
+    ) {
+      setContentTypeChanged(false);
+    }
+
+    setFormData((s) => ({ ...s, [name]: value }));
+    setValidationErrors((s) => ({ ...s, [name]: null }));
+  };
+
+  const isFormValid = () => {
+    const errors = {};
+    if (!formData.title.trim()) errors.title = "El título es obligatorio.";
+    if (!formData.content_type)
+      errors.content_type = "Debe seleccionar un tipo de contenido.";
+    if (!formData.publish_date)
+      errors.publish_date = "La fecha de publicación es obligatoria.";
+    if (formData.publish_date) {
+      const selectedDate = new Date(formData.publish_date);
+      const now = new Date();
+      if (isNaN(selectedDate.getTime()))
+        errors.publish_date = "La fecha y hora no son válidas.";
+      else if (formData.status === "SCHEDULED" && selectedDate <= now)
+        errors.publish_date = "La fecha y hora programada debe ser futura.";
+    }
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!isFormValid()) return;
+    const dataToSend = {
+      ...formData,
+      publish_date: new Date(formData.publish_date),
+    };
+    if (isEditing) dataToSend.id = selectedPublication.id;
+    if (onSave) onSave(dataToSend);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
+      <div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+        aria-hidden="true"
+        onClick={handleBackdropClick}
+      />
+      <div
+        ref={modalRef}
+        onClick={handleContentClick}
+        className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl dark:bg-gray-800 dark:text-gray-100 flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden"
+      >
+        <Button
+          onClick={!isLoading ? onClose : undefined}
+          variant="ghost"
+          size="sm"
+          className="absolute right-3 top-3 sm:right-4 sm:top-4 z-20 rounded-full p-1.5"
+          aria-label="Cerrar modal"
+        >
+          <X className="h-5 w-5" />
+        </Button>
+        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl sm:text-2xl font-bold pr-8">
+            {isEditing ? "Editar Publicación" : "Crear Nueva Publicación"}
+          </h2>
+          <p className="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+            Cliente ID: {clientId}
+          </p>
+        </div>
+
+        {isLoading && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+            <Loading />
+          </div>
+        )}
+
+        <form
+          id="publicationForm"
+          onSubmit={handleSubmit}
+          className="px-4 sm:px-6 py-4 space-y-4 sm:space-y-6 overflow-y-auto"
+        >
+          <div>
+            <Input
+              label="Título"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Título de la publicación"
+              error={validationErrors.title}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Select
+                label="Tipo de Contenido"
+                name="content_type"
+                value={formData.content_type}
+                onChange={handleChange}
+                error={validationErrors.content_type}
+                required
+                options={[
+                  { value: "", label: "Seleccione un Tipo", disabled: true },
+                  ...CONTENT_TYPES.map((type) => ({
+                    value: type,
+                    label: type,
+                  })),
+                ]}
+              />
+
+              {/* Advertencia de cambio de tipo con media */}
+              {contentTypeChanged && hasMedia && (
+                <div className="mt-2 flex items-start gap-2 text-xs text-amber-600 dark:text-amber-400 p-2.5 sm:p-2 border border-amber-300 dark:border-amber-700 rounded-lg bg-amber-50 dark:bg-amber-900/20">
+                  <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+                  <p className="leading-tight">
+                    <strong className="block sm:inline">Advertencia:</strong> Al
+                    cambiar el tipo de{" "}
+                    <strong>{selectedPublication?.content_type}</strong> a{" "}
+                    <strong>{formData.content_type}</strong>, los archivos
+                    incompatibles se eliminarán automáticamente.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <Select
+                label="Estado"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                options={PUBLICATION_STATUSES.map((status) => ({
+                  value: status,
+                  label: STATUS_LABELS[status],
+                }))}
+              />
+            </div>
+          </div>
+
+          <div>
+            <Input
+              label={
+                <>
+                  <Calendar className="inline h-4 w-4 mr-1 mb-0.5 text-indigo-600 dark:text-indigo-400" />
+                  Fecha y Hora de Publicación
+                </>
+              }
+              name="publish_date"
+              type="datetime-local"
+              value={formData.publish_date}
+              onChange={handleChange}
+              error={validationErrors.publish_date}
+              required
+            />
+          </div>
+
+          <div className="flex items-start gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 p-2.5 sm:p-3 border border-dashed rounded-lg bg-gray-50 dark:bg-gray-900/40">
+            <Info className="h-4 w-4 sm:h-5 sm:w-5 mt-0.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <p className="leading-tight">
+              <span className="font-medium text-gray-800 dark:text-gray-200">
+                Nota:
+              </span>{" "}
+              los campos marcados con <span className="text-red-500">*</span>{" "}
+              son obligatorios para crear la publicación.
+            </p>
+          </div>
+        </form>
+
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3">
+          <Button
+            type="button"
+            onClick={!isLoading ? onClose : undefined}
+            disabled={isLoading}
+            variant="secondary"
+            className="w-full sm:w-auto"
+          >
+            Cancelar
+          </Button>
+          <Button
+            form="publicationForm"
+            type="submit"
+            disabled={isLoading}
+            variant="primary"
+            className="w-full sm:w-auto"
+            icon={
+              isEditing ? (
+                <Edit className="h-4 w-4" />
+              ) : (
+                <Plus className="h-4 w-4" />
+              )
+            }
+          >
+            {isEditing ? "Guardar cambios" : "Crear Publicación"}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PublicationForm;

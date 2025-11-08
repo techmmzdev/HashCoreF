@@ -1,0 +1,22 @@
+# robots.txt para HashCore - techmmz.shop
+# Este archivo indica a los motores de búsqueda qué pueden rastrear
+
+# Permitir acceso a todos los bots de búsqueda
+User-agent: *
+Allow: /
+
+# Bloquear acceso a rutas administrativas y privadas
+Disallow: /admin/
+Disallow: /login
+Disallow: /api/
+
+# Permitir acceso a recursos estáticos importantes
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+
+# Velocidad de rastreo (opcional - 1 solicitud cada 10 segundos)
+Crawl-delay: 1
+
+# Ubicación del sitemap
+Sitemap: https://techmmz.shop/sitemap.xml
