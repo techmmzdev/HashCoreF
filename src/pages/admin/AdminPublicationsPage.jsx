@@ -11,7 +11,7 @@ import {
   AlertCircle,
   CheckCircle,
   Clock,
-  MessageSquare,
+  // MessageSquare,
   Play,
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -20,35 +20,32 @@ import { publicationService } from "@/services/publication";
 import { clientService } from "@/services/client";
 import PublicationForm from "@/components/admin/PublicationForm";
 import MediaModal from "@/components/admin/MediaModal";
-import PublicationCommentsModal from "@/components/admin/PublicationCommentsModal";
+// import PublicationCommentsModal from "@/components/admin/PublicationCommentsModal";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
-import { PublicationsGridSkeleton } from "../../components/common/Skeleton";
+import { AdminPostsGridSkeleton } from "../../components/common/Skeleton";
 import { getMediaUrl } from "@/config/urls"; // Usar función centralizada
 
 const STATUS_CONFIG = {
   PUBLISHED: {
     label: "Editadas",
     icon: CheckCircle,
-    color: "text-green-500 dark:text-green-400",
+    color: "text-green-500",
     emoji: "✓",
-    bgClass:
-      "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+    bgClass: "bg-green-100 text-green-800",
   },
   DRAFT: {
     label: "En Proceso",
     icon: Clock,
-    color: "text-amber-600 dark:text-amber-400",
+    color: "text-amber-600",
     emoji: "✎",
-    bgClass:
-      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+    bgClass: "bg-yellow-100 text-yellow-800",
   },
   SCHEDULED: {
     label: "Programadas",
     icon: Clock,
-    color: "text-indigo-500 dark:text-indigo-400",
+    color: "text-indigo-500",
     emoji: "⏰",
-    bgClass:
-      "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200",
+    bgClass: "bg-indigo-100 text-indigo-800",
   },
 };
 
@@ -60,15 +57,13 @@ const FILTER_OPTIONS = [
 ];
 
 const StatCard = memo(({ label, value, icon: Icon, color, emoji }) => (
-  <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+  <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
     <div className="flex items-start justify-between">
       <div>
-        <p className="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
+        <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
           {label}
         </p>
-        <p className="text-4xl font-bold text-gray-900 dark:text-white mt-2">
-          {value}
-        </p>
+        <p className="text-4xl font-bold text-gray-900 mt-2">{value}</p>
       </div>
       {Icon ? (
         <Icon className={`h-8 w-8 ${color}`} />
@@ -81,146 +76,147 @@ const StatCard = memo(({ label, value, icon: Icon, color, emoji }) => (
 
 StatCard.displayName = "StatCard";
 
-const PublicationCard = memo(
-  ({ pub, onEdit, onDelete, onOpenMedia, onOpenComments }) => {
-    const pubStatusUpper = useMemo(
-      () => (pub.status || "").toString().toUpperCase(),
-      [pub.status]
-    );
+// onOpenComments
+const PublicationCard = memo(({ pub, onEdit, onDelete, onOpenMedia }) => {
+  const pubStatusUpper = useMemo(
+    () => (pub.status || "").toString().toUpperCase(),
+    [pub.status]
+  );
 
-    const statusConfig = STATUS_CONFIG[pubStatusUpper];
-    const formattedDate = useMemo(
-      () =>
-        pub.created_at
-          ? new Date(pub.created_at).toLocaleDateString("es-ES", {
-              day: "2-digit",
-              month: "short",
-            })
-          : null,
-      [pub.created_at]
-    );
+  const statusConfig = STATUS_CONFIG[pubStatusUpper];
+  const formattedDate = useMemo(
+    () =>
+      pub.created_at
+        ? new Date(pub.created_at).toLocaleDateString("es-ES", {
+            day: "2-digit",
+            month: "short",
+          })
+        : null,
+    [pub.created_at]
+  );
 
-    const mediaUrl = useMemo(
-      () => (pub.media?.[0] ? getMediaUrl(pub.media[0].url) : null),
-      [pub.media]
-    );
+  const mediaUrl = useMemo(
+    () => (pub.media?.[0] ? getMediaUrl(pub.media[0].url) : null),
+    [pub.media]
+  );
 
-    return (
-      <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
-        {/* Preview Media */}
-        <div className="relative w-full h-48 bg-gray-900 overflow-hidden">
-          {pub.media?.[0] ? (
-            <>
-              {pub.media[0].media_type.startsWith("video") ? (
-                <>
-                  <video
-                    src={mediaUrl}
-                    onError={(e) => {
-                      console.error("Error cargando video:", e.target.src);
-                      e.target.style.display = "none";
-                    }}
-                    className="w-full h-full object-contain"
-                    muted
-                    loop
-                    playsInline
-                    onMouseEnter={(e) => e.target.play()}
-                    onMouseLeave={(e) => {
-                      e.target.pause();
-                      e.target.currentTime = 0;
-                    }}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="bg-black/50 rounded-full p-4">
-                      <Play className="w-10 h-10 text-white fill-white" />
-                    </div>
-                  </div>
-                </>
-              ) : pub.media[0].media_type.startsWith("image") ? (
-                <img
+  return (
+    <div className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200">
+      {/* Preview Media */}
+      <div className="relative w-full h-48 bg-gray-900 overflow-hidden">
+        {pub.media?.[0] ? (
+          <>
+            {pub.media[0].media_type.startsWith("video") ? (
+              <>
+                <video
                   src={mediaUrl}
-                  alt="preview"
+                  onError={(e) => {
+                    console.error("Error cargando video:", e.target.src);
+                    e.target.style.display = "none";
+                  }}
                   className="w-full h-full object-contain"
-                  loading="lazy"
+                  muted
+                  loop
+                  playsInline
+                  onMouseEnter={(e) => e.target.play()}
+                  onMouseLeave={(e) => {
+                    e.target.pause();
+                    e.target.currentTime = 0;
+                  }}
                 />
-              ) : null}
-            </>
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center text-gray-500">
-                <Image className="w-12 h-12 mx-auto mb-2 opacity-30" />
-                <p className="text-sm">Sin multimedia</p>
-              </div>
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="bg-black/50 rounded-full p-4">
+                    <Play className="w-10 h-10 text-white fill-white" />
+                  </div>
+                </div>
+              </>
+            ) : pub.media[0].media_type.startsWith("image") ? (
+              <img
+                src={mediaUrl}
+                alt="preview"
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
+            ) : null}
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center text-gray-500">
+              <Image className="w-12 h-12 mx-auto mb-2 opacity-30" />
+              <p className="text-sm">Sin multimedia</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Contenido */}
+      <div className="p-3">
+        <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-1">
+          {pub.title || "Sin título"}
+        </h3>
+
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <div className="flex items-center gap-2">
+            {pub.content_type && (
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                {pub.content_type}
+              </span>
+            )}
+            {statusConfig && (
+              <span
+                className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${statusConfig.bgClass}`}
+              >
+                {statusConfig.emoji}
+              </span>
+            )}
+          </div>
+          {formattedDate && (
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <Calendar className="h-3 w-3" />
+              <span className="text-[10px]">{formattedDate}</span>
             </div>
           )}
         </div>
 
-        {/* Contenido */}
-        <div className="p-3">
-          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">
-            {pub.title || "Sin título"}
-          </h3>
-
-          <div className="flex items-center justify-between gap-2 mb-3">
-            <div className="flex items-center gap-2">
-              {pub.content_type && (
-                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200">
-                  {pub.content_type}
-                </span>
-              )}
-              {statusConfig && (
-                <span
-                  className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${statusConfig.bgClass}`}
-                >
-                  {statusConfig.emoji}
-                </span>
-              )}
-            </div>
-            {formattedDate && (
-              <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-                <Calendar className="h-3 w-3" />
-                <span className="text-[10px]">{formattedDate}</span>
-              </div>
-            )}
-          </div>
-
-          {/* Botones de Acción */}
-          <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
-            <div className="flex gap-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+        {/* Botones de Acción */}
+        <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+          <div className="flex gap-2 pt-2 border-t border-gray-200">
+            {/*
               <button
                 onClick={() => onOpenComments(pub)}
-                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 transition"
+                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-blue-600 hover:text-blue-800 rounded-lg hover:bg-blue-50 transition"
                 title="Comentarios"
               >
                 <MessageSquare className="h-4 w-4" />
               </button>
-              <button
-                onClick={() => onOpenMedia(pub)}
-                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/30 transition"
-                title="Media"
-              >
-                <Image className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => onEdit(pub)}
-                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-200 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition"
-                title="Editar"
-              >
-                <Edit className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => onDelete(pub)}
-                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30 transition"
-                title="Eliminar"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
-            </div>
+              */}
+            <button
+              onClick={() => onOpenMedia(pub)}
+              className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-green-600 hover:text-green-800 rounded-lg hover:bg-green-50 transition"
+              title="Media"
+            >
+              <Image className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => onEdit(pub)}
+              className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-indigo-600 hover:text-indigo-800 rounded-lg hover:bg-indigo-50 transition"
+              title="Editar"
+            >
+              <Edit className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => onDelete(pub)}
+              className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-red-600 hover:text-red-800 rounded-lg hover:bg-red-50 transition"
+              title="Eliminar"
+            >
+              <Trash2 className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 PublicationCard.displayName = "PublicationCard";
 
@@ -244,7 +240,6 @@ const ClientPublicationsPage = () => {
   const [selectedPublicationForMedia, setSelectedPublicationForMedia] =
     useState(null);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false);
 
   // Fetch data
   const fetchPublications = useCallback(async () => {
@@ -352,11 +347,6 @@ const ClientPublicationsPage = () => {
     setIsConfirmModalOpen(true);
   }, []);
 
-  const handleOpenCommentsModal = useCallback((publication) => {
-    setSelectedPublicationForMedia(publication);
-    setIsCommentsModalOpen(true);
-  }, []);
-
   const handleSearchChange = useCallback((e) => {
     setSearchTerm(e.target.value);
   }, []);
@@ -421,34 +411,19 @@ const ClientPublicationsPage = () => {
 
   // Loading state
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Header Skeleton */}
-          <div className="mb-8">
-            <div className="h-8 w-64 bg-gray-300 dark:bg-gray-600 rounded animate-pulse mb-2"></div>
-            <div className="h-4 w-96 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-          </div>
-
-          {/* Publications Grid Skeleton */}
-          <PublicationsGridSkeleton count={9} />
-        </div>
-      </div>
-    );
+    return <AdminPostsGridSkeleton count={9} />;
   }
 
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="p-8 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-800 text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="p-8 rounded-xl bg-red-50 border border-red-300 text-center">
           <div className="flex items-center justify-center gap-3 mb-3">
-            <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
-            <p className="text-red-600 dark:text-red-400 font-semibold">
-              Error
-            </p>
+            <AlertCircle className="h-6 w-6 text-red-600" />
+            <p className="text-red-600 font-semibold">Error</p>
           </div>
-          <p className="text-red-500 dark:text-red-300">{error}</p>
+          <p className="text-red-500">{error}</p>
           <button
             onClick={fetchPublications}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
@@ -469,15 +444,15 @@ const ClientPublicationsPage = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/admin/clients")}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
-            <ChevronLeft className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+            <ChevronLeft className="h-6 w-6 text-gray-600" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-gray-900">
               Publicaciones de
             </h1>
-            <p className="text-indigo-600 dark:text-indigo-400 font-semibold text-lg">
+            <p className="text-indigo-600 font-semibold text-lg">
               {companyName}
             </p>
           </div>
@@ -499,7 +474,7 @@ const ClientPublicationsPage = () => {
       </section>
 
       {/* Buscador y Filtros */}
-      <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="space-y-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -508,7 +483,7 @@ const ClientPublicationsPage = () => {
               placeholder="Buscar por título, tipo o contenido..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
             />
           </div>
 
@@ -521,7 +496,7 @@ const ClientPublicationsPage = () => {
                   className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 ${
                     selectedStatus === filter.key
                       ? "bg-indigo-600 text-white shadow-lg"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   {filter.label}
@@ -529,7 +504,7 @@ const ClientPublicationsPage = () => {
               ))}
             </div>
 
-            <div className="px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+            <div className="px-4 py-2 bg-indigo-50 rounded-lg text-sm font-semibold text-indigo-600">
               {filteredPublications.length} resultado
               {filteredPublications.length !== 1 ? "s" : ""}
             </div>
@@ -540,14 +515,14 @@ const ClientPublicationsPage = () => {
       {/* Lista de Publicaciones */}
       <section>
         {filteredPublications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600">
-            <Plus className="h-16 w-16 text-gray-300 dark:text-gray-600 mb-4" />
-            <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">
+          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border-2 border-dashed border-gray-300">
+            <Plus className="h-16 w-16 text-gray-300 mb-4" />
+            <p className="text-lg font-semibold text-gray-600">
               {searchTerm
                 ? "No se encontraron publicaciones"
                 : "Este cliente aún no tiene publicaciones"}
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
+            <p className="text-sm text-gray-500 mt-2">
               {searchTerm
                 ? "Intenta con otro término de búsqueda"
                 : "¡Crea la primera publicación para comenzar!"}
@@ -562,7 +537,7 @@ const ClientPublicationsPage = () => {
                 onEdit={handleOpenEdit}
                 onDelete={handleOpenConfirmDelete}
                 onOpenMedia={handleOpenMediaModal}
-                onOpenComments={handleOpenCommentsModal}
+                // onOpenComments={handleOpenCommentsModal}
               />
             ))}
           </div>
@@ -602,11 +577,13 @@ const ClientPublicationsPage = () => {
         isLoading={isSubmitting}
       />
 
+      {/**
       <PublicationCommentsModal
         isOpen={isCommentsModalOpen}
         onClose={() => setIsCommentsModalOpen(false)}
         publication={selectedPublicationForMedia}
       />
+      */}
     </div>
   );
 };

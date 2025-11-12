@@ -152,29 +152,29 @@ const WhatsAppShareModal = ({ isOpen, onClose, publication }) => {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-lg lg:max-w-2xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col"
+            className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-lg lg:max-w-2xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 shrink-0">
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-linear-to-r from-green-50 to-emerald-50 shrink-0">
               <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                <div className="p-1.5 sm:p-2 bg-green-100 dark:bg-green-900/40 rounded-lg sm:rounded-xl shrink-0">
-                  <WhatsAppIcon className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 dark:text-green-400" />
+                <div className="p-1.5 sm:p-2 bg-green-100 rounded-lg sm:rounded-xl shrink-0">
+                  <WhatsAppIcon className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white truncate">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 truncate">
                     Comentar Publicación
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">
+                  <p className="text-xs sm:text-sm text-gray-600 truncate">
                     Envía tu opinión por WhatsApp
                   </p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg sm:rounded-xl transition-colors shrink-0 touch-manipulation"
+                className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg sm:rounded-xl transition-colors shrink-0 touch-manipulation"
               >
-                <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 dark:text-gray-400" />
+                <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" />
               </button>
             </div>
             {/* Body */}
@@ -182,11 +182,11 @@ const WhatsAppShareModal = ({ isOpen, onClose, publication }) => {
               {!showPreview ? (
                 <>
                   {/* Instrucción clara */}
-                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg sm:rounded-xl p-3 sm:p-4">
-                    <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-1 sm:mb-2 text-sm sm:text-base">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                    <h4 className="font-semibold text-blue-800 mb-1 sm:mb-2 text-sm sm:text-base">
                       💭 Comparte tu opinión
                     </h4>
-                    <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-blue-700 leading-relaxed">
                       Escribe tu comentario o feedback sobre la publicación{" "}
                       <strong className="wrap-break-word">
                         "{publication.title || "Sin título"}".
@@ -196,7 +196,7 @@ const WhatsAppShareModal = ({ isOpen, onClose, publication }) => {
 
                   {/* Campo de comentario */}
                   <div>
-                    <label className="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2 sm:mb-3">
+                    <label className="block text-sm sm:text-base font-medium text-gray-700 mb-2 sm:mb-3">
                       Tu comentario:
                     </label>
                     <textarea
@@ -204,12 +204,12 @@ const WhatsAppShareModal = ({ isOpen, onClose, publication }) => {
                       onChange={(e) => setCustomMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Escribe tu opinión, comentarios o sugerencias sobre esta publicación..."
-                      className="w-full h-32 sm:h-36 px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none resize-none transition-all touch-manipulation scrollbar-hide"
+                      className="w-full h-32 sm:h-36 px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none resize-none transition-all touch-manipulation scrollbar-hide"
                       maxLength={400}
                       required
                     />
                     <div className="flex justify-between items-center mt-2 text-xs sm:text-sm">
-                      <span className="text-gray-400 dark:text-gray-500">
+                      <span className="text-gray-400">
                         {customMessage.length}/400 caracteres
                       </span>
                     </div>
@@ -218,29 +218,29 @@ const WhatsAppShareModal = ({ isOpen, onClose, publication }) => {
               ) : (
                 // Vista previa de confirmación
                 <div className="space-y-4">
-                  <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg sm:rounded-xl p-4">
-                    <h4 className="font-semibold text-green-800 dark:text-green-200 mb-2 text-sm sm:text-base flex items-center gap-2">
+                  <div className="bg-green-50 border border-green-200 rounded-lg sm:rounded-xl p-4">
+                    <h4 className="font-semibold text-green-800 mb-2 text-sm sm:text-base flex items-center gap-2">
                       ✅ Confirmar envío
                     </h4>
-                    <p className="text-xs sm:text-sm text-green-700 dark:text-green-300">
+                    <p className="text-xs sm:text-sm text-green-700">
                       Este mensaje se enviará por WhatsApp al administrador o
                       editor de la empresa. Revisa que esté correcto:
                     </p>
                   </div>
 
-                  <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg sm:rounded-xl p-4">
-                    <h5 className="font-medium text-gray-700 dark:text-gray-300 mb-3 text-sm">
+                  <div className="bg-white border border-gray-200 rounded-lg sm:rounded-xl p-4">
+                    <h5 className="font-medium text-gray-700 mb-3 text-sm">
                       Mensaje a enviar:
                     </h5>
-                    <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 max-h-40 overflow-y-auto scrollbar-hide">
-                      <pre className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-sans wrap-break-word">
+                    <div className="bg-gray-50 rounded-lg p-3 max-h-40 overflow-y-auto scrollbar-hide">
+                      <pre className="text-sm text-gray-700 whitespace-pre-wrap font-sans wrap-break-word">
                         {buildFinalMessage()}
                       </pre>
                     </div>
                   </div>
 
-                  <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
-                    <p className="text-xs sm:text-sm text-amber-700 dark:text-amber-300 flex items-start gap-2">
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                    <p className="text-xs sm:text-sm text-amber-700 flex items-start gap-2">
                       <span>💡</span>
                       <span>
                         Se abrirá WhatsApp con este mensaje prellenado para
@@ -253,13 +253,13 @@ const WhatsAppShareModal = ({ isOpen, onClose, publication }) => {
             </div>
 
             {/* Footer */}
-            <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/30 shrink-0 sm:flex-row">
+            <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-6 border-t border-gray-200 bg-gray-50 shrink-0 sm:flex-row">
               {!showPreview ? (
                 // Botones del formulario
                 <>
                   <button
                     onClick={onClose}
-                    className="w-full sm:flex-1 px-4 py-3 sm:py-3 text-sm sm:text-base text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors font-medium touch-manipulation"
+                    className="w-full sm:flex-1 px-4 py-3 sm:py-3 text-sm sm:text-base text-gray-700 bg-white border border-gray-300 rounded-lg sm:rounded-xl hover:bg-gray-50 transition-colors font-medium touch-manipulation"
                   >
                     Cancelar
                   </button>
@@ -284,7 +284,7 @@ const WhatsAppShareModal = ({ isOpen, onClose, publication }) => {
                 <>
                   <button
                     onClick={handleCancelPreview}
-                    className="w-full sm:flex-1 px-4 py-3 sm:py-3 text-sm sm:text-base text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors font-medium touch-manipulation"
+                    className="w-full sm:flex-1 px-4 py-3 sm:py-3 text-sm sm:text-base text-gray-700 bg-white border border-gray-300 rounded-lg sm:rounded-xl hover:bg-gray-50 transition-colors font-medium touch-manipulation"
                   >
                     ← Volver a editar
                   </button>

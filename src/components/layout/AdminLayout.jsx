@@ -18,9 +18,6 @@ const NAVIGATION_ITEMS = [
   { name: "Calendario", href: "/admin/calendar", icon: Calendar },
 ];
 
-const SIDEBAR_GRADIENT =
-  "bg-gradient-to-b from-indigo-600 via-indigo-700 to-indigo-900 dark:from-gray-800 dark:via-gray-900 dark:to-gray-900";
-
 const AdminLayout = () => {
   const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -45,20 +42,20 @@ const AdminLayout = () => {
   }, [logout, navigate]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header móvil */}
-      <MobileHeader
-        onOpenSidebar={() => setSidebarOpen(true)}
-        title="Panel Admin"
-        notificationCount={pendingPublicationsCount}
-        userType="admin"
-      />
+    <div className="min-h-screen bg-gray-50">
+      {/* Header móvil fijo cuando sidebar está cerrado */}
+      <div className={`${sidebarOpen ? "" : "sticky top-0 z-40"}`}>
+        <MobileHeader
+          onOpenSidebar={() => setSidebarOpen(true)}
+          notificationCount={pendingPublicationsCount}
+          userType="admin"
+        />
+      </div>
 
       {/* Sidebar escritorio */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
-        <div className={`flex flex-col grow ${SIDEBAR_GRADIENT} shadow-2xl`}>
+        <div className="flex flex-col grow sidebar-admin-gradient shadow-2xl">
           <BaseSidebar
-            title="Panel Admin"
             navigation={NAVIGATION_ITEMS}
             user={user}
             onLogout={handleLogout}
@@ -76,13 +73,8 @@ const AdminLayout = () => {
             onClick={() => setSidebarOpen(false)}
             aria-hidden="true"
           />
-          <div
-            className={`fixed inset-y-0 left-0 flex flex-col w-full max-w-xs ${SIDEBAR_GRADIENT} transform transition-transform duration-300 ease-in-out z-50 shadow-2xl ${
-              sidebarOpen ? "translate-x-0" : "-translate-x-full"
-            }`}
-          >
+          <div className="fixed inset-y-0 left-0 flex flex-col w-full max-w-xs sidebar-admin-gradient transform transition-transform duration-300 ease-in-out z-50 shadow-2xl">
             <BaseSidebar
-              title="Panel Admin"
               navigation={NAVIGATION_ITEMS}
               user={user}
               onLogout={handleLogout}

@@ -17,7 +17,7 @@ const formatDate = (dateString) => {
 // Fila de administrador
 const AdminRow = memo(({ admin, onEdit, onDelete }) => {
   return (
-    <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+    <tr className="hover:bg-gray-50 transition-colors">
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="shrink-0 h-10 w-10 bg-linear-to-br from-indigo-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold shadow-md">
@@ -26,10 +26,10 @@ const AdminRow = memo(({ admin, onEdit, onDelete }) => {
               : admin.email.charAt(0).toUpperCase()}
           </div>
           <div className="ml-4">
-            <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            <div className="text-sm font-medium text-gray-900">
               {admin.name || "Sin nombre"}
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+            <div className="text-sm text-gray-500 flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5" />
               {admin.email}
             </div>
@@ -38,13 +38,13 @@ const AdminRow = memo(({ admin, onEdit, onDelete }) => {
       </td>
 
       <td className="px-6 py-4 whitespace-nowrap">
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
           <Shield className="w-3 h-3 mr-1.5" />
           {admin.role}
         </span>
       </td>
 
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <div className="flex items-center gap-1.5">
           <Calendar className="w-3.5 h-3.5" />
           {formatDate(admin.created_at)}
@@ -57,7 +57,7 @@ const AdminRow = memo(({ admin, onEdit, onDelete }) => {
             onClick={() => onEdit(admin)}
             variant="ghost"
             size="sm"
-            className="p-2 text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg"
+            className="p-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-lg"
             title="Editar administrador"
           >
             <Edit className="w-4 h-4" />
@@ -66,7 +66,7 @@ const AdminRow = memo(({ admin, onEdit, onDelete }) => {
             onClick={() => onDelete(admin)}
             variant="ghost"
             size="sm"
-            className="p-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg"
+            className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg"
             title="Eliminar administrador"
           >
             <Trash className="w-4 h-4" />
@@ -83,11 +83,11 @@ AdminRow.displayName = "AdminRow";
 const AdminsTableView = ({ admins = [], onEdit, onDelete }) => {
   if (!admins || admins.length === 0) {
     return (
-      <div className="bg-gray-50 dark:bg-gray-800/50 text-gray-500 dark:text-gray-400 rounded-2xl text-center border-2 border-dashed border-gray-200 dark:border-gray-700 py-12 px-6">
-        <div className="w-20 h-20 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-          <User className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+      <div className="bg-gray-50 text-gray-500 rounded-2xl text-center border-2 border-dashed border-gray-200 py-12 px-6">
+        <div className="w-20 h-20 mx-auto mb-4 bg-gray-200 rounded-full flex items-center justify-center">
+          <User className="w-10 h-10 text-gray-400" />
         </div>
-        <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">
           No hay administradores registrados
         </h3>
         <p className="text-sm">Comienza creando tu primer administrador</p>
@@ -96,27 +96,27 @@ const AdminsTableView = ({ admins = [], onEdit, onDelete }) => {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-700">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Administrador
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Rol
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Fecha de Creación
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Acciones
               </th>
             </tr>
           </thead>
 
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-100 dark:divide-gray-700">
+          <tbody className="bg-white divide-y divide-gray-100">
             {admins.map((admin) => (
               <AdminRow
                 key={admin.id}

@@ -1,11 +1,6 @@
 // frontend/src/utils/authUtils.js
 import { jwtDecode } from "jwt-decode";
 
-/**
- * Decodifica y valida un token JWT
- * @param {string} token - Token JWT a decodificar
- * @returns {object|null} - Payload del token o null si es inválido/expirado
- */
 export const decodeToken = (token) => {
   if (!token) return null;
 
@@ -39,11 +34,6 @@ export const decodeToken = (token) => {
   }
 };
 
-/**
- * Verifica si un token está expirado
- * @param {string} token - Token JWT a verificar
- * @returns {boolean} - true si está expirado, false si aún es válido
- */
 export const isTokenExpired = (token) => {
   if (!token) return true;
 
@@ -55,11 +45,6 @@ export const isTokenExpired = (token) => {
   }
 };
 
-/**
- * Obtiene el tiempo restante del token en segundos
- * @param {string} token - Token JWT
- * @returns {number} - Segundos restantes (0 si expirado)
- */
 export const getTokenTimeRemaining = (token) => {
   if (!token) return 0;
 

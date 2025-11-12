@@ -17,8 +17,8 @@ import { getMediaUrl } from "@/config/urls"; // Usar función centralizada
 
 // === 🌀 Indicador de carga ===
 const Loading = ({ message = "Cargando..." }) => (
-  <div className="flex items-center justify-center py-4 text-gray-500 dark:text-slate-400">
-    <div className="w-4 h-4 border-2 border-gray-400 dark:border-slate-400 border-t-transparent rounded-full animate-spin mr-2" />
+  <div className="flex items-center justify-center py-4 text-gray-500">
+    <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin mr-2" />
     <p className="text-sm">{message}</p>
   </div>
 );
@@ -30,13 +30,14 @@ const MediaItemPreview = ({ media, handleDelete }) => {
 
   return (
     <div className="relative w-full group">
-      <div className="w-full rounded-lg overflow-hidden border-2 border-gray-300 dark:border-slate-600 bg-gray-100 dark:bg-black">
+      <div className="w-full rounded-lg overflow-hidden border-2 border-gray-300 bg-gray-100">
         {isVideo ? (
           <video
             src={mediaUrl}
             controls
             className="w-full h-auto max-h-[500px] object-contain"
             playsInline
+            autoPlay
           />
         ) : (
           <img
@@ -51,7 +52,8 @@ const MediaItemPreview = ({ media, handleDelete }) => {
         onClick={() => handleDelete(media.id)}
         variant="danger"
         size="sm"
-        className="absolute top-3 right-3 p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-lg"
+        className="absolute top-3 right-3 p-2.5 rounded-full transition-all shadow-lg"
+        style={{ opacity: 1, pointerEvents: "auto" }}
         title="Eliminar archivo"
       >
         <Trash2 className="w-5 h-5" />
@@ -216,7 +218,7 @@ const MediaModal = ({
         loading: "Eliminando archivo...",
         success: (res) =>
           res?.reverted || res?.publication
-            ? "Archivo eliminado. La publicación se ha revertido a borrador."
+            ? "Archivo eliminado. La publicación se ha revertido a En Proceso."
             : "Archivo eliminado correctamente. 🗑️",
         error: (err) =>
           err?.response?.data?.message || "Error al eliminar el archivo.",
@@ -260,6 +262,11 @@ const MediaModal = ({
       </>
     );
 
+  // Definir el accept dinámico según el tipo de publicación
+  let acceptTypes = "image/*,video/mp4,video/webm";
+  if (contentType === "POST") acceptTypes = "image/*";
+  else if (contentType === "REEL") acceptTypes = "video/mp4,video/webm";
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-3 py-4"
@@ -268,15 +275,15 @@ const MediaModal = ({
       <div
         ref={modalRef}
         onClick={handleContentClick}
-        className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-gray-200 dark:border-slate-700 w-full max-w-2xl overflow-hidden animate-scale-in max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-xl shadow-2xl border border-gray-200 w-full max-w-2xl overflow-hidden animate-scale-in max-h-[90vh] overflow-y-auto"
       >
         {/* === Header === */}
-        <div className="flex justify-between items-center px-4 py-3 border-b border-gray-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-800">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+        <div className="flex justify-between items-center px-4 py-3 border-b border-gray-200 sticky top-0 bg-white">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center gap-2">
+            <ImageIcon className="w-5 h-5 text-indigo-600 shrink-0" />
             <span>Multimedia</span>
             {contentType && (
-              <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 border border-indigo-500 rounded-full px-1.5 py-0.5">
+              <span className="text-xs font-semibold text-indigo-600 border border-indigo-500 rounded-full px-1.5 py-0.5">
                 {contentType}
               </span>
             )}
@@ -301,7 +308,7 @@ const MediaModal = ({
                 htmlFor="media-upload-input"
                 className={`flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-medium transition-all cursor-pointer shadow-md text-sm ${
                   mediaList.length > 0
-                    ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-70"
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-70"
                     : "bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-lg"
                 }`}
               >
@@ -313,7 +320,7 @@ const MediaModal = ({
                   id="media-upload-input"
                   type="file"
                   ref={fileInputRef}
-                  accept="image/*,video/mp4,video/webm"
+                  accept={acceptTypes}
                   onChange={handleFileChange}
                   disabled={mediaList.length > 0 || isUploading}
                   className="hidden"
@@ -329,7 +336,7 @@ const MediaModal = ({
                     className="accent-indigo-500 w-4 h-4 shrink-0"
                     disabled={mediaList.length > 0 || isUploading}
                   />
-                  <span className="text-xs text-gray-700 dark:text-slate-300 whitespace-nowrap truncate">
+                  <span className="text-xs text-gray-700 whitespace-nowrap truncate">
                     Publicar ahora
                   </span>
                 </label>
@@ -370,8 +377,8 @@ const MediaModal = ({
             </div>
 
             {typeMismatch && (
-              <p className="text-xs text-yellow-700 dark:text-yellow-300 flex items-start gap-1.5 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-800 rounded px-2 py-1.5">
-                <AlertTriangle className="w-3 h-3 shrink-0 mt-0.5 text-yellow-700 dark:text-yellow-300" />
+              <p className="text-xs text-yellow-700 flex items-start gap-1.5 bg-yellow-100 border border-yellow-300 rounded px-2 py-1.5">
+                <AlertTriangle className="w-3 h-3 shrink-0 mt-0.5 text-yellow-700" />
                 <span>
                   El archivo no coincide con el tipo de publicación (
                   {contentType})
@@ -380,28 +387,28 @@ const MediaModal = ({
             )}
 
             {mediaList.length === 0 && (
-              <p className="text-xs text-gray-600 dark:text-gray-400 flex items-start gap-1.5 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded px-2 py-1.5">
-                <InfoIcon className="w-3 h-3 shrink-0 mt-0.5 text-indigo-600 dark:text-indigo-400" />
+              <p className="text-xs text-gray-600 flex items-start gap-1.5 bg-indigo-50 border border-indigo-200 rounded px-2 py-1.5">
+                <InfoIcon className="w-3 h-3 shrink-0 mt-0.5 text-indigo-600" />
                 <span>{allowedFormatsMessage}</span>
               </p>
             )}
 
             {mediaList.length > 0 && (
-              <div className="flex items-start gap-2 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-200 px-3 py-2 rounded text-xs">
+              <div className="flex items-start gap-2 bg-indigo-50 border border-indigo-200 text-indigo-700 px-3 py-2 rounded text-xs">
                 <AlertTriangle className="w-3 h-3 shrink-0 mt-0.5" />
                 <p>Ya existe un archivo. Elimínalo para subir uno nuevo.</p>
               </div>
             )}
           </div>
 
-          <div className="border-t border-gray-200 dark:border-slate-700" />
+          <div className="border-t border-gray-200" />
 
           {/* --- Lista de media --- */}
           {isFetchingMedia ? (
             <Loading message="Cargando multimedia..." />
           ) : mediaList.length === 0 ? (
-            <div className="text-gray-500 dark:text-slate-500 text-center py-6 flex flex-col items-center justify-center">
-              <ImageIcon className="w-8 h-8 mb-1.5 text-gray-400 dark:text-slate-600" />
+            <div className="text-gray-500 text-center py-6 flex flex-col items-center justify-center">
+              <ImageIcon className="w-8 h-8 mb-1.5 text-gray-400" />
               <p className="text-sm">No hay material aún.</p>
             </div>
           ) : (

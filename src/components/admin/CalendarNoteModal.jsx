@@ -173,12 +173,12 @@ const CalendarNoteModal = ({
       <div
         ref={modalRef}
         onClick={handleContentClick}
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md max-h-[95vh] sm:max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700"
+        className="bg-white rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md max-h-[95vh] sm:max-h-[90vh] overflow-y-auto border border-gray-200"
       >
         {/* Header */}
-        <div className="sticky top-0 bg-white dark:bg-gray-800 flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 rounded-t-xl">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 dark:text-indigo-400" />
+        <div className="sticky top-0 bg-white flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 rounded-t-xl">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 flex items-center gap-2">
+            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
             <span className="truncate">
               {note ? "Editar Nota" : "Agregar Nota"}
             </span>
@@ -215,7 +215,7 @@ const CalendarNoteModal = ({
           </div>
 
           {/* Type Toggle */}
-          <div className="bg-gray-50 dark:bg-gray-700/50 p-3 sm:p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+          <div className="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
             <Checkbox
               name="is_event"
               checked={formData.is_event}
@@ -224,15 +224,15 @@ const CalendarNoteModal = ({
                 <div className="flex items-center gap-2">
                   {formData.is_event ? (
                     <>
-                      <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <Clock className="w-4 h-4 text-emerald-600" />
+                      <span className="text-sm font-medium text-gray-700">
                         Marcar como evento
                       </span>
                     </>
                   ) : (
                     <>
-                      <FileText className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <FileText className="w-4 h-4 text-amber-600" />
+                      <span className="text-sm font-medium text-gray-700">
                         Nota simple
                       </span>
                     </>
@@ -240,7 +240,7 @@ const CalendarNoteModal = ({
                 </div>
               }
             />
-            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2 ml-7 leading-relaxed">
+            <p className="text-xs text-gray-600 mt-2 ml-7 leading-relaxed">
               Los eventos aparecen destacados en el calendario
             </p>
           </div>
@@ -274,13 +274,13 @@ const CalendarNoteModal = ({
 
           {/* Submit Error */}
           {errors.submit && (
-            <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-lg text-sm">
+            <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
               {errors.submit}
             </div>
           )}
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-gray-200">
             <Button
               type="button"
               onClick={onClose}

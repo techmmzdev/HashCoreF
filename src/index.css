@@ -99,17 +99,7 @@
     rgb(229, 231, 235) 100%
   );
   background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-/* Skeleton base - Dark mode */
-.dark .skeleton-base {
-  background: linear-gradient(
-    90deg,
-    rgb(55, 65, 81) 0%,
-    rgb(75, 85, 99) 50%,
-    rgb(55, 65, 81) 100%
-  );
+  animation: shimmer 2s infinite linear;
 }
 
 /* Fade in animation */
@@ -136,4 +126,27 @@
     min-height: 44px;
     min-width: 44px;
   }
+}
+
+/* =============================================
+   LAYOUT GRADIENTS
+   ============================================= */
+
+/* Admin Layout - Fondo Claro Elegante */
+.sidebar-admin-gradient {
+  background: linear-gradient(to bottom, #ffffff, #f5f5f5, #e8e8e8);
+}
+
+/* Client Layout - Fondo Claro Elegante */
+.sidebar-client-gradient {
+  background: linear-gradient(to bottom, #ffffff, #f5f5f5, #e8e8e8);
+}
+
+/* Header Colors */
+.header-admin-gradient {
+  background: linear-gradient(to right, #ffffff, #f9f9f9);
+}
+
+.header-client-gradient {
+  background: linear-gradient(to right, #ffffff, #f9f9f9);
 }

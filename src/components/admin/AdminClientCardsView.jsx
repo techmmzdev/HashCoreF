@@ -22,19 +22,19 @@ import AdminClientDetailsModal from "@/components/admin/AdminClientDetailsModal"
 const PlanBadge = memo(({ plan }) => {
   const planConfig = {
     BASIC: {
-      color: "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300",
+      color: "bg-blue-100 text-blue-800",
       icon: Star,
       label: "Básico",
     },
     STANDARD: {
       color:
-        "bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300",
+        "bg-purple-100 text-purple-800",
       icon: Crown,
       label: "Estándar",
     },
     FULL: {
       color:
-        "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300",
+        "bg-yellow-100 text-yellow-800",
       icon: Shield,
       label: "Premium",
     },
@@ -100,7 +100,7 @@ const ClientCard = memo(
     }, [activeDropdown, user.id, onToggleDropdown]);
 
     return (
-      <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+      <div className="group bg-white rounded-2xl shadow-md border border-gray-200 hover:shadow-xl transition-all duration-300">
         {/* Header de estado */}
         <div
           className={`h-2 rounded-t-2xl ${
@@ -127,10 +127,10 @@ const ClientCard = memo(
               </div>
 
               <div className="flex-1 min-w-0">
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 truncate">
+                <h3 className="text-lg font-bold text-gray-800 truncate">
                   {client?.company_name || "Empresa sin nombre"}
                 </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 truncate flex items-center gap-1.5">
+                <p className="text-sm text-gray-500 truncate flex items-center gap-1.5">
                   <Mail className="w-3.5 h-3.5" />
                   {user.email}
                 </p>
@@ -144,7 +144,7 @@ const ClientCard = memo(
                   e.stopPropagation();
                   onToggleDropdown(user.id);
                 }}
-                className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
                 aria-label="Opciones"
               >
                 <MoreVertical className="w-5 h-5" />
@@ -152,7 +152,7 @@ const ClientCard = memo(
 
               {activeDropdown === user.id && (
                 <div
-                  className={`absolute right-0 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-50 py-1 ${
+                  className={`absolute right-0 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-50 py-1 ${
                     dropdownPosition === "top"
                       ? "bottom-full mb-2"
                       : "top-full mt-2"
@@ -164,7 +164,7 @@ const ClientCard = memo(
                       onOpenDetails(user);
                       onToggleDropdown(null);
                     }}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center transition-colors"
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center transition-colors"
                   >
                     <Eye className="w-4 h-4 mr-3" /> Ver detalles
                   </button>
@@ -175,12 +175,12 @@ const ClientCard = memo(
                       onEdit(user);
                       onToggleDropdown(null);
                     }}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center transition-colors"
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center transition-colors"
                   >
                     <Edit className="w-4 h-4 mr-3" /> Editar
                   </button>
 
-                  <hr className="my-1 border-gray-200 dark:border-gray-700" />
+                  <hr className="my-1 border-gray-200" />
 
                   <button
                     onClick={(e) => {
@@ -188,7 +188,7 @@ const ClientCard = memo(
                       onDelete(user);
                       onToggleDropdown(null);
                     }}
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/40 flex items-center transition-colors"
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center transition-colors"
                   >
                     <Trash className="w-4 h-4 mr-3" /> Eliminar
                   </button>
@@ -199,13 +199,13 @@ const ClientCard = memo(
 
           {/* Información de contacto */}
           {client?.ruc && (
-            <div className="mb-3 pb-3 border-b border-gray-100 dark:border-gray-700">
-              <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2 mb-1">
+            <div className="mb-3 pb-3 border-b border-gray-100">
+              <p className="text-sm text-gray-600 flex items-center gap-2 mb-1">
                 <Building2 className="w-3.5 h-3.5" />
                 <span className="font-medium">RUC: {client.ruc}</span>
               </p>
               {client?.contact_phone && (
-                <p className="text-xs text-gray-500 dark:text-gray-500 flex items-center gap-2">
+                <p className="text-xs text-gray-500 flex items-center gap-2">
                   <Phone className="w-3.5 h-3.5" />
                   {client.contact_phone}
                 </p>
@@ -219,8 +219,8 @@ const ClientCard = memo(
               <span
                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                   isActive
-                    ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
-                    : "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
                 }`}
               >
                 {isActive ? (
@@ -234,7 +234,7 @@ const ClientCard = memo(
             </div>
             <button
               onClick={() => client?.id && onViewPublications(client.id)}
-              className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold text-indigo-600 bg-indigo-50 dark:text-indigo-300 dark:bg-indigo-900/50 hover:bg-indigo-100 dark:hover:bg-indigo-900 transition-colors shadow-sm"
+              className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition-colors shadow-sm"
               title="Ver publicaciones de este cliente"
             >
               <FileText className="w-3.5 h-3.5 mr-1.5" />
@@ -280,11 +280,11 @@ const AdminClientCardsView = ({ users, onEdit, onDelete }) => {
 
   if (!users || users.length === 0) {
     return (
-      <div className="bg-gray-50 dark:bg-gray-800/50 text-gray-500 dark:text-gray-400 rounded-2xl text-center border-2 border-dashed border-gray-200 dark:border-gray-700 py-12 px-6">
-        <div className="w-20 h-20 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-          <Building2 className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+      <div className="bg-gray-50 text-gray-500 rounded-2xl text-center border-2 border-dashed border-gray-200 py-12 px-6">
+        <div className="w-20 h-20 mx-auto mb-4 bg-gray-200 rounded-full flex items-center justify-center">
+          <Building2 className="w-10 h-10 text-gray-400" />
         </div>
-        <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">
           No hay clientes registrados
         </h3>
         <p className="text-sm">

@@ -63,19 +63,19 @@ function PasswordChangeSection({
   const passwordStrength = getPasswordStrength(passwordData.newPassword);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 mt-6 overflow-hidden">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 mt-6 overflow-hidden">
       {/* Header expandible */}
-      <div className="px-4 sm:px-6 py-4 sm:py-5 bg-linear-to-r from-red-50 to-pink-50 dark:from-red-900/10 dark:to-pink-900/10 border-b border-red-100 dark:border-red-900/30">
+      <div className="px-4 sm:px-6 py-4 sm:py-5 bg-linear-to-r from-red-50 to-pink-50 border-b border-red-100">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5 text-red-600 dark:text-red-400" />
+            <div className="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-5 h-5 text-red-600" />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
+              <h3 className="text-base sm:text-lg font-bold text-gray-900">
                 Seguridad de la Cuenta
               </h3>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">
+              <p className="text-xs sm:text-sm text-gray-600 truncate">
                 {showPasswordSection
                   ? "Actualiza tu contraseña"
                   : "Protege tu cuenta"}
@@ -84,7 +84,7 @@ function PasswordChangeSection({
           </div>
           <button
             onClick={() => setShowPasswordSection(!showPasswordSection)}
-            className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-all duration-200 shadow-sm border border-gray-200 dark:border-gray-600 font-medium text-sm ml-2"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-white hover:bg-gray-50 text-gray-700 rounded-lg transition-all duration-200 shadow-sm border border-gray-200 font-medium text-sm ml-2"
           >
             <Lock className="w-4 h-4" />
             <span className="hidden sm:inline">
@@ -101,10 +101,10 @@ function PasswordChangeSection({
 
       {/* Mensajes de estado */}
       {passwordSuccess && (
-        <div className="mx-4 sm:mx-6 mt-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="mx-4 sm:mx-6 mt-4 bg-green-50 border border-green-200 rounded-lg p-3 animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400 shrink-0" />
-            <p className="text-sm text-green-700 dark:text-green-400 font-medium">
+            <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />
+            <p className="text-sm text-green-700 font-medium">
               {passwordSuccess}
             </p>
           </div>
@@ -112,10 +112,10 @@ function PasswordChangeSection({
       )}
 
       {passwordError && (
-        <div className="mx-4 sm:mx-6 mt-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="mx-4 sm:mx-6 mt-4 bg-red-50 border border-red-200 rounded-lg p-3 animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="flex items-center gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0" />
-            <p className="text-sm text-red-700 dark:text-red-400 font-medium">
+            <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+            <p className="text-sm text-red-700 font-medium">
               {passwordError}
             </p>
           </div>
@@ -128,7 +128,7 @@ function PasswordChangeSection({
           <div className="space-y-4">
             {/* Contraseña actual */}
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                 <KeyRound className="w-4 h-4 text-gray-500" />
                 Contraseña Actual
               </label>
@@ -138,14 +138,14 @@ function PasswordChangeSection({
                   name="currentPassword"
                   value={passwordData.currentPassword}
                   onChange={onPasswordChange}
-                  className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all text-sm sm:text-base"
+                  className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 placeholder-gray-400 transition-all text-sm sm:text-base"
                   placeholder="Ingresa tu contraseña actual"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
                 >
                   {showCurrentPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -158,7 +158,7 @@ function PasswordChangeSection({
 
             {/* Nueva contraseña */}
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                 <Lock className="w-4 h-4 text-gray-500" />
                 Nueva Contraseña
               </label>
@@ -168,14 +168,14 @@ function PasswordChangeSection({
                   name="newPassword"
                   value={passwordData.newPassword}
                   onChange={onPasswordChange}
-                  className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all text-sm sm:text-base"
+                  className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 placeholder-gray-400 transition-all text-sm sm:text-base"
                   placeholder="Mínimo 6 caracteres"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
                 >
                   {showNewPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -189,7 +189,7 @@ function PasswordChangeSection({
               {passwordData.newPassword && (
                 <div className="mt-2 space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                       <div
                         className={`h-full ${passwordStrength.color} transition-all duration-300`}
                         style={{
@@ -197,11 +197,11 @@ function PasswordChangeSection({
                         }}
                       ></div>
                     </div>
-                    <span className="text-xs font-semibold text-gray-600 dark:text-gray-400 min-w-80px text-right">
+                    <span className="text-xs font-semibold text-gray-600 min-w-80px text-right">
                       {passwordStrength.text}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-500">
                     Usa mayúsculas, minúsculas, números y símbolos
                   </p>
                 </div>
@@ -210,7 +210,7 @@ function PasswordChangeSection({
 
             {/* Confirmar contraseña */}
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                 <Lock className="w-4 h-4 text-gray-500" />
                 Confirmar Nueva Contraseña
               </label>
@@ -220,14 +220,14 @@ function PasswordChangeSection({
                   name="confirmPassword"
                   value={passwordData.confirmPassword}
                   onChange={onPasswordChange}
-                  className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all text-sm sm:text-base"
+                  className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 placeholder-gray-400 transition-all text-sm sm:text-base"
                   placeholder="Confirma tu nueva contraseña"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
                 >
                   {showConfirmPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -238,7 +238,7 @@ function PasswordChangeSection({
               </div>
               {passwordData.confirmPassword &&
                 passwordData.newPassword !== passwordData.confirmPassword && (
-                  <p className="mt-2 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
+                  <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" />
                     Las contraseñas no coinciden
                   </p>
@@ -246,12 +246,12 @@ function PasswordChangeSection({
             </div>
 
             {/* Botones de acción */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
               <button
                 type="button"
                 onClick={handleCancel}
                 disabled={savingPassword}
-                className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:active:bg-gray-500 text-gray-700 dark:text-gray-300 rounded-lg transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+                className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 rounded-lg transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 Cancelar
               </button>

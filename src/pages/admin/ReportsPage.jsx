@@ -19,27 +19,27 @@ const STATUS_CONFIG = {
     color: "green",
     icon: "✅",
     bgClass:
-      "bg-green-50/50 dark:bg-green-900/20 border-l-4 border-l-green-500",
+      "bg-green-50/50 border-l-4 border-l-green-500",
     badgeClass:
-      "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+      "bg-green-100 text-green-800",
   },
   DRAFT: {
     label: "En Proceso",
     color: "yellow",
     icon: "📝",
     bgClass:
-      "bg-yellow-50/50 dark:bg-yellow-900/20 border-l-4 border-l-yellow-500",
+      "bg-yellow-50/50 border-l-4 border-l-yellow-500",
     badgeClass:
-      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+      "bg-yellow-100 text-yellow-800",
   },
   SCHEDULED: {
     label: "Programada",
     color: "indigo",
     icon: "📅",
     bgClass:
-      "bg-indigo-50/50 dark:bg-indigo-900/20 border-l-4 border-l-indigo-500",
+      "bg-indigo-50/50 border-l-4 border-l-indigo-500",
     badgeClass:
-      "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200",
+      "bg-indigo-100 text-indigo-800",
   },
 };
 
@@ -52,16 +52,16 @@ const STATUS_FILTERS = [
 
 const StatCard = memo(({ icon: Icon, label, value, colorClass, statusKey }) => (
   <div
-    className={`rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 ${
+    className={`rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-105 bg-white ${
       statusKey && STATUS_CONFIG[statusKey]?.bgClass
     }`}
   >
     <div className="flex items-start justify-between">
       <div>
-        <p className="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
+        <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
           {label}
         </p>
-        <p className="text-4xl font-bold text-gray-900 dark:text-white mt-2">
+        <p className="text-4xl font-bold text-gray-900 mt-2">
           {value}
         </p>
       </div>
@@ -85,16 +85,16 @@ const PublicationCard = memo(({ publication, onOpenReport }) => {
 
   return (
     <article
-      className={`rounded-xl p-5 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 print:page-break-inside-avoid print:break-inside-avoid bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 ${statusConfig?.bgClass}`}
+      className={`rounded-xl p-5 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 print:page-break-inside-avoid print:break-inside-avoid bg-white border border-gray-200 ${statusConfig?.bgClass}`}
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 print:flex-col print:gap-2">
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 print:text-base">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 print:text-base">
             {publication.title || "Sin título"}
           </h3>
           <div className="flex flex-wrap items-center gap-2 mb-3 print:mb-1">
             {publication.content_type && (
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">
                 {publication.content_type}
               </span>
             )}
@@ -106,7 +106,7 @@ const PublicationCard = memo(({ publication, onOpenReport }) => {
               </span>
             )}
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 print:text-xs">
+          <p className="text-sm text-gray-500 print:text-xs">
             Cliente ID:{" "}
             <span className="font-medium">
               {publication.client_id || "N/A"}
@@ -116,7 +116,7 @@ const PublicationCard = memo(({ publication, onOpenReport }) => {
 
         <button
           onClick={() => onOpenReport(publication)}
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-500 text-white font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2 print:hidden whitespace-nowrap active:scale-95"
+          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2 print:hidden whitespace-nowrap active:scale-95"
         >
           <FileText className="h-4 w-4" />
           Generar Reporte
@@ -231,16 +231,16 @@ const ReportsPage = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/admin")}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors active:scale-95"
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors active:scale-95"
             aria-label="Volver atrás"
           >
-            <ChevronLeft className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+            <ChevronLeft className="h-6 w-6 text-gray-600" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-gray-900">
               Reportes de Publicaciones
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+            <p className="text-gray-500 text-sm mt-1">
               Genera reportes detallados de las publicaciones
             </p>
           </div>
@@ -253,7 +253,7 @@ const ReportsPage = () => {
           icon={FileText}
           label="Total"
           value={stats.total}
-          colorClass="text-indigo-500 dark:text-indigo-400"
+          colorClass="text-indigo-500"
         />
         <StatCard
           label="Editadas"
@@ -269,7 +269,7 @@ const ReportsPage = () => {
       </section>
 
       {/* Filtros */}
-      <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 print:hidden">
+      <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 print:hidden">
         <div className="space-y-4">
           <div className="relative group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
@@ -278,7 +278,7 @@ const ReportsPage = () => {
               placeholder="Buscar por título, contenido o cliente..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200"
             />
           </div>
 
@@ -291,7 +291,7 @@ const ReportsPage = () => {
                   className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                     statusFilter === filter.key
                       ? "bg-indigo-600 text-white shadow-lg scale-105"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   {filter.label}
@@ -299,7 +299,7 @@ const ReportsPage = () => {
               ))}
             </div>
 
-            <div className="px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+            <div className="px-4 py-2 bg-indigo-50 rounded-lg text-sm font-semibold text-indigo-600">
               {filteredPublications.length} resultado
               {filteredPublications.length !== 1 ? "s" : ""}
             </div>
@@ -310,14 +310,14 @@ const ReportsPage = () => {
       {/* Lista de Publicaciones */}
       <section>
         {filteredPublications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600">
-            <AlertCircle className="h-16 w-16 text-gray-300 dark:text-gray-600 mb-4" />
-            <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">
+          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border-2 border-dashed border-gray-300">
+            <AlertCircle className="h-16 w-16 text-gray-300 mb-4" />
+            <p className="text-lg font-semibold text-gray-600">
               {searchTerm
                 ? "No se encontraron publicaciones"
                 : "No hay publicaciones disponibles"}
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
+            <p className="text-sm text-gray-500 mt-2">
               {searchTerm
                 ? "Intenta con otro término de búsqueda"
                 : "Las publicaciones aparecerán aquí"}

@@ -18,15 +18,15 @@ import { Button, Card } from "@/components/common/UIComponents";
 
 // Subcomponente reutilizable (memoizado)
 const InfoItem = memo(({ icon: Icon, label, value }) => (
-  <div className="flex items-start text-gray-600 dark:text-gray-300">
+  <div className="flex items-start text-gray-600">
     {Icon && (
-      <Icon className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 shrink-0" />
+      <Icon className="w-5 h-5 text-blue-500 mr-3 shrink-0" />
     )}
     <div>
-      <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+      <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
         {label}
       </span>
-      <p className="text-sm font-semibold text-gray-900 dark:text-white">
+      <p className="text-sm font-semibold text-gray-900">
         {value ?? "No disponible"}
       </p>
     </div>
@@ -62,19 +62,19 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
   const getPlanBadge = (plan) => {
     const map = {
       BASIC: {
-        color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+        color: "bg-blue-100 text-blue-800",
         icon: Star,
         label: "Básico",
       },
       STANDARD: {
         color:
-          "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
+          "bg-purple-100 text-purple-800",
         icon: Crown,
         label: "Estándar",
       },
       FULL: {
         color:
-          "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+          "bg-yellow-100 text-yellow-800",
         icon: Shield,
         label: "Premium",
       },
@@ -100,17 +100,17 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-h-[80vh] p-0 sm:p-0 flex flex-col overflow-hidden mx-4 sm:mx-0"
+        className="relative w-full max-w-xl bg-white rounded-2xl shadow-xl max-h-[80vh] p-0 sm:p-0 flex flex-col overflow-hidden mx-4 sm:mx-0"
         onClick={handleContentClick}
         aria-labelledby="user-details-title"
       >
         {/* Header */}
-        <div className="p-6 sm:p-8 flex items-center justify-between border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="p-6 sm:p-8 flex items-center justify-between border-b border-gray-100 bg-white">
           <h3
             id="user-details-title"
-            className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"
+            className="text-xl font-bold text-gray-900 flex items-center gap-2"
           >
-            <Building2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <Building2 className="w-6 h-6 text-blue-600" />
             Detalles del Cliente
           </h3>
           <Button
@@ -127,7 +127,7 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
         {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
           {/* Client Summary */}
-          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+          <div className="bg-gray-50 p-4 rounded-xl">
             <div className="flex items-center gap-4 mb-3">
               <div
                 className={`w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md ${
@@ -141,10 +141,10 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
                   : user.email?.charAt(0).toUpperCase() ?? "C"}
               </div>
               <div>
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white">
+                <h4 className="text-lg font-bold text-gray-900">
                   {client?.company_name || "Empresa sin nombre"}
                 </h4>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   {user.email}
                 </p>
               </div>
@@ -154,8 +154,8 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
               <span
                 className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                   isActive
-                    ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                    : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
                 }`}
               >
                 {isActive ? (
@@ -171,11 +171,11 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
 
           {/* User info */}
           <section>
-            <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
               <User className="w-3.5 h-3.5" />
               Información del Usuario
             </h4>
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white rounded-xl p-4 border border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-4">
               <InfoItem
                 icon={User}
                 label="Nombre"
@@ -198,11 +198,11 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
           {/* Client info */}
           {client && (
             <section>
-              <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+              <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                 <Building2 className="w-3.5 h-3.5" />
                 Información de la Empresa
               </h4>
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-4 border border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InfoItem
                   icon={Building2}
                   label="Empresa"
@@ -229,20 +229,20 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
 
           {/* Activity */}
           <section>
-            <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
               <Clock className="w-3.5 h-3.5" />
               Actividad Reciente
             </h4>
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+            <div className="bg-white rounded-xl p-4 border border-gray-200">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
                   <Clock className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                  <p className="text-sm font-semibold text-gray-900">
                     Última actualización
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-500">
                     {formatDate(user.updated_at)}
                   </p>
                 </div>
@@ -252,7 +252,7 @@ const AdminClientDetailsModal = ({ isOpen, onClose, user }) => {
         </div>
 
         {/* Footer (fixed area) */}
-        <div className="border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 flex justify-end">
+        <div className="border-t border-gray-100 bg-white p-4 sm:p-6 flex justify-end">
           <Button onClick={onClose} variant="secondary">
             Cerrar
           </Button>

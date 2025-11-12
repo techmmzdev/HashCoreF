@@ -26,11 +26,11 @@ const StatCard = memo(({ stat }) => {
   const Icon = stat.icon;
   return (
     <div
-      className={`${stat.bgLight} ${stat.darkBg} rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/50 overflow-hidden`}
+      className={`${stat.bgLight} ${stat.darkBg} rounded-xl shadow-sm border border-gray-200 overflow-hidden`}
     >
       <div className="p-5 flex items-start justify-between">
         <div>
-          <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+          <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
             {stat.name}
           </p>
           <div className={`text-3xl font-bold ${stat.textColor} mt-1`}>
@@ -55,7 +55,7 @@ const STATS_CONFIG = [
     color: "from-blue-500 to-blue-600",
     textColor: "text-blue-600",
     bgLight: "bg-blue-50",
-    darkBg: "dark:bg-blue-900/30",
+    darkBg: "",
   },
   {
     name: "Clientes Activos",
@@ -64,7 +64,7 @@ const STATS_CONFIG = [
     color: "from-green-500 to-green-600",
     textColor: "text-green-600",
     bgLight: "bg-green-50",
-    darkBg: "dark:bg-green-900/30",
+    darkBg: "",
   },
   {
     name: "Clientes Inactivos",
@@ -73,7 +73,7 @@ const STATS_CONFIG = [
     color: "from-red-500 to-red-600",
     textColor: "text-red-600",
     bgLight: "bg-red-50",
-    darkBg: "dark:bg-red-900/30",
+    darkBg: "",
   },
 ];
 
@@ -401,14 +401,14 @@ const AdminClientsPage = () => {
   // Error state
   if (error) {
     return (
-      <div className="p-6 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700/50 rounded-xl">
+      <div className="p-6 bg-red-50 border border-red-200 rounded-xl">
         <div className="flex items-start gap-3">
-          <UserX className="w-6 h-6 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+          <UserX className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-red-900 dark:text-red-300">
+            <p className="font-semibold text-red-900">
               Error al cargar los clientes
             </p>
-            <p className="text-red-800 dark:text-red-400 text-sm mt-1">
+            <p className="text-red-800 text-sm mt-1">
               {error}
             </p>
             <button
@@ -428,10 +428,10 @@ const AdminClientsPage = () => {
       {/* Header */}
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-gray-900">
             Gestión de Clientes
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-gray-600 mt-1">
             Administra y monitorea todos tus clientes en un solo lugar
           </p>
         </div>
@@ -453,7 +453,7 @@ const AdminClientsPage = () => {
       </section>
 
       {/* Filters */}
-      <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
           <div className="relative">
@@ -463,7 +463,7 @@ const AdminClientsPage = () => {
               placeholder="Buscar por nombre, email, empresa o RUC..."
               value={searchInput}
               onChange={handleSearchInputChange}
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
           </div>
 
@@ -471,7 +471,7 @@ const AdminClientsPage = () => {
           <select
             value={statusFilter}
             onChange={(e) => handleFilterChange("status", e.target.value)}
-            className="px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             {FILTER_OPTIONS.status.map((option) => (
               <option key={option.value} value={option.value}>
@@ -483,7 +483,7 @@ const AdminClientsPage = () => {
           <select
             value={planFilter}
             onChange={(e) => handleFilterChange("plan", e.target.value)}
-            className="px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             {FILTER_OPTIONS.plan.map((option) => (
               <option key={option.value} value={option.value}>
@@ -502,21 +502,21 @@ const AdminClientsPage = () => {
       />
 
       {/* Pagination */}
-      <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="text-sm text-gray-700 dark:text-gray-400">
+          <div className="text-sm text-gray-700">
             Mostrando{" "}
-            <span className="font-bold text-gray-900 dark:text-white">
+            <span className="font-bold text-gray-900">
               {filteredClients.length === 0
                 ? 0
                 : (currentPage - 1) * pageSize + 1}
             </span>{" "}
             a{" "}
-            <span className="font-bold text-gray-900 dark:text-white">
+            <span className="font-bold text-gray-900">
               {Math.min(currentPage * pageSize, filteredClients.length)}
             </span>{" "}
             de{" "}
-            <span className="font-bold text-gray-900 dark:text-white">
+            <span className="font-bold text-gray-900">
               {filteredClients.length}
             </span>{" "}
             clientes
@@ -525,11 +525,11 @@ const AdminClientsPage = () => {
           <div className="flex items-center gap-4 text-sm">
             {/* Selector de cantidad de ítems */}
             <label className="flex items-center gap-2">
-              <span className="text-gray-600 dark:text-gray-400">Items:</span>
+              <span className="text-gray-600">Items:</span>
               <select
                 value={pageSize}
                 onChange={handlePageSizeChange}
-                className="rounded border border-gray-300 dark:border-gray-600 bg-transparent px-2 py-1"
+                className="rounded border border-gray-300 bg-transparent px-2 py-1"
               >
                 {[4, 8].map((size) => (
                   <option key={size} value={size}>

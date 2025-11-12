@@ -4,34 +4,51 @@ import AppLogo from "./AppLogo";
 
 const MobileHeader = ({
   onOpenSidebar,
-  title,
   notificationCount = 0,
   notificationLink = "#",
   userType = "client",
 }) => {
   return (
-    <header className="lg:hidden flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+    <header className="lg:hidden flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-white">
       <div className="flex items-center gap-3">
         <button
           onClick={onOpenSidebar}
-          className="p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+          className="p-2 rounded-md text-gray-700 hover:bg-gray-100"
           aria-label="Abrir menú"
         >
           <Menu className="w-5 h-5" />
         </button>
-        <div className="flex items-center gap-2">
-          <AppLogo size="small" variant="mobile" />
-          <span className="font-semibold text-gray-800 dark:text-white">
-            {title}
-          </span>
-        </div>
+        {userType === "client" ? (
+          // Cliente: Texto estilizado
+          <div className="flex flex-col">
+            <h1 className="text-lg font-black tracking-tight leading-tight">
+              <span className="text-black">HASHTAG</span>
+              <span className="text-brand-gold">PE</span>
+            </h1>
+            <p className="text-[10px] text-indigo-600 tracking-wide -mt-0.5">
+              Marketing & Publicidad
+            </p>
+          </div>
+        ) : (
+          // Admin: Mismo estilo pero con "PANEL ADMIN" más destacado
+          <div className="flex flex-col">
+            <h1 className="text-lg font-black tracking-tight leading-tight">
+              <span className="text-black">HASHTAG</span>
+              <span className="text-brand-gold">PE</span>
+            </h1>
+            <p className="text-xs font-bold text-indigo-600 tracking-wide -mt-0.5">
+              PANEL ADMIN
+            </p>
+          </div>
+        )}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
+        {/* Notificaciones */}
         {userType === "client" ? (
           <Link
             to={notificationLink}
-            className="relative p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="relative p-2 rounded-md text-gray-600 hover:bg-gray-100"
             aria-label="Notificaciones"
           >
             <Bell className="w-5 h-5" />
@@ -43,7 +60,7 @@ const MobileHeader = ({
           </Link>
         ) : (
           <button
-            className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative"
+            className="p-2 rounded-md text-gray-600 hover:bg-gray-100 relative"
             aria-label="Notificaciones"
           >
             <Bell className="w-5 h-5" />

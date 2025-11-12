@@ -94,28 +94,28 @@ const ClientCommentsModal = ({ isOpen, onClose, publication }) => {
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.95, y: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-2xl max-h-[95vh] sm:max-h-[85vh] flex flex-col overflow-hidden"
+            className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-2xl max-h-[95vh] sm:max-h-[85vh] flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="p-3 sm:p-5 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <div className="p-3 sm:p-5 border-b border-gray-200 flex items-center justify-between">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-                  <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600 dark:text-indigo-400" />
+                <div className="p-1.5 sm:p-2 bg-indigo-100 rounded-lg">
+                  <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600" />
                 </div>
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
+                  <h2 className="text-base sm:text-lg font-bold text-gray-900">
                     Comentarios
                   </h2>
-                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate max-w-[200px] sm:max-w-none">
+                  <p className="text-xs sm:text-sm text-gray-500 truncate max-w-[200px] sm:max-w-none">
                     {title}
                   </p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors touch-manipulation"
+                className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation"
               >
-                <X className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 dark:text-gray-400" />
+                <X className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500" />
               </button>
             </div>
 
@@ -124,14 +124,14 @@ const ClientCommentsModal = ({ isOpen, onClose, publication }) => {
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-8 sm:py-12">
                   <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600 animate-spin mb-2" />
-                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-500">
                     Cargando comentarios...
                   </p>
                 </div>
               ) : comments.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8 sm:py-12">
-                  <MessageSquare className="h-10 w-10 sm:h-12 sm:w-12 text-gray-300 dark:text-gray-600 mb-2 sm:mb-3" />
-                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center px-4">
+                  <MessageSquare className="h-10 w-10 sm:h-12 sm:w-12 text-gray-300 mb-2 sm:mb-3" />
+                  <p className="text-xs sm:text-sm text-gray-500 text-center px-4">
                     Sé el primero en comentar 🚀
                   </p>
                 </div>
@@ -141,21 +141,21 @@ const ClientCommentsModal = ({ isOpen, onClose, publication }) => {
                     key={comment.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl"
+                    className="p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl"
                   >
                     <div className="flex items-start justify-between mb-1.5 sm:mb-2">
                       <div className="flex items-center gap-1.5 sm:gap-2">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center shrink-0">
-                          <span className="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-indigo-100 rounded-full flex items-center justify-center shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold text-indigo-600">
                             {comment.user?.name?.charAt(0)?.toUpperCase() ||
                               "?"}
                           </span>
                         </div>
                         <div className="min-w-0">
-                          <p className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white truncate">
+                          <p className="text-xs sm:text-sm font-semibold text-gray-900 truncate">
                             {comment.user?.name || "Usuario"}
                           </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                          <p className="text-xs text-gray-500">
                             {new Date(comment.created_at).toLocaleDateString(
                               "es-ES",
                               {
@@ -170,12 +170,12 @@ const ClientCommentsModal = ({ isOpen, onClose, publication }) => {
                         </div>
                       </div>
                       {comment.user?.role === "ADMIN" && (
-                        <span className="px-2 py-0.5 text-xs font-semibold bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full shrink-0">
+                        <span className="px-2 py-0.5 text-xs font-semibold bg-purple-100 text-purple-700 rounded-full shrink-0">
                           Admin
                         </span>
                       )}
                     </div>
-                    <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 ml-8 sm:ml-10">
+                    <p className="text-xs sm:text-sm text-gray-700 ml-8 sm:ml-10">
                       {comment.comment}
                     </p>
                   </motion.div>
@@ -184,14 +184,14 @@ const ClientCommentsModal = ({ isOpen, onClose, publication }) => {
             </div>
 
             {/* Formulario para Nuevo Comentario */}
-            <div className="p-3 sm:p-5 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+            <div className="p-3 sm:p-5 border-t border-gray-200 bg-gray-50">
               <form onSubmit={handleSubmit} className="flex gap-2">
                 <input
                   type="text"
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                   placeholder="Escribe un comentario..."
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg bg-white text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                   disabled={isCreating}
                   maxLength={500}
                 />

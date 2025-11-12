@@ -206,14 +206,14 @@ const AdminClientForm = ({
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-2xl bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col mx-4 sm:mx-0"
+        className="relative w-full max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col mx-4 sm:mx-0"
         onClick={handleContentClick}
       >
         {/* Header */}
-        <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-800">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
-            <div className="p-1.5 sm:p-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg">
-              <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600 dark:text-indigo-400" />
+        <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 bg-linear-to-r from-indigo-50 to-blue-50">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center gap-2 sm:gap-3">
+            <div className="p-1.5 sm:p-2 bg-indigo-100 rounded-lg">
+              <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
             </div>
             <span className="hidden sm:inline">
               {isEditing ? "Editar Cliente" : "Crear Nuevo Cliente"}
@@ -243,7 +243,7 @@ const AdminClientForm = ({
         >
           {/* Datos de Acceso */}
           <section className="space-y-3 sm:space-y-4">
-            <h3 className="text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">
+            <h3 className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
               <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Datos de Acceso
             </h3>
@@ -296,8 +296,8 @@ const AdminClientForm = ({
           </section>
 
           {/* Datos de la Empresa */}
-          <section className="space-y-3 sm:space-y-4 border-t border-gray-200 dark:border-gray-700 pt-4 sm:pt-6">
-            <h3 className="text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">
+          <section className="space-y-3 sm:space-y-4 border-t border-gray-200 pt-4 sm:pt-6">
+            <h3 className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
               <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Datos de la Empresa
             </h3>
@@ -353,8 +353,8 @@ const AdminClientForm = ({
           </section>
 
           {/* Plan y Estado */}
-          <section className="space-y-3 sm:space-y-4 border-t border-gray-200 dark:border-gray-700 pt-4 sm:pt-6">
-            <h3 className="text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">
+          <section className="space-y-3 sm:space-y-4 border-t border-gray-200 pt-4 sm:pt-6">
+            <h3 className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
               <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Plan y Estado
             </h3>
@@ -386,7 +386,7 @@ const AdminClientForm = ({
           </section>
 
           {/* Footer Buttons */}
-          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 pt-4 sm:pt-6 border-t border-gray-200">
             <Button
               type="button"
               onClick={onClose}

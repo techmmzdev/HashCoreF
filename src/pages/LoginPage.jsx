@@ -161,13 +161,13 @@ const LoginPage = () => {
             </div>
 
             {/* Card de Login */}
-            <div className="bg-white dark:bg-slate-800 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-7 md:p-9 space-y-5 border border-gray-200 dark:border-slate-700">
+            <div className="bg-white backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-7 md:p-9 space-y-5 border border-gray-200">
               {/* Header del Card */}
               <div className="text-center space-y-1.5">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
                   Iniciar Sesión
                 </h2>
-                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                <p className="text-gray-600 text-xs sm:text-sm">
                   Ingresa tus credenciales para continuar
                 </p>
               </div>
@@ -177,7 +177,7 @@ const LoginPage = () => {
                 <div className="space-y-1.5">
                   <label
                     htmlFor="email"
-                    className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300"
+                    className="block text-xs sm:text-sm font-semibold text-gray-700"
                   >
                     Correo electrónico
                   </label>
@@ -197,7 +197,7 @@ const LoginPage = () => {
                       value={formData.email}
                       onChange={handleChange}
                       disabled={loading}
-                      className="block w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-3.5 text-sm sm:text-base border-2 border-gray-300 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 bg-white dark:bg-slate-700 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="block w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-3.5 text-sm sm:text-base border-2 border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 bg-white focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="ejemplo@email.com"
                     />
                   </div>
@@ -207,7 +207,7 @@ const LoginPage = () => {
                 <div className="space-y-1.5">
                   <label
                     htmlFor="password"
-                    className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300"
+                    className="block text-xs sm:text-sm font-semibold text-gray-700"
                   >
                     Contraseña
                   </label>
@@ -227,7 +227,7 @@ const LoginPage = () => {
                       value={formData.password}
                       onChange={handleChange}
                       disabled={loading}
-                      className="block w-full pl-10 sm:pl-12 pr-11 sm:pr-13 py-3 sm:py-3.5 text-sm sm:text-base border-2 border-gray-300 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 bg-white dark:bg-slate-700 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="block w-full pl-10 sm:pl-12 pr-11 sm:pr-13 py-3 sm:py-3.5 text-sm sm:text-base border-2 border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 bg-white focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="••••••••"
                       ref={passwordRef}
                     />
@@ -259,7 +259,7 @@ const LoginPage = () => {
 
                 {/* Mensaje de Error */}
                 {error && (
-                  <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-300 px-3 sm:px-4 py-3 rounded-xl text-xs sm:text-sm animate-shake">
+                  <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-3 sm:px-4 py-3 rounded-xl text-xs sm:text-sm animate-shake">
                     <p className="font-semibold flex items-center gap-2">
                       <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
                       Error de inicio de sesión
@@ -272,7 +272,7 @@ const LoginPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex justify-center items-center gap-2 py-3 sm:py-3.5 px-4 border border-transparent rounded-xl text-black text-sm sm:text-base font-bold bg-brand-gold hover:bg-brand-gold-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold dark:focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
+                  className="w-full flex justify-center items-center gap-2 py-3 sm:py-3.5 px-4 border border-transparent rounded-xl text-black text-sm sm:text-base font-bold bg-brand-gold hover:bg-brand-gold-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
                 >
                   {loading ? (
                     <>
@@ -308,12 +308,12 @@ const LoginPage = () => {
               </form>
 
               {/* Footer */}
-              <div className="text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-slate-700">
+              <div className="text-center text-xs sm:text-sm text-gray-600 pt-2 border-t border-gray-200">
                 <p>
                   ¿Olvidaste tu contraseña?{" "}
                   <a
                     // href="#"
-                    className="font-semibold text-brand-gold dark:text-brand-gold hover:text-brand-gold-hover dark:hover:text-brand-gold-hover transition-colors underline decoration-dotted underline-offset-2"
+                    className="font-semibold text-brand-gold hover:text-brand-gold-hover transition-colors underline decoration-dotted underline-offset-2"
                   >
                     Recupérala aquí
                   </a>

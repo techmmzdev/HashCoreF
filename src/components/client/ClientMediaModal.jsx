@@ -39,23 +39,23 @@ const ClientMediaModal = ({ isOpen, onClose, publication }) => {
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 30 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh] rounded-xl sm:rounded-2xl bg-white dark:bg-gray-900 shadow-2xl overflow-hidden flex flex-col"
+            className="relative w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh] rounded-xl sm:rounded-2xl bg-white shadow-2xl overflow-hidden flex flex-col"
           >
             {/* Botón de cierre */}
             <button
               onClick={onClose}
               aria-label="Cerrar"
-              className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 transition-colors shadow-lg touch-manipulation"
+              className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/80 text-gray-700 hover:bg-white transition-colors shadow-lg touch-manipulation"
             >
               <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             {/* Header */}
-            <div className="w-full px-3 sm:px-5 pt-3 sm:pt-5 text-center border-b border-gray-200 dark:border-gray-700 pb-2 sm:pb-3">
-              <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100">
+            <div className="w-full px-3 sm:px-5 pt-3 sm:pt-5 text-center border-b border-gray-200 pb-2 sm:pb-3">
+              <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900">
                 {publication.title || "Vista de publicación"}
               </h2>
-              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">
                 {publication.content_type === "REEL" ? (
                   <span className="flex items-center justify-center gap-1">
                     <Play className="w-3 h-3" /> Video (Reel)
@@ -69,15 +69,15 @@ const ClientMediaModal = ({ isOpen, onClose, publication }) => {
             </div>
 
             {/* Contenido multimedia */}
-            <div className="w-full flex-1 flex items-center justify-center bg-gray-900 dark:bg-black p-2 sm:p-4 min-h-[300px] sm:min-h-[400px] overflow-auto">
+            <div className="w-full flex-1 flex items-center justify-center bg-gray-900 p-2 sm:p-4 min-h-[300px] sm:min-h-[400px] overflow-auto">
               {mediaUrl ? (
                 isVideo ? (
                   <video
                     src={mediaUrl}
                     controls
                     className="max-h-[60vh] sm:max-h-[75vh] max-w-full rounded-lg sm:rounded-xl shadow-lg object-contain"
+                    playsInline
                     autoPlay
-                    muted
                   />
                 ) : (
                   <img

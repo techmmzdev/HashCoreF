@@ -82,23 +82,23 @@ const Modal = ({
       onClick={handleBackdropClick}
     >
       <div
-        className={`relative w-full ${sizeClasses[size]} bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-h-[90vh] flex flex-col overflow-hidden ${className}`}
+        className={`relative w-full ${sizeClasses[size]} bg-white rounded-2xl shadow-xl max-h-[90vh] flex flex-col overflow-hidden ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         {(title || showCloseButton) && (
           <div
-            className={`flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 ${headerClassName}`}
+            className={`flex items-center justify-between p-6 border-b border-gray-200 ${headerClassName}`}
           >
             {title && (
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-xl font-bold text-gray-900">
                 {title}
               </h2>
             )}
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="p-2 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
+                className="p-2 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
                 aria-label="Cerrar modal"
               >
                 <svg
@@ -127,7 +127,7 @@ const Modal = ({
         {/* Footer */}
         {footer && (
           <div
-            className={`border-t border-gray-200 dark:border-gray-700 p-6 ${footerClassName}`}
+            className={`border-t border-gray-200 p-6 ${footerClassName}`}
           >
             {footer}
           </div>
@@ -157,7 +157,7 @@ const Loading = ({ size = "md", message, center = true, className = "" }) => {
         className={`${sizeClasses[size]} border-2 border-gray-300 border-t-indigo-600 rounded-full animate-spin`}
       />
       {message && (
-        <span className="ml-3 text-sm text-gray-600 dark:text-gray-400">
+        <span className="ml-3 text-sm text-gray-600">
           {message}
         </span>
       )}
@@ -180,9 +180,9 @@ const Card = ({
   border = true,
 }) => {
   const cardClasses = `
-    bg-white dark:bg-gray-800 rounded-lg
+    bg-white rounded-lg
     ${shadow ? "shadow-sm hover:shadow-md transition-shadow" : ""}
-    ${border ? "border border-gray-200 dark:border-gray-700" : ""}
+    ${border ? "border border-gray-200" : ""}
     ${className}
   `;
 
@@ -192,15 +192,15 @@ const Card = ({
         <div
           className={`${
             padding ? "p-6" : ""
-          } border-b border-gray-200 dark:border-gray-700 ${headerClassName}`}
+          } border-b border-gray-200 ${headerClassName}`}
         >
           {title && (
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-lg font-semibold text-gray-900">
               {title}
             </h3>
           )}
           {subtitle && (
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-1 text-sm text-gray-600">
               {subtitle}
             </p>
           )}

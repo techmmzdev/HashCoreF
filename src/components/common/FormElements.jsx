@@ -205,7 +205,7 @@ const Textarea = forwardRef(
         />
 
         {showCharCount && maxLength && (
-          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 text-right">
+          <div className="text-xs text-gray-500 mt-1 text-right">
             {(value || "").length}/{maxLength}
           </div>
         )}
@@ -256,7 +256,7 @@ const Checkbox = forwardRef(
             {...props}
           />
           {label && (
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="text-sm font-medium text-gray-700">
               {label}
               {required && <span className={styles.labelRequired}> *</span>}
             </span>

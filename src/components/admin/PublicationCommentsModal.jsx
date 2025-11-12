@@ -139,19 +139,19 @@ const PublicationCommentsModal = ({
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
               onClick={handleContentClick}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden"
             >
               {/* Header */}
-              <div className="p-5 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+              <div className="p-5 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-                    <MessageSquare className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                  <div className="p-2 bg-indigo-100 rounded-lg">
+                    <MessageSquare className="h-5 w-5 text-indigo-600" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                    <h2 className="text-lg font-bold text-gray-900">
                       Comentarios
                     </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-sm text-gray-500">
                       {title}
                     </p>
                   </div>
@@ -171,7 +171,7 @@ const PublicationCommentsModal = ({
                 {isLoading ? (
                   <div className="flex flex-col items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 text-indigo-600 animate-spin mb-2" />
-                    <p className="text-gray-500 dark:text-gray-400">
+                    <p className="text-gray-500">
                       Cargando comentarios...
                     </p>
                   </div>
@@ -180,14 +180,14 @@ const PublicationCommentsModal = ({
                     <p className="text-red-500 font-semibold">
                       Error al cargar los comentarios
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <p className="text-sm text-gray-500 mt-1">
                       Intenta de nuevo más tarde
                     </p>
                   </div>
                 ) : comments.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-12">
-                    <MessageSquare className="h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" />
-                    <p className="text-gray-500 dark:text-gray-400 text-center">
+                    <MessageSquare className="h-12 w-12 text-gray-300 mb-3" />
+                    <p className="text-gray-500 text-center">
                       Sé el primero en comentar 🚀
                     </p>
                   </div>
@@ -199,21 +199,21 @@ const PublicationCommentsModal = ({
                         key={comment.id}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl relative"
+                        className="p-4 bg-gray-50 rounded-xl relative"
                       >
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center">
-                              <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+                            <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
+                              <span className="text-sm font-semibold text-indigo-600">
                                 {comment.user?.name?.charAt(0)?.toUpperCase() ||
                                   "?"}
                               </span>
                             </div>
                             <div>
-                              <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                              <p className="text-sm font-semibold text-gray-900">
                                 {comment.user?.name || "Usuario"}
                               </p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">
+                              <p className="text-xs text-gray-500">
                                 {new Date(
                                   comment.created_at
                                 ).toLocaleDateString("es-ES", {
@@ -228,7 +228,7 @@ const PublicationCommentsModal = ({
                           </div>
                           <div className="flex items-center gap-2">
                             {comment.user?.role === "ADMIN" && (
-                              <span className="px-2 py-0.5 text-xs font-semibold bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full">
+                              <span className="px-2 py-0.5 text-xs font-semibold bg-purple-100 text-purple-700 rounded-full">
                                 Admin
                               </span>
                             )}
@@ -238,7 +238,7 @@ const PublicationCommentsModal = ({
                                 disabled={isDeleting || isCurrentDeleting}
                                 variant="ghost"
                                 size="sm"
-                                className="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
+                                className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg"
                                 title="Eliminar comentario"
                               >
                                 {isCurrentDeleting ? (
@@ -250,7 +250,7 @@ const PublicationCommentsModal = ({
                             )}
                           </div>
                         </div>
-                        <p className="text-gray-700 dark:text-gray-300 ml-10">
+                        <p className="text-gray-700 ml-10">
                           {comment.comment}
                         </p>
                       </motion.div>
@@ -260,14 +260,14 @@ const PublicationCommentsModal = ({
               </div>
 
               {/* Formulario para Nuevo Comentario */}
-              <div className="p-5 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+              <div className="p-5 border-t border-gray-200 bg-gray-50">
                 <form onSubmit={handleSubmit} className="flex gap-2">
                   <input
                     type="text"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Escribe un comentario..."
-                    className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all"
+                    className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                     disabled={isCreating}
                     maxLength={500}
                   />

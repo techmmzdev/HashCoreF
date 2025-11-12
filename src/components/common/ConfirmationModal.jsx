@@ -66,25 +66,25 @@ const ConfirmationModal = ({
   // Variant styles
   const variantStyles = {
     danger: {
-      icon: "bg-red-100 dark:bg-red-900/30",
-      iconColor: "text-red-600 dark:text-red-400",
+      icon: "bg-red-100",
+      iconColor: "text-red-600",
       button:
-        "bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800",
-      ring: "focus:ring-red-500 dark:focus:ring-red-400",
+        "bg-red-600 hover:bg-red-700",
+      ring: "focus:ring-red-500",
     },
     warning: {
-      icon: "bg-amber-100 dark:bg-amber-900/30",
-      iconColor: "text-amber-700 dark:text-amber-400",
+      icon: "bg-amber-100",
+      iconColor: "text-amber-700",
       button:
-        "bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800",
-      ring: "focus:ring-amber-500 dark:focus:ring-amber-400",
+        "bg-amber-600 hover:bg-amber-700",
+      ring: "focus:ring-amber-500",
     },
     info: {
-      icon: "bg-blue-100 dark:bg-blue-900/30",
-      iconColor: "text-blue-600 dark:text-blue-400",
+      icon: "bg-blue-100",
+      iconColor: "text-blue-600",
       button:
-        "bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800",
-      ring: "focus:ring-blue-500 dark:focus:ring-blue-400",
+        "bg-blue-600 hover:bg-blue-700",
+      ring: "focus:ring-blue-500",
     },
   };
 
@@ -99,7 +99,7 @@ const ConfirmationModal = ({
     >
       <div
         ref={modalRef}
-        className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-200 ease-out"
+        className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-200 ease-out"
         onClick={(e) => e.stopPropagation()}
         role="document"
         aria-labelledby="modal-title"
@@ -121,13 +121,13 @@ const ConfirmationModal = ({
             <div className="flex-1 pt-0.5 sm:pt-1 min-w-0">
               <h2
                 id="modal-title"
-                className="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 mb-1.5 sm:mb-2 wrap-break-word"
+                className="text-base sm:text-lg font-bold text-gray-900 mb-1.5 sm:mb-2 wrap-break-word"
               >
                 {title}
               </h2>
               <p
                 id="modal-description"
-                className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed wrap-break-word"
+                className="text-xs sm:text-sm text-gray-600 leading-relaxed wrap-break-word"
               >
                 {message ||
                   "¿Estás seguro de que deseas realizar esta acción? Esta acción no se puede deshacer."}
@@ -138,7 +138,7 @@ const ConfirmationModal = ({
             {!isLoading && (
               <button
                 onClick={onClose}
-                className="shrink-0 p-1 sm:p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                className="shrink-0 p-1 sm:p-1 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
                 aria-label="Cerrar modal"
               >
                 <X className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -153,14 +153,14 @@ const ConfirmationModal = ({
             ref={cancelButtonRef}
             onClick={onClose}
             disabled={isLoading}
-            className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {cancelText}
           </button>
           <button
             onClick={onConfirm}
             disabled={isLoading}
-            className={`w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-semibold text-white rounded-lg focus:outline-none focus:ring-2 ${styles.ring} focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${styles.button} inline-flex items-center justify-center gap-2 min-w-[100px]`}
+            className={`w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-semibold text-white rounded-lg focus:outline-none focus:ring-2 ${styles.ring} focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${styles.button} inline-flex items-center justify-center gap-2 min-w-[100px]`}
           >
             {isLoading ? (
               <>

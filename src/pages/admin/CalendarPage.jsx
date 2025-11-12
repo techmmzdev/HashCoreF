@@ -168,23 +168,23 @@ const CalendarPage = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-3 sm:px-0">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-            <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 flex items-center gap-2">
+            <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
             <span className="truncate">Calendario</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm sm:text-base">
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">
             Gestiona tus notas y eventos
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <div className="flex rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 p-1">
+          <div className="flex rounded-lg overflow-hidden bg-gray-100 p-1">
             <button
               onClick={() => setViewMode("calendar")}
               className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 text-sm font-medium transition-all duration-200 rounded-md ${
                 viewMode === "calendar"
-                  ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
-                  : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                  ? "bg-white text-gray-900 shadow-sm"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Calendario
@@ -193,8 +193,8 @@ const CalendarPage = () => {
               onClick={() => setViewMode("list")}
               className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 text-sm font-medium transition-all duration-200 rounded-md ${
                 viewMode === "list"
-                  ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
-                  : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                  ? "bg-white text-gray-900 shadow-sm"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Lista
@@ -213,11 +213,11 @@ const CalendarPage = () => {
       </div>
 
       {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg flex items-center justify-between">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center justify-between">
           <span className="flex-1 pr-2">{error}</span>
           <button
             onClick={() => setError("")}
-            className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 ml-2 p-1 hover:bg-red-100 dark:hover:bg-red-800 rounded transition-colors"
+            className="text-red-500 hover:text-red-700 ml-2 p-1 hover:bg-red-100 rounded transition-colors"
             title="Cerrar"
             aria-label="Cerrar alerta de error"
           >
@@ -226,11 +226,11 @@ const CalendarPage = () => {
         </div>
       )}
       {success && (
-        <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 px-4 py-3 rounded-lg flex items-center justify-between">
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg flex items-center justify-between">
           <span className="flex-1 pr-2">{success}</span>
           <button
             onClick={() => setSuccess("")}
-            className="text-emerald-500 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 ml-2 p-1 hover:bg-emerald-100 dark:hover:bg-emerald-800 rounded transition-colors"
+            className="text-emerald-500 hover:text-emerald-700 ml-2 p-1 hover:bg-emerald-100 rounded transition-colors"
             title="Cerrar"
             aria-label="Cerrar alerta de éxito"
           >
@@ -240,17 +240,17 @@ const CalendarPage = () => {
       )}
 
       {viewMode === "calendar" ? (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border-0 overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800">
+        <div className="bg-white rounded-xl shadow-sm border-0 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 bg-white">
             <button
               onClick={() => navigateMonth(-1)}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
               aria-label="Mes anterior"
             >
-              <ChevronLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              <ChevronLeft className="w-5 h-5 text-gray-600" />
             </button>
 
-            <h2 className="text-lg font-medium text-gray-900 dark:text-white">
+            <h2 className="text-lg font-medium text-gray-900">
               <span className="block sm:hidden">
                 {MONTH_NAMES[currentDate.getMonth()].slice(0, 3)}{" "}
                 {currentDate.getFullYear()}
@@ -263,19 +263,19 @@ const CalendarPage = () => {
 
             <button
               onClick={() => navigateMonth(1)}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
               aria-label="Mes siguiente"
             >
-              <ChevronRight className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              <ChevronRight className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
           <div className="px-6 pb-6">
-            <div className="grid grid-cols-7 mb-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="grid grid-cols-7 mb-4 border-b border-gray-200">
               {DAY_NAMES.map((day) => (
                 <div
                   key={day}
-                  className="py-3 text-center text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider"
+                  className="py-3 text-center text-sm font-medium text-gray-600 uppercase tracking-wider"
                 >
                   <span className="hidden sm:inline">{day.slice(0, 3)}</span>
                   <span className="sm:hidden">{day.slice(0, 1)}</span>
@@ -283,7 +283,7 @@ const CalendarPage = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-7 gap-px bg-gray-200 dark:bg-gray-700 border border-gray-200 dark:border-gray-700">
+            <div className="grid grid-cols-7 gap-px bg-gray-200 border border-gray-200">
               {days.map((day, index) => {
                 const dayNotes = getNotesForDate(day);
                 const isCurrentMonth =
@@ -302,13 +302,13 @@ const CalendarPage = () => {
                       setSelectedDate(day);
                       handleCreateNote();
                     }}
-                    className={`min-h-20 sm:min-h-32 p-2 sm:p-3 cursor-pointer transition-all duration-150 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 ${
+                    className={`min-h-20 sm:min-h-32 p-2 sm:p-3 cursor-pointer transition-all duration-150 bg-white hover:bg-gray-50 ${
                       !isCurrentMonth
-                        ? "text-gray-300 dark:text-gray-600 bg-gray-50 dark:bg-gray-900"
+                        ? "text-gray-300 bg-gray-50"
                         : isSelected
-                        ? "bg-blue-50 dark:bg-blue-900/30 ring-2 ring-blue-500 dark:ring-blue-400"
+                        ? "bg-blue-50 ring-2 ring-blue-500"
                         : isToday
-                        ? "bg-blue-50 dark:bg-blue-900/20"
+                        ? "bg-blue-50"
                         : ""
                     }`}
                     title={`${formatDate(day)} - Doble click para agregar nota`}
@@ -317,12 +317,12 @@ const CalendarPage = () => {
                       <div
                         className={`text-sm sm:text-base font-medium mb-2 flex items-center justify-start ${
                           isToday
-                            ? "text-blue-600 dark:text-blue-400 font-semibold"
+                            ? "text-blue-600 font-semibold"
                             : isSelected
-                            ? "text-blue-600 dark:text-blue-400 font-semibold"
+                            ? "text-blue-600 font-semibold"
                             : !isCurrentMonth
-                            ? "text-gray-400 dark:text-gray-600"
-                            : "text-gray-900 dark:text-white"
+                            ? "text-gray-400"
+                            : "text-gray-900"
                         }`}
                       >
                         {day.getDate()}
@@ -338,8 +338,8 @@ const CalendarPage = () => {
                             }}
                             className={`text-xs sm:text-sm px-2 py-1 rounded-md cursor-pointer transition-all hover:shadow-sm mb-1 truncate font-medium ${
                               note.is_event
-                                ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-300 border-l-4 border-green-500"
-                                : "bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/40 dark:text-blue-300 border-l-4 border-blue-500"
+                                ? "bg-green-100 text-green-700 hover:bg-green-200 border-l-4 border-green-500"
+                                : "bg-blue-100 text-blue-700 hover:bg-blue-200 border-l-4 border-blue-500"
                             }`}
                             title={`${note.title} - Click para editar`}
                           >
@@ -353,7 +353,7 @@ const CalendarPage = () => {
                               setSelectedDate(day);
                               setViewMode("list");
                             }}
-                            className="text-xs text-gray-600 dark:text-gray-400 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 font-medium pl-2"
+                            className="text-xs text-gray-600 cursor-pointer hover:text-blue-600 font-medium pl-2"
                             title="Click para ver todas las notas"
                           >
                             +{dayNotes.length - 3} más
@@ -368,9 +368,9 @@ const CalendarPage = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <div className="bg-white rounded-lg border border-gray-200">
+          <div className="p-4 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-900">
               Lista de Notas
             </h2>
           </div>
@@ -378,20 +378,20 @@ const CalendarPage = () => {
           <div className="p-3 sm:p-4">
             {loading ? (
               <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 dark:border-indigo-400 mx-auto"></div>
-                <p className="text-gray-600 dark:text-gray-400 mt-2">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
+                <p className="text-gray-600 mt-2">
                   Cargando...
                 </p>
               </div>
             ) : filteredNotes.length === 0 ? (
               <div className="text-center py-8">
-                <Calendar className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
-                <p className="text-gray-600 dark:text-gray-400">
+                <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600">
                   No hay notas para mostrar
                 </p>
                 <button
                   onClick={handleCreateNote}
-                  className="mt-4 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium"
+                  className="mt-4 text-indigo-600 hover:text-indigo-700 font-medium"
                 >
                   Crear primera nota
                 </button>
@@ -401,38 +401,38 @@ const CalendarPage = () => {
                 {filteredNotes.map((note) => (
                   <div
                     key={note.id}
-                    className="p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                    className="p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-start justify-between gap-3 sm:gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
                           {note.is_event ? (
-                            <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                            <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
                           ) : (
-                            <BookOpen className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                            <BookOpen className="w-4 h-4 text-amber-600 shrink-0" />
                           )}
                           <span
                             className={`text-xs px-2 py-1 rounded-full ${
                               note.is_event
-                                ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300"
-                                : "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300"
+                                ? "bg-emerald-100 text-emerald-800"
+                                : "bg-amber-100 text-amber-800"
                             }`}
                           >
                             {note.is_event ? "Evento" : "Nota"}
                           </span>
                         </div>
 
-                        <h3 className="font-medium text-gray-900 dark:text-white mb-1 truncate">
+                        <h3 className="font-medium text-gray-900 mb-1 truncate">
                           {note.title}
                         </h3>
 
                         {note.description && (
-                          <p className="text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-2">
+                          <p className="text-gray-600 text-sm mb-2 line-clamp-2">
                             {note.description}
                           </p>
                         )}
 
-                        <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                        <div className="text-xs sm:text-sm text-gray-500">
                           <span className="block sm:inline">
                             {formatDate(new Date(note.note_date))}
                           </span>
@@ -446,7 +446,7 @@ const CalendarPage = () => {
                       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
                         <button
                           onClick={() => handleEditNote(note)}
-                          className="p-1.5 sm:p-2 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 dark:text-gray-400 dark:hover:text-indigo-400 dark:hover:bg-indigo-900/50 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                           title="Editar nota"
                           aria-label="Editar nota"
                         >
@@ -454,7 +454,7 @@ const CalendarPage = () => {
                         </button>
                         <button
                           onClick={() => handleDeleteNote(note)}
-                          className="p-1.5 sm:p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 dark:text-gray-400 dark:hover:text-red-400 dark:hover:bg-red-900/50 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Eliminar nota"
                           aria-label="Eliminar nota"
                         >

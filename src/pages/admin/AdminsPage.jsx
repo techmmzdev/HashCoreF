@@ -12,11 +12,11 @@ const StatCard = memo(({ stat }) => {
   const Icon = stat.icon;
   return (
     <div
-      className={`${stat.bgLight} ${stat.darkBg} rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/50 overflow-hidden`}
+      className={`${stat.bgLight} ${stat.darkBg} rounded-xl shadow-sm border border-gray-200 overflow-hidden`}
     >
       <div className="p-5 flex items-start justify-between">
         <div>
-          <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+          <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
             {stat.name}
           </p>
           <div className={`text-3xl font-bold ${stat.textColor} mt-1`}>
@@ -40,8 +40,8 @@ const STATS_CONFIG = [
     icon: Users,
     color: "from-blue-500 to-blue-600",
     bgLight: "bg-blue-50",
-    darkBg: "dark:bg-blue-900/20",
-    textColor: "text-blue-600 dark:text-blue-400",
+    darkBg: "",
+    textColor: "text-blue-600",
   },
   {
     name: "Primer Administrador",
@@ -49,8 +49,8 @@ const STATS_CONFIG = [
     icon: Shield,
     color: "from-indigo-500 to-indigo-600",
     bgLight: "bg-indigo-50",
-    darkBg: "dark:bg-indigo-900/20",
-    textColor: "text-indigo-600 dark:text-indigo-400",
+    darkBg: "",
+    textColor: "text-indigo-600",
   },
   {
     name: "Último Administrador",
@@ -58,8 +58,8 @@ const STATS_CONFIG = [
     icon: Shield,
     color: "from-purple-500 to-purple-600",
     bgLight: "bg-purple-50",
-    darkBg: "dark:bg-purple-900/20",
-    textColor: "text-purple-600 dark:text-purple-400",
+    darkBg: "",
+    textColor: "text-purple-600",
   },
 ];
 
@@ -276,14 +276,14 @@ const AdminsPage = () => {
   // Error state
   if (error) {
     return (
-      <div className="p-6 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700/50 rounded-xl">
+      <div className="p-6 bg-red-50 border border-red-200 rounded-xl">
         <div className="flex items-start gap-3">
-          <UserX className="w-6 h-6 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+          <UserX className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-red-900 dark:text-red-300">
+            <p className="font-semibold text-red-900">
               Error al cargar los administradores
             </p>
-            <p className="text-red-800 dark:text-red-400 text-sm mt-1">
+            <p className="text-red-800 text-sm mt-1">
               {error}
             </p>
             <button
@@ -303,11 +303,11 @@ const AdminsPage = () => {
       {/* Header */}
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-            <Shield className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+            <Shield className="w-8 h-8 text-indigo-600" />
             Gestión de Administradores
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-gray-600 mt-1">
             Administra los usuarios con permisos de administrador
           </p>
         </div>
@@ -329,7 +329,7 @@ const AdminsPage = () => {
       </section>
 
       {/* Search */}
-      <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
@@ -337,7 +337,7 @@ const AdminsPage = () => {
             placeholder="Buscar por nombre o correo..."
             value={searchInput}
             onChange={handleSearchChange}
-            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
           />
         </div>
       </section>

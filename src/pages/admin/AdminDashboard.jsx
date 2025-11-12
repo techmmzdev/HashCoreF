@@ -28,23 +28,17 @@ import { AdminDashboardSkeleton } from "../../components/common/Skeleton";
 const COLORS = ["#6366f1", "#8b5cf6", "#ec4899"];
 
 const StatCard = ({ title, items }) => (
-  <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-    <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-      {title}
-    </h4>
+  <div className="bg-white p-6 rounded-lg shadow-lg">
+    <h4 className="text-sm font-medium text-gray-500 mb-2">{title}</h4>
     <div className="space-y-2">
       {items.map((item, index) => (
         <div key={index} className="flex justify-between items-center">
-          <span
-            className={`text-sm ${
-              item.textColor || "text-gray-600 dark:text-gray-300"
-            }`}
-          >
+          <span className={`text-sm ${item.textColor || "text-gray-600"}`}>
             {item.label}
           </span>
           <span
             className={`text-sm font-semibold ${
-              item.valueColor || "text-gray-900 dark:text-white"
+              item.valueColor || "text-gray-900"
             }`}
           >
             {item.value}
@@ -78,24 +72,17 @@ const AdminDashboard = () => {
   const [error, setError] = useState(null);
   const { user } = useAuth();
 
-  const isDarkMode = useMemo(
-    () =>
-      document.documentElement.classList.contains("dark") ||
-      window.matchMedia("(prefers-color-scheme: dark)").matches,
-    []
-  );
-
   const chartTheme = useMemo(
     () => ({
-      axisColor: isDarkMode ? "#9ca3af" : "#374151",
-      gridStroke: isDarkMode ? "#374151" : "#e5e7eb",
+      axisColor: "#374151",
+      gridStroke: "#e5e7eb",
       tooltipStyle: {
-        backgroundColor: isDarkMode ? "#1f2937" : "#fff",
-        border: `1px solid ${isDarkMode ? "#374151" : "#e5e7eb"}`,
+        backgroundColor: "#fff",
+        border: "1px solid #e5e7eb",
         borderRadius: "4px",
       },
     }),
-    [isDarkMode]
+    []
   );
 
   const loadDashboardData = useCallback(async () => {
@@ -151,15 +138,15 @@ const AdminDashboard = () => {
         subtitle: `${stats.activeClients} activos`,
         icon: Users,
         color: "bg-blue-500",
-        textColor: "text-blue-600 dark:text-blue-400",
+        textColor: "text-blue-600",
       },
       {
         name: "Publicaciones",
         value: stats.totalPublications,
-        subtitle: `${stats.publishedPublications} publicadas`,
+        subtitle: `${stats.publishedPublications} editadas`,
         icon: FileText,
         color: "bg-green-500",
-        textColor: "text-green-600 dark:text-green-400",
+        textColor: "text-green-600",
       },
       {
         name: "Eventos del Mes",
@@ -167,7 +154,7 @@ const AdminDashboard = () => {
         subtitle: "En calendario",
         icon: CalendarIcon,
         color: "bg-purple-500",
-        textColor: "text-purple-600 dark:text-purple-400",
+        textColor: "text-purple-600",
       },
       {
         name: "Total Usuarios",
@@ -175,7 +162,7 @@ const AdminDashboard = () => {
         subtitle: `${stats.totalClients} clientes`,
         icon: Activity,
         color: "bg-orange-500",
-        textColor: "text-orange-600 dark:text-orange-400",
+        textColor: "text-orange-600",
       },
     ];
   }, [stats]);
@@ -205,12 +192,12 @@ const AdminDashboard = () => {
           {
             label: "Clientes Activos",
             value: stats.activeClients || 0,
-            valueColor: "text-green-600 dark:text-green-400",
+            valueColor: "text-green-600",
           },
           {
             label: "Clientes Inactivos",
             value: (stats.totalClients || 0) - (stats.activeClients || 0),
-            valueColor: "text-red-600 dark:text-red-400",
+            valueColor: "text-red-600",
           },
           { label: "Total", value: stats.totalClients || 0 },
         ],
@@ -225,8 +212,8 @@ const AdminDashboard = () => {
   if (error) {
     return (
       <div className="p-6">
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-          <p className="text-red-800 dark:text-red-200">{error}</p>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-red-800">{error}</p>
           <button
             onClick={loadDashboardData}
             className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
@@ -242,9 +229,7 @@ const AdminDashboard = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-          Dashboard
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
       </div>
 
       {/* Stats Cards */}
@@ -254,7 +239,7 @@ const AdminDashboard = () => {
           return (
             <div
               key={stat.name}
-              className="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300 dark:border dark:border-gray-700"
+              className="bg-white overflow-hidden shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300"
             >
               <div className="p-5">
                 <div className="flex items-center">
@@ -263,11 +248,11 @@ const AdminDashboard = () => {
                   </div>
                   <div className="ml-5 w-0 flex-1">
                     <dl>
-                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                      <dt className="text-sm font-medium text-gray-500 truncate">
                         {stat.name}
                       </dt>
                       <dd className="flex items-baseline">
-                        <div className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                        <div className="text-2xl font-semibold text-gray-900">
                           {stat.value}
                         </div>
                       </dd>
@@ -290,8 +275,8 @@ const AdminDashboard = () => {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Line Chart - Publicaciones y Usuarios */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Publicaciones y Usuarios (Últimos 6 meses)
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -333,8 +318,8 @@ const AdminDashboard = () => {
         </div>
 
         {/* Bar Chart - Comparativa */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Comparativa Mensual
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -368,8 +353,8 @@ const AdminDashboard = () => {
         </div>
 
         {/* Pie Chart - Distribución de Planes */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Distribución por Plan
           </h3>
           {planDistribution.length > 0 ? (
@@ -402,7 +387,7 @@ const AdminDashboard = () => {
             </ResponsiveContainer>
           ) : (
             <div className="flex items-center justify-center h-[300px]">
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-gray-500">
                 No hay datos de planes disponibles
               </p>
             </div>
@@ -410,8 +395,8 @@ const AdminDashboard = () => {
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Actividad Reciente
           </h3>
           {recentActivity.length > 0 ? (
@@ -425,10 +410,10 @@ const AdminDashboard = () => {
                     className={`w-2 h-2 ${item.color} rounded-full shrink-0`}
                   ></div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                    <p className="text-sm font-medium text-gray-900 truncate">
                       {item.action}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-gray-500">
                       {formatTimeAgo(item.time)}
                     </p>
                   </div>
@@ -437,9 +422,7 @@ const AdminDashboard = () => {
             </div>
           ) : (
             <div className="flex items-center justify-center h-[300px]">
-              <p className="text-gray-500 dark:text-gray-400">
-                No hay actividad reciente
-              </p>
+              <p className="text-gray-500">No hay actividad reciente</p>
             </div>
           )}
         </div>

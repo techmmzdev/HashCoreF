@@ -149,7 +149,7 @@ const PublicationForm = ({
       <div
         ref={modalRef}
         onClick={handleContentClick}
-        className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl dark:bg-gray-800 dark:text-gray-100 flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden"
+        className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden"
       >
         <Button
           onClick={!isLoading ? onClose : undefined}
@@ -160,17 +160,17 @@ const PublicationForm = ({
         >
           <X className="h-5 w-5" />
         </Button>
-        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-gray-200">
           <h2 className="text-xl sm:text-2xl font-bold pr-8">
             {isEditing ? "Editar Publicación" : "Crear Nueva Publicación"}
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs sm:text-sm text-gray-500">
             Cliente ID: {clientId}
           </p>
         </div>
 
         {isLoading && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm">
             <Loading />
           </div>
         )}
@@ -212,7 +212,7 @@ const PublicationForm = ({
 
               {/* Advertencia de cambio de tipo con media */}
               {contentTypeChanged && hasMedia && (
-                <div className="mt-2 flex items-start gap-2 text-xs text-amber-600 dark:text-amber-400 p-2.5 sm:p-2 border border-amber-300 dark:border-amber-700 rounded-lg bg-amber-50 dark:bg-amber-900/20">
+                <div className="mt-2 flex items-start gap-2 text-xs text-amber-600 p-2.5 sm:p-2 border border-amber-300 rounded-lg bg-amber-50">
                   <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
                   <p className="leading-tight">
                     <strong className="block sm:inline">Advertencia:</strong> Al
@@ -243,7 +243,7 @@ const PublicationForm = ({
             <Input
               label={
                 <>
-                  <Calendar className="inline h-4 w-4 mr-1 mb-0.5 text-indigo-600 dark:text-indigo-400" />
+                  <Calendar className="inline h-4 w-4 mr-1 mb-0.5 text-indigo-600" />
                   Fecha y Hora de Publicación
                 </>
               }
@@ -256,19 +256,17 @@ const PublicationForm = ({
             />
           </div>
 
-          <div className="flex items-start gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 p-2.5 sm:p-3 border border-dashed rounded-lg bg-gray-50 dark:bg-gray-900/40">
-            <Info className="h-4 w-4 sm:h-5 sm:w-5 mt-0.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+          <div className="flex items-start gap-2 text-xs sm:text-sm text-gray-600 p-2.5 sm:p-3 border border-dashed rounded-lg bg-gray-50">
+            <Info className="h-4 w-4 sm:h-5 sm:w-5 mt-0.5 text-indigo-600 shrink-0" />
             <p className="leading-tight">
-              <span className="font-medium text-gray-800 dark:text-gray-200">
-                Nota:
-              </span>{" "}
-              los campos marcados con <span className="text-red-500">*</span>{" "}
-              son obligatorios para crear la publicación.
+              <span className="font-medium text-gray-800">Nota:</span> los
+              campos marcados con <span className="text-red-500">*</span> son
+              obligatorios para crear la publicación.
             </p>
           </div>
         </form>
 
-        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200 bg-gray-50 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3">
           <Button
             type="button"
             onClick={!isLoading ? onClose : undefined}

@@ -58,10 +58,10 @@ const ClientLayout = () => {
   // Pantalla de carga
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-        <div className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center p-6 bg-white rounded-xl shadow-2xl">
           <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mb-3" />
-          <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+          <p className="text-lg font-semibold text-gray-700">
             Cargando datos del cliente...
           </p>
         </div>
@@ -70,21 +70,21 @@ const ClientLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header móvil usando componente compartido */}
-      <MobileHeader
-        onOpenSidebar={handleOpenSidebar}
-        title="HASHTAGPE"
-        notificationCount={unreadNotifications}
-        notificationLink="/client/comments"
-        userType="client"
-      />
+    <div className="min-h-screen bg-gray-50">
+      {/* Header móvil fijo cuando sidebar está cerrado */}
+      <div className={`${sidebarOpen ? "" : "sticky top-0 z-40"}`}>
+        <MobileHeader
+          onOpenSidebar={handleOpenSidebar}
+          notificationCount={unreadNotifications}
+          notificationLink="/client/comments"
+          userType="client"
+        />
+      </div>
 
       {/* Sidebar escritorio */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex flex-col grow bg-linear-to-b from-indigo-600 via-indigo-700 to-indigo-900 dark:from-gray-800 dark:via-gray-900 dark:to-gray-900 shadow-2xl">
+        <div className="flex flex-col grow sidebar-client-gradient shadow-2xl">
           <BaseSidebar
-            title="HASHTAGPE"
             navigation={CLIENT_NAVIGATION}
             user={user}
             onLogout={handleLogout}
@@ -102,13 +102,8 @@ const ClientLayout = () => {
             onClick={handleCloseSidebar}
             aria-hidden="true"
           />
-          <div
-            className={`fixed inset-y-0 left-0 flex flex-col w-full max-w-xs bg-linear-to-b from-indigo-600 via-indigo-700 to-indigo-900 dark:from-gray-800 dark:via-gray-900 dark:to-gray-900 transform transition-transform duration-300 ease-in-out z-50 shadow-2xl ${
-              sidebarOpen ? "translate-x-0" : "-translate-x-full"
-            }`}
-          >
+          <div className="fixed inset-y-0 left-0 flex flex-col w-full max-w-xs sidebar-client-gradient transform transition-transform duration-300 ease-in-out z-50 shadow-2xl">
             <BaseSidebar
-              title="HASHTAGPE"
               navigation={CLIENT_NAVIGATION}
               user={user}
               onLogout={handleLogout}

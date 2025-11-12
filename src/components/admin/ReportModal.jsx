@@ -48,18 +48,18 @@ const ClientInfoSection = memo(({ client }) => {
   if (!client) return null;
 
   return (
-    <section className="bg-linear-to-br from-indigo-50 to-indigo-100/50 dark:from-indigo-900/20 dark:to-indigo-900/10 rounded-lg p-5 border border-indigo-200 dark:border-indigo-800">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400" />
+    <section className="bg-linear-to-br from-indigo-50 to-indigo-100/50 rounded-lg p-5 border border-indigo-200">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-indigo-600" />
         Información del Cliente
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
         {fields.map((field, idx) => (
           <div key={idx} className="space-y-1">
-            <span className="font-medium text-gray-700 dark:text-gray-300">
+            <span className="font-medium text-gray-700">
               {field.label}
             </span>
-            <p className="text-gray-600 dark:text-gray-400 break-word">
+            <p className="text-gray-600 break-word">
               {field.value}
             </p>
           </div>
@@ -88,27 +88,27 @@ const PublicationDetailSection = memo(({ publication }) => {
   if (!publication) return null;
 
   return (
-    <section className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-300 dark:border-gray-700 print:bg-white print:shadow-none">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+    <section className="bg-white rounded-lg shadow-sm p-6 border border-gray-300 print:bg-white print:shadow-none">
+      <h2 className="text-2xl font-bold text-gray-900 text-center mb-6 pb-4 border-b border-gray-200">
         📋 Detalles de la Publicación
       </h2>
 
       <div className="space-y-5">
         {fields.map((field, idx) => (
           <div key={idx} className={field.span ? "sm:col-span-2" : ""}>
-            <span className="block font-semibold text-gray-800 dark:text-gray-200 mb-2">
+            <span className="block font-semibold text-gray-800 mb-2">
               {field.label}
             </span>
-            <p className="text-gray-700 dark:text-gray-400">{field.value}</p>
+            <p className="text-gray-700">{field.value}</p>
           </div>
         ))}
 
         {publication.content && (
-          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <span className="block font-semibold text-gray-800 dark:text-gray-200 mb-3">
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <span className="block font-semibold text-gray-800 mb-3">
               Contenido
             </span>
-            <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800/40 text-gray-700 dark:text-gray-300 whitespace-pre-line max-h-[300px] overflow-y-auto">
+            <div className="p-4 border border-gray-200 rounded-lg bg-gray-50 text-gray-700 whitespace-pre-line max-h-[300px] overflow-y-auto">
               {publication.content}
             </div>
           </div>
@@ -137,7 +137,7 @@ const MediaItem = memo(({ media, index, isVideo, isReel, mediaUrl }) => {
     window.matchMedia("print").matches;
 
   return (
-    <div className="relative rounded-lg overflow-hidden border-2 border-gray-300 dark:border-gray-600 bg-black shadow-md hover:shadow-lg transition-shadow duration-300 group min-h-[140px] max-h-[200px] flex items-center justify-center">
+    <div className="relative rounded-lg overflow-hidden border-2 border-gray-300 bg-black shadow-md hover:shadow-lg transition-shadow duration-300 group min-h-[140px] max-h-[200px] flex items-center justify-center">
       {isReel && (
         <div
           className="print:flex hidden w-full h-full items-center justify-center text-center px-3"
@@ -251,13 +251,13 @@ const ReportModal = ({ open, onClose, publication, client }) => {
       <div
         ref={modalRef}
         onClick={handleContentClick}
-        className="report-print-container bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col print:max-h-none print:overflow-visible print:shadow-none print:rounded-none print:bg-white animate-slideUp"
+        className="report-print-container bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col print:max-h-none print:overflow-visible print:shadow-none print:rounded-none print:bg-white animate-slideUp"
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between bg-linear-to-r from-gray-50 to-transparent dark:from-gray-700/50 dark:to-transparent">
+        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-linear-to-r from-gray-50 to-transparent">
           <div className="flex items-center gap-3">
-            <FileText className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            <FileText className="h-6 w-6 text-indigo-600" />
+            <h2 className="text-xl font-bold text-gray-900">
               Reporte de Publicación
             </h2>
           </div>
@@ -277,21 +277,21 @@ const ReportModal = ({ open, onClose, publication, client }) => {
           <PublicationDetailSection publication={publication} />
 
           {/* Multimedia */}
-          <section className="bg-gray-50 dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <ImageIcon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+          <section className="bg-gray-50 rounded-lg p-5 border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <ImageIcon className="w-5 h-5 text-indigo-600" />
               Multimedia
             </h3>
             {loadingMedia ? (
               <div className="flex flex-col items-center justify-center py-8">
-                <Loader2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400 animate-spin mb-2" />
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mb-2" />
+                <p className="text-sm text-gray-500">
                   Cargando archivos multimedia...
                 </p>
               </div>
             ) : mediaList.length === 0 ? (
-              <div className="text-center text-gray-500 dark:text-gray-400 py-10 flex flex-col items-center justify-center">
-                <Video className="w-10 h-10 mb-2 text-gray-400 dark:text-gray-600 opacity-50" />
+              <div className="text-center text-gray-500 py-10 flex flex-col items-center justify-center">
+                <Video className="w-10 h-10 mb-2 text-gray-400 opacity-50" />
                 <p className="text-sm">No hay multimedia asociada.</p>
               </div>
             ) : (
@@ -319,7 +319,7 @@ const ReportModal = ({ open, onClose, publication, client }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex justify-end gap-3 print:hidden">
+        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex justify-end gap-3 print:hidden">
           <Button onClick={onClose} variant="secondary">
             Cerrar
           </Button>

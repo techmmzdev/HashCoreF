@@ -18,13 +18,13 @@ import { ClientDashboardSkeleton } from "../../components/common/Skeleton";
 const StatCard = memo(
   ({ icon: IconComponent, label, value, bgColor, iconColor }) => {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-4 md:p-6 hover:shadow-lg transition-shadow">
+      <div className="bg-white rounded-lg shadow p-3 sm:p-4 md:p-6 hover:shadow-lg transition-shadow">
         <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-2">
           <div className="flex-1">
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-600">
               {label}
             </p>
-            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mt-1 sm:mt-2">
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mt-1 sm:mt-2">
               {value || 0}
             </p>
           </div>
@@ -46,10 +46,10 @@ const ActivityItem = memo(({ item, formatTimeAgo }) => (
   <div className="flex items-center space-x-2 sm:space-x-3">
     <div className={`w-2 h-2 ${item.color} rounded-full shrink-0`}></div>
     <div className="flex-1 min-w-0">
-      <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+      <p className="text-xs sm:text-sm font-medium text-gray-900 truncate">
         {item.action}
       </p>
-      <p className="text-xs text-gray-500 dark:text-gray-400">
+      <p className="text-xs text-gray-500">
         {formatTimeAgo(item.time)}
       </p>
     </div>
@@ -121,24 +121,24 @@ function ClientDashboard() {
         label: "Mis Publicaciones",
         icon: FileText,
         color: "amber",
-        bgColor: "bg-amber-100 dark:bg-amber-900/20",
-        iconColor: "text-amber-700 dark:text-amber-400",
+        bgColor: "bg-amber-100",
+        iconColor: "text-amber-700",
       },
       {
         key: "publishedPublications",
         label: "Editadas",
         icon: CheckCircle,
         color: "green",
-        bgColor: "bg-green-100 dark:bg-green-900/20",
-        iconColor: "text-green-600 dark:text-green-400",
+        bgColor: "bg-green-100",
+        iconColor: "text-green-600",
       },
       {
         key: "scheduledPublications",
         label: "Programadas",
         icon: Clock,
         color: "blue",
-        bgColor: "bg-blue-100 dark:bg-blue-900/20",
-        iconColor: "text-blue-600 dark:text-blue-400",
+        bgColor: "bg-blue-100",
+        iconColor: "text-blue-600",
       },
     ],
     []
@@ -151,8 +151,8 @@ function ClientDashboard() {
   if (error) {
     return (
       <div className="p-6">
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-          <p className="text-red-800 dark:text-red-200">{error}</p>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-red-800">{error}</p>
           <button
             onClick={loadDashboardData}
             className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
@@ -167,19 +167,19 @@ function ClientDashboard() {
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Welcome Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
+      <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
           ¡Hola, {user?.name}! 👋
         </h2>
-        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+        <p className="text-sm sm:text-base text-gray-600">
           Bienvenido a tu panel de gestión
         </p>
         <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
-          <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full font-medium">
+          <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full font-medium">
             Plan: {user?.plan || "BASIC"}
           </span>
           {user?.companyName && (
-            <span className="text-gray-600 dark:text-gray-400">
+            <span className="text-gray-600">
               {user.companyName}
             </span>
           )}
@@ -201,8 +201,8 @@ function ClientDashboard() {
       </div>
 
       {/* Actividad Reciente */}
-      <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4 flex items-center gap-2">
+      <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center gap-2">
           <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
           Actividad Reciente
         </h3>
@@ -218,7 +218,7 @@ function ClientDashboard() {
           </div>
         ) : (
           <div className="flex items-center justify-center h-[150px] sm:h-[200px]">
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-500">
               No hay actividad reciente
             </p>
           </div>
@@ -227,65 +227,65 @@ function ClientDashboard() {
 
       {/* Panel de Estadísticas Adicionales */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-        <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg">
-          <h4 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+          <h4 className="text-xs sm:text-sm font-medium text-gray-500 mb-2 sm:mb-3">
             Estado de Publicaciones
           </h4>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 flex items-center gap-1.5 sm:gap-2">
+              <span className="text-xs sm:text-sm text-gray-600 flex items-center gap-1.5 sm:gap-2">
                 <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-500" />
                 Editadas
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
+              <span className="text-xs sm:text-sm font-semibold text-gray-900">
                 {stats?.publishedPublications || 0}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 flex items-center gap-1.5 sm:gap-2">
+              <span className="text-xs sm:text-sm text-gray-600 flex items-center gap-1.5 sm:gap-2">
                 <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500" />
                 Programadas
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
+              <span className="text-xs sm:text-sm font-semibold text-gray-900">
                 {stats?.scheduledPublications || 0}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 flex items-center gap-1.5 sm:gap-2">
+              <span className="text-xs sm:text-sm text-gray-600 flex items-center gap-1.5 sm:gap-2">
                 <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
                 En Proceso
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
+              <span className="text-xs sm:text-sm font-semibold text-gray-900">
                 {stats?.draftPublications || 0}
               </span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg">
-          <h4 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+          <h4 className="text-xs sm:text-sm font-medium text-gray-500 mb-2 sm:mb-3">
             Mi Plan
           </h4>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+              <span className="text-xs sm:text-sm text-gray-600">
                 Plan Actual
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-amber-700 dark:text-amber-400">
+              <span className="text-xs sm:text-sm font-semibold text-amber-700">
                 {user?.plan || "BASIC"}
               </span>
             </div>
             {stats?.myInfo && (
               <>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                  <span className="text-xs sm:text-sm text-gray-600">
                     Estado
                   </span>
                   <span
                     className={`text-xs sm:text-sm font-semibold ${
                       stats.myInfo.status
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-red-600 dark:text-red-400"
+                        ? "text-green-600"
+                        : "text-red-600"
                     }`}
                   >
                     {stats.myInfo.status ? "Activo" : "Inactivo"}
@@ -296,24 +296,24 @@ function ClientDashboard() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg sm:col-span-2 md:col-span-1">
-          <h4 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg sm:col-span-2 md:col-span-1">
+          <h4 className="text-xs sm:text-sm font-medium text-gray-500 mb-2 sm:mb-3">
             Resumen
           </h4>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+              <span className="text-xs sm:text-sm text-gray-600">
                 Total Publicaciones
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
+              <span className="text-xs sm:text-sm font-semibold text-gray-900">
                 {stats?.totalPublications || 0}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+              <span className="text-xs sm:text-sm text-gray-600">
                 Activas este Mes
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400">
+              <span className="text-xs sm:text-sm font-semibold text-blue-600">
                 {stats?.publishedPublications || 0}
               </span>
             </div>

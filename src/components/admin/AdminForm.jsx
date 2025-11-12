@@ -104,13 +104,13 @@ const AdminForm = ({ isOpen, onClose, initialUser, onSubmit, isLoading }) => {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-h-[80vh] p-0 flex flex-col overflow-hidden mx-4 sm:mx-0"
+        className="relative w-full max-w-xl bg-white rounded-2xl shadow-xl max-h-[80vh] p-0 flex flex-col overflow-hidden mx-4 sm:mx-0"
         onClick={handleContentClick}
       >
         {/* Header */}
-        <div className="p-6 sm:p-8 flex items-center justify-between border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <Shield className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+        <div className="p-6 sm:p-8 flex items-center justify-between border-b border-gray-100 bg-white">
+          <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <Shield className="w-6 h-6 text-indigo-600" />
             {isEditing ? "Editar Administrador" : "Crear Administrador"}
           </h3>
           <Button
@@ -131,7 +131,7 @@ const AdminForm = ({ isOpen, onClose, initialUser, onSubmit, isLoading }) => {
           className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6"
         >
           <section>
-            <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
               👤 Información del Administrador
             </h4>
 
@@ -183,12 +183,12 @@ const AdminForm = ({ isOpen, onClose, initialUser, onSubmit, isLoading }) => {
 
               {/* Rol */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Rol
                 </label>
-                <div className="flex items-center px-4 py-2 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-lg">
-                  <Shield className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mr-2" />
-                  <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                <div className="flex items-center px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg">
+                  <Shield className="w-5 h-5 text-indigo-600 mr-2" />
+                  <span className="text-sm font-semibold text-gray-900">
                     ADMINISTRADOR
                   </span>
                 </div>
@@ -198,7 +198,7 @@ const AdminForm = ({ isOpen, onClose, initialUser, onSubmit, isLoading }) => {
         </form>
 
         {/* Footer */}
-        <div className="border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 flex justify-end gap-3">
+        <div className="border-t border-gray-100 bg-white p-4 sm:p-6 flex justify-end gap-3">
           <Button
             type="button"
             onClick={onClose}
