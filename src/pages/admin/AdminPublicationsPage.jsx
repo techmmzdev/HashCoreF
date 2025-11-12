@@ -1,5 +1,4 @@
-import { useState, useMemo, memo, useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import {
   Plus,
   ChevronLeft,
@@ -8,11 +7,10 @@ import {
   Search,
   Image,
   Calendar,
-  Loader2,
   AlertCircle,
   CheckCircle,
   Clock,
-  // MessageSquare,
+  MessageSquare,
   Play,
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -21,7 +19,7 @@ import { publicationService } from "@/services/publication";
 import { clientService } from "@/services/client";
 import PublicationForm from "@/components/admin/PublicationForm";
 import MediaModal from "@/components/admin/MediaModal";
-// import PublicationCommentsModal from "@/components/admin/PublicationCommentsModal";
+import PublicationCommentsModal from "@/components/admin/PublicationCommentsModal";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import { AdminPostsGridSkeleton } from "../../components/common/Skeleton";
 import { getMediaUrl } from "@/config/urls"; // Usar función centralizada
@@ -77,112 +75,106 @@ const StatCard = memo(({ label, value, icon: Icon, color, emoji }) => (
 
 StatCard.displayName = "StatCard";
 
-// onOpenComments
-const PublicationCard = memo(({ pub, onEdit, onDelete, onOpenMedia }) => {
-  const pubStatusUpper = useMemo(
-    () => (pub.status || "").toString().toUpperCase(),
-    [pub.status]
-  );
+const PublicationCard = memo(
+  ({ pub, onEdit, onDelete, onOpenMedia, onOpenComments }) => {
+    const pubStatusUpper = useMemo(
+      () => (pub.status || "").toString().toUpperCase(),
+      [pub.status]
+    );
 
-  const statusConfig = STATUS_CONFIG[pubStatusUpper];
-  const formattedDate = useMemo(
-    () =>
-      pub.created_at
-        ? new Date(pub.created_at).toLocaleDateString("es-ES", {
-            day: "2-digit",
-            month: "short",
-          })
-        : null,
-    [pub.created_at]
-  );
+    const statusConfig = STATUS_CONFIG[pubStatusUpper];
+    const formattedDate = useMemo(
+      () =>
+        pub.created_at
+          ? new Date(pub.created_at).toLocaleDateString("es-ES", {
+              day: "2-digit",
+              month: "short",
+            })
+          : null,
+      [pub.created_at]
+    );
 
-  const mediaUrl = useMemo(
-    () => (pub.media?.[0] ? getMediaUrl(pub.media[0].url) : null),
-    [pub.media]
-  );
+    const mediaUrl = useMemo(
+      () => (pub.media?.[0] ? getMediaUrl(pub.media[0].url) : null),
+      [pub.media]
+    );
 
-  return (
-    <div className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200">
-      {/* Preview Media */}
-      <div className="relative w-full h-48 bg-gray-900 overflow-hidden">
-        {pub.media?.[0] ? (
-          <>
-            {pub.media[0].media_type.startsWith("video") ? (
-              <>
-                <video
+    return (
+      <div className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200">
+        {/* Preview Media */}
+        <div className="relative w-full h-48 bg-gray-900 overflow-hidden">
+          {pub.media?.[0] ? (
+            <>
+              {pub.media[0].media_type.startsWith("video") ? (
+                <>
+                  <video
+                    src={mediaUrl}
+                    onError={(e) => {
+                      console.error("Error cargando video:", e.target.src);
+                      e.target.style.display = "none";
+                    }}
+                    className="w-full h-full object-contain"
+                    muted
+                    loop
+                    playsInline
+                    onMouseEnter={(e) => e.target.play()}
+                    onMouseLeave={(e) => {
+                      e.target.pause();
+                      e.target.currentTime = 0;
+                    }}
+                  />
+                </>
+              ) : pub.media[0].media_type.startsWith("image") ? (
+                <img
                   src={mediaUrl}
-                  onError={(e) => {
-                    console.error("Error cargando video:", e.target.src);
-                    e.target.style.display = "none";
-                  }}
+                  alt="preview"
                   className="w-full h-full object-contain"
-                  muted
-                  loop
-                  playsInline
-                  onMouseEnter={(e) => e.target.play()}
-                  onMouseLeave={(e) => {
-                    e.target.pause();
-                    e.target.currentTime = 0;
-                  }}
+                  loading="lazy"
                 />
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="bg-black/50 rounded-full p-4">
-                    <Play className="w-10 h-10 text-white fill-white" />
-                  </div>
-                </div>
-              </>
-            ) : pub.media[0].media_type.startsWith("image") ? (
-              <img
-                src={mediaUrl}
-                alt="preview"
-                className="w-full h-full object-contain"
-                loading="lazy"
-              />
-            ) : null}
-          </>
-        ) : (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center text-gray-500">
-              <Image className="w-12 h-12 mx-auto mb-2 opacity-30" />
-              <p className="text-sm">Sin multimedia</p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Contenido */}
-      <div className="p-3">
-        <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-1">
-          {pub.title || "Sin título"}
-        </h3>
-
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="flex items-center gap-2">
-            {pub.content_type && (
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700">
-                {pub.content_type}
-              </span>
-            )}
-            {statusConfig && (
-              <span
-                className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${statusConfig.bgClass}`}
-              >
-                {statusConfig.emoji}
-              </span>
-            )}
-          </div>
-          {formattedDate && (
-            <div className="flex items-center gap-1 text-xs text-gray-500">
-              <Calendar className="h-3 w-3" />
-              <span className="text-[10px]">{formattedDate}</span>
+              ) : null}
+            </>
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center text-gray-500">
+                <Image className="w-12 h-12 mx-auto mb-2 opacity-30" />
+                <p className="text-sm">Sin multimedia</p>
+              </div>
             </div>
           )}
         </div>
 
-        {/* Botones de Acción */}
-        <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
-          <div className="flex gap-2 pt-2 border-t border-gray-200">
-            {/*
+        {/* Contenido */}
+        <div className="p-3">
+          <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-1">
+            {pub.title || "Sin título"}
+          </h3>
+
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <div className="flex items-center gap-2">
+              {pub.content_type && (
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                  {pub.content_type}
+                </span>
+              )}
+              {statusConfig && (
+                <span
+                  className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${statusConfig.bgClass}`}
+                >
+                  {statusConfig.emoji}
+                </span>
+              )}
+            </div>
+            {formattedDate && (
+              <div className="flex items-center gap-1 text-xs text-gray-500">
+                <Calendar className="h-3 w-3" />
+                <span className="text-[10px]">{formattedDate}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Botones de Acción */}
+          <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+            <div className="flex gap-2 pt-2 border-t border-gray-200">
               <button
                 onClick={() => onOpenComments(pub)}
                 className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-blue-600 hover:text-blue-800 rounded-lg hover:bg-blue-50 transition"
@@ -190,69 +182,46 @@ const PublicationCard = memo(({ pub, onEdit, onDelete, onOpenMedia }) => {
               >
                 <MessageSquare className="h-4 w-4" />
               </button>
-              */}
-            <button
-              onClick={() => onOpenMedia(pub)}
-              className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-green-600 hover:text-green-800 rounded-lg hover:bg-green-50 transition"
-              title="Media"
-            >
-              <Image className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => onEdit(pub)}
-              className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-indigo-600 hover:text-indigo-800 rounded-lg hover:bg-indigo-50 transition"
-              title="Editar"
-            >
-              <Edit className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => onDelete(pub)}
-              className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-red-600 hover:text-red-800 rounded-lg hover:bg-red-50 transition"
-              title="Eliminar"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
+              <button
+                onClick={() => onOpenMedia(pub)}
+                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-green-600 hover:text-green-800 rounded-lg hover:bg-green-50 transition"
+                title="Media"
+              >
+                <Image className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => onEdit(pub)}
+                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-indigo-600 hover:text-indigo-800 rounded-lg hover:bg-indigo-50 transition"
+                title="Editar"
+              >
+                <Edit className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => onDelete(pub)}
+                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-red-600 hover:text-red-800 rounded-lg hover:bg-red-50 transition"
+                title="Eliminar"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 PublicationCard.displayName = "PublicationCard";
 
 const ClientPublicationsPage = () => {
-  // ...existing code...
+  const { clientId } = useParams();
   const navigate = useNavigate();
 
   // Estados
-  const { clientId } = useParams();
-
-  // React Query: carga de cliente
-  const {
-    data: client,
-    isLoading: loadingClient,
-    error: errorClient,
-  } = useQuery({
-    queryKey: ["client", clientId],
-    queryFn: () => clientService.getClientById(clientId),
-    enabled: !!clientId,
-  });
-
-  // React Query: carga de publicaciones
-  const {
-    data: publications = [],
-    isLoading: loadingPublications,
-    error: errorPublications,
-    refetch,
-  } = useQuery({
-    queryKey: ["publications", clientId],
-    queryFn: () => publicationService.getPublicationsByClient(clientId),
-    enabled: !!clientId,
-  });
-
-  const loading = loadingClient || loadingPublications;
-  const error = errorClient || errorPublications;
+  const [publications, setPublications] = useState([]);
+  const [client, setClient] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
@@ -264,8 +233,32 @@ const ClientPublicationsPage = () => {
   const [selectedPublicationForMedia, setSelectedPublicationForMedia] =
     useState(null);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false);
 
-  // Eliminado: fetchPublications y useEffect
+  // Fetch data
+  const fetchPublications = useCallback(async () => {
+    if (!clientId) return;
+    try {
+      setLoading(true);
+      setError(null);
+      const [clientData, publicationsData] = await Promise.all([
+        clientService.getClientById(clientId),
+        publicationService.getPublicationsByClient(clientId),
+      ]);
+      setClient(clientData);
+      setPublications(publicationsData || []);
+    } catch (err) {
+      console.error("Error al cargar publicaciones:", err);
+      setError("Error al cargar las publicaciones del cliente.");
+      toast.error("Error al cargar las publicaciones");
+    } finally {
+      setLoading(false);
+    }
+  }, [clientId]);
+
+  useEffect(() => {
+    fetchPublications();
+  }, [fetchPublications]);
 
   // Filtros
   const filteredPublications = useMemo(() => {
@@ -348,6 +341,11 @@ const ClientPublicationsPage = () => {
     setIsConfirmModalOpen(true);
   }, []);
 
+  const handleOpenCommentsModal = useCallback((publication) => {
+    setSelectedPublicationForMedia(publication);
+    setIsCommentsModalOpen(true);
+  }, []);
+
   const handleSearchChange = useCallback((e) => {
     setSearchTerm(e.target.value);
   }, []);
@@ -381,7 +379,7 @@ const ClientPublicationsPage = () => {
       }
 
       handleCloseFormModal();
-      await refetch();
+      await fetchPublications();
     } catch (err) {
       console.error("Error al guardar publicación:", err);
       toast.error(
@@ -401,7 +399,7 @@ const ClientPublicationsPage = () => {
       toast.success("Publicación eliminada con éxito");
       setIsConfirmModalOpen(false);
       setPublicationToEdit(null);
-      await refetch();
+      await fetchPublications();
     } catch (err) {
       console.error("Error al eliminar publicación:", err);
       toast.error(
@@ -426,7 +424,7 @@ const ClientPublicationsPage = () => {
           </div>
           <p className="text-red-500">{error}</p>
           <button
-            onClick={refetch}
+            onClick={fetchPublications}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
           >
             Reintentar
@@ -538,7 +536,7 @@ const ClientPublicationsPage = () => {
                 onEdit={handleOpenEdit}
                 onDelete={handleOpenConfirmDelete}
                 onOpenMedia={handleOpenMediaModal}
-                // onOpenComments={handleOpenCommentsModal}
+                onOpenComments={handleOpenCommentsModal}
               />
             ))}
           </div>
@@ -560,7 +558,7 @@ const ClientPublicationsPage = () => {
         publicationId={selectedPublicationForMedia?.id}
         isOpen={isMediaModalOpen}
         onClose={() => setIsMediaModalOpen(false)}
-        onUploaded={refetch}
+        onUploaded={fetchPublications}
       />
 
       <ConfirmationModal
@@ -578,13 +576,11 @@ const ClientPublicationsPage = () => {
         isLoading={isSubmitting}
       />
 
-      {/**
       <PublicationCommentsModal
         isOpen={isCommentsModalOpen}
         onClose={() => setIsCommentsModalOpen(false)}
         publication={selectedPublicationForMedia}
       />
-      */}
     </div>
   );
 };
