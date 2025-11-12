@@ -14,7 +14,7 @@ const CLIENT_NAVIGATION = [
 const ClientLayout = () => {
   const { user, logout, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [unreadNotifications] = useState(0);
+  // Eliminado unreadNotifications
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,17 +44,6 @@ const ClientLayout = () => {
     setSidebarOpen(false);
   }, [location.pathname]);
 
-  // TODO: Socket.IO listener - Descomentar cuando se implemente WebSocket
-  // useEffect(() => {
-  //   if (!socket) return;
-  //   const handleNewClientNotification = (data) => {
-  //     console.log("[ClientLayout] Notificación recibida:", data);
-  //     setUnreadNotifications((prev) => prev + 1);
-  //   };
-  //   socket.on("client_new_notification", handleNewClientNotification);
-  //   return () => socket.off("client_new_notification", handleNewClientNotification);
-  // }, [socket]);
-
   // Pantalla de carga
   if (loading) {
     return (
@@ -73,12 +62,7 @@ const ClientLayout = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header móvil fijo cuando sidebar está cerrado */}
       <div className={`${sidebarOpen ? "" : "sticky top-0 z-40"}`}>
-        <MobileHeader
-          onOpenSidebar={handleOpenSidebar}
-          notificationCount={unreadNotifications}
-          notificationLink="/client/comments"
-          userType="client"
-        />
+        <MobileHeader onOpenSidebar={handleOpenSidebar} userType="client" />
       </div>
 
       {/* Sidebar escritorio */}

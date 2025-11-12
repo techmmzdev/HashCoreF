@@ -6,18 +6,22 @@ import { AuthProvider } from "@/context/AuthContext";
 import AppRoutes from "@/routes/AppRoutes";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ErrorBoundary>
-      {/* Proveedores globales */}
-      <BrowserRouter>
-        <AuthProvider>
-          <AppRoutes />
-          {/* Toast notifications */}
-          <Toaster position="top-right" />
-        </AuthProvider>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AuthProvider>
+            <AppRoutes />
+            {/* Toast notifications */}
+            <Toaster position="top-right" />
+          </AuthProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
     </ErrorBoundary>
   </React.StrictMode>
 );

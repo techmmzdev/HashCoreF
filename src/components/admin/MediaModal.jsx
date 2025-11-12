@@ -37,13 +37,14 @@ const MediaItemPreview = ({ media, handleDelete }) => {
             controls
             className="w-full h-auto max-h-[500px] object-contain"
             playsInline
-            autoPlay
+            preload="none"
           />
         ) : (
           <img
             src={mediaUrl}
             alt="media"
             className="w-full h-auto max-h-[500px] object-contain"
+            loading="lazy"
           />
         )}
       </div>
@@ -84,7 +85,6 @@ const MediaModal = ({
   const [mediaList, setMediaList] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [publishNow, setPublishNow] = useState(false);
   const [typeMismatch, setTypeMismatch] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -96,7 +96,6 @@ const MediaModal = ({
     if (!isOpen) {
       setSelectedFile(null);
       setTypeMismatch(false);
-      setPublishNow(false);
       setLoading(false);
       if (fileInputRef.current) fileInputRef.current.value = null;
     }
@@ -174,8 +173,7 @@ const MediaModal = ({
 
       const uploadPromise = mediaService.uploadMedia(
         publicationId,
-        selectedFile,
-        publishNow
+        selectedFile
       );
 
       await toast.promise(uploadPromise, {
@@ -228,6 +226,7 @@ const MediaModal = ({
       setMediaToDelete(null);
       await fetchMedia();
       onUploaded?.();
+      onClose?.();
     } catch (err) {
       console.error(err);
     } finally {
@@ -328,30 +327,17 @@ const MediaModal = ({
               </label>
 
               <div className="flex gap-2 items-center">
-                <label className="flex items-center gap-2 cursor-pointer flex-1 min-w-0">
-                  <input
-                    type="checkbox"
-                    checked={publishNow}
-                    onChange={(e) => setPublishNow(e.target.checked)}
-                    className="accent-indigo-500 w-4 h-4 shrink-0"
-                    disabled={mediaList.length > 0 || isUploading}
-                  />
-                  <span className="text-xs text-gray-700 whitespace-nowrap truncate">
-                    Publicar ahora
-                  </span>
-                </label>
-
                 <Button
                   onClick={handleUpload}
                   disabled={
                     !selectedFile ||
-                    isUploading ||
+                    loading ||
                     mediaList.length > 0 ||
                     typeMismatch
                   }
                   variant={
                     !selectedFile ||
-                    isUploading ||
+                    loading ||
                     mediaList.length > 0 ||
                     typeMismatch
                       ? "secondary"
@@ -360,18 +346,14 @@ const MediaModal = ({
                   size="sm"
                   className="px-4 py-2 shrink-0"
                   icon={
-                    isUploading ? (
+                    loading ? (
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <CheckCircle className="w-4 h-4" />
                     )
                   }
                 >
-                  {isUploading ? (
-                    <span className="hidden sm:inline">Subiendo</span>
-                  ) : (
-                    "Subir"
-                  )}
+                  {loading ? "Subiendo" : "Subir"}
                 </Button>
               </div>
             </div>

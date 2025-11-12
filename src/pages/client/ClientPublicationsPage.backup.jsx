@@ -1,6 +1,10 @@
+// Copia de seguridad antes de migrar a React Query
+// Archivo original: ClientPublicationsPage.jsx
+// Fecha de copia: 12/11/2025
+
+// ...aquí irá el contenido original...
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useMemo, useCallback, memo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState, useMemo, useCallback, memo } from "react";
 import { publicationService } from "@/services/publication";
 import {
   FileText,
@@ -271,26 +275,35 @@ ActionButton.displayName = "ActionButton";
 
 // Main Component
 const ClientPublicationsPage = () => {
+  const [publications, setPublications] = useState([]);
   const [filter, setFilter] = useState("ALL");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedMedia, setSelectedMedia] = useState(null);
   const [selectedWhatsApp, setSelectedWhatsApp] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // React Query para publicaciones
-  const {
-    data: publications = [],
-    isLoading: loading,
-    isError,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["clientPublications"],
-    queryFn: publicationService.getMyPublications,
-    staleTime: 1000 * 60 * 2, // 2 minutos
-    refetchOnWindowFocus: true,
-  });
+  // Fetch publications
+  const fetchPublications = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await publicationService.getMyPublications();
+      setPublications(data || []);
+    } catch (err) {
+      console.error("Error al cargar publicaciones:", err);
+      setError("Error al cargar publicaciones");
+      toast.error(
+        err?.message || "Error al cargar tus publicaciones. Intenta de nuevo."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  // El fetch y loading/error ahora lo maneja React Query
+  useEffect(() => {
+    fetchPublications();
+  }, [fetchPublications]);
 
   // Prevent scroll when modal is open
   useEffect(() => {
@@ -403,7 +416,7 @@ const ClientPublicationsPage = () => {
   }
 
   // Error state
-  if (isError) {
+  if (error) {
     return (
       <div className="min-h-0 flex items-center justify-center bg-linear-to-br from-gray-50 to-gray-100 p-6">
         <div className="p-8 rounded-xl bg-red-50 border border-red-300 text-center max-w-md">
@@ -411,11 +424,9 @@ const ClientPublicationsPage = () => {
             <AlertCircle className="h-6 w-6 text-red-600" />
             <p className="text-red-600 font-semibold">Error</p>
           </div>
-          <p className="text-red-500 text-sm mb-4">
-            {error?.message || "Error al cargar publicaciones"}
-          </p>
+          <p className="text-red-500 text-sm mb-4">{error}</p>
           <button
-            onClick={refetch}
+            onClick={fetchPublications}
             className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
           >
             Reintentar

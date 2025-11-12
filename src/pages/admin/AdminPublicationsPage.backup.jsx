@@ -1,5 +1,8 @@
-import { useState, useMemo, memo, useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
+// Copia de seguridad antes de migrar a React Query
+// Archivo original: AdminPublicationsPage.jsx
+// Fecha de copia: 12/11/2025
+
+import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import {
   Plus,
   ChevronLeft,
@@ -222,37 +225,14 @@ const PublicationCard = memo(({ pub, onEdit, onDelete, onOpenMedia }) => {
 PublicationCard.displayName = "PublicationCard";
 
 const ClientPublicationsPage = () => {
-  // ...existing code...
+  const { clientId } = useParams();
   const navigate = useNavigate();
 
   // Estados
-  const { clientId } = useParams();
-
-  // React Query: carga de cliente
-  const {
-    data: client,
-    isLoading: loadingClient,
-    error: errorClient,
-  } = useQuery({
-    queryKey: ["client", clientId],
-    queryFn: () => clientService.getClientById(clientId),
-    enabled: !!clientId,
-  });
-
-  // React Query: carga de publicaciones
-  const {
-    data: publications = [],
-    isLoading: loadingPublications,
-    error: errorPublications,
-    refetch,
-  } = useQuery({
-    queryKey: ["publications", clientId],
-    queryFn: () => publicationService.getPublicationsByClient(clientId),
-    enabled: !!clientId,
-  });
-
-  const loading = loadingClient || loadingPublications;
-  const error = errorClient || errorPublications;
+  const [publications, setPublications] = useState([]);
+  const [client, setClient] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
@@ -265,7 +245,30 @@ const ClientPublicationsPage = () => {
     useState(null);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-  // Eliminado: fetchPublications y useEffect
+  // Fetch data
+  const fetchPublications = useCallback(async () => {
+    if (!clientId) return;
+    try {
+      setLoading(true);
+      setError(null);
+      const [clientData, publicationsData] = await Promise.all([
+        clientService.getClientById(clientId),
+        publicationService.getPublicationsByClient(clientId),
+      ]);
+      setClient(clientData);
+      setPublications(publicationsData || []);
+    } catch (err) {
+      console.error("Error al cargar publicaciones:", err);
+      setError("Error al cargar las publicaciones del cliente.");
+      toast.error("Error al cargar las publicaciones");
+    } finally {
+      setLoading(false);
+    }
+  }, [clientId]);
+
+  useEffect(() => {
+    fetchPublications();
+  }, [fetchPublications]);
 
   // Filtros
   const filteredPublications = useMemo(() => {
@@ -381,7 +384,7 @@ const ClientPublicationsPage = () => {
       }
 
       handleCloseFormModal();
-      await refetch();
+      await fetchPublications();
     } catch (err) {
       console.error("Error al guardar publicación:", err);
       toast.error(
@@ -401,7 +404,7 @@ const ClientPublicationsPage = () => {
       toast.success("Publicación eliminada con éxito");
       setIsConfirmModalOpen(false);
       setPublicationToEdit(null);
-      await refetch();
+      await fetchPublications();
     } catch (err) {
       console.error("Error al eliminar publicación:", err);
       toast.error(
@@ -426,7 +429,7 @@ const ClientPublicationsPage = () => {
           </div>
           <p className="text-red-500">{error}</p>
           <button
-            onClick={refetch}
+            onClick={fetchPublications}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
           >
             Reintentar
@@ -560,7 +563,7 @@ const ClientPublicationsPage = () => {
         publicationId={selectedPublicationForMedia?.id}
         isOpen={isMediaModalOpen}
         onClose={() => setIsMediaModalOpen(false)}
-        onUploaded={refetch}
+        onUploaded={fetchPublications}
       />
 
       <ConfirmationModal

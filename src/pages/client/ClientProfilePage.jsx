@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import { clientService } from "@/services/client";
 import { userService } from "@/services/user";
@@ -92,11 +93,13 @@ function ClientProfilePage() {
     try {
       await clientService.updateMyClientInfo(formData);
       await loadClientProfile();
+      toast.success("Perfil actualizado exitosamente");
       setSuccess("Perfil actualizado exitosamente");
       setIsEditing(false);
       setTimeout(() => setSuccess(null), 5000);
     } catch (err) {
       console.error("Error actualizando perfil:", err);
+      toast.error(err.message || "Error al actualizar el perfil");
       setError(err.message || "Error al actualizar el perfil");
     } finally {
       setSaving(false);
@@ -121,21 +124,25 @@ function ClientProfilePage() {
       !passwordData.newPassword ||
       !passwordData.confirmPassword
     ) {
+      toast.error("Todos los campos son obligatorios");
       setPasswordError("Todos los campos son obligatorios");
       return;
     }
 
     if (passwordData.newPassword.length < 6) {
+      toast.error("La nueva contraseña debe tener al menos 6 caracteres");
       setPasswordError("La nueva contraseña debe tener al menos 6 caracteres");
       return;
     }
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
+      toast.error("Las contraseñas no coinciden");
       setPasswordError("Las contraseñas no coinciden");
       return;
     }
 
     if (passwordData.currentPassword === passwordData.newPassword) {
+      toast.error("La nueva contraseña debe ser diferente a la actual");
       setPasswordError("La nueva contraseña debe ser diferente a la actual");
       return;
     }
@@ -147,6 +154,7 @@ function ClientProfilePage() {
         passwordData.currentPassword,
         passwordData.newPassword
       );
+      toast.success("Contraseña actualizada exitosamente");
       setPasswordSuccess("Contraseña actualizada exitosamente");
       setPasswordData({
         currentPassword: "",
@@ -156,6 +164,7 @@ function ClientProfilePage() {
       setTimeout(() => setPasswordSuccess(null), 5000);
     } catch (err) {
       console.error("Error cambiando contraseña:", err);
+      toast.error(err.message || "Error al cambiar la contraseña");
       setPasswordError(err.message || "Error al cambiar la contraseña");
     } finally {
       setSavingPassword(false);

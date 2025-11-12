@@ -77,13 +77,14 @@ const ClientMediaModal = ({ isOpen, onClose, publication }) => {
                     controls
                     className="max-h-[60vh] sm:max-h-[75vh] max-w-full rounded-lg sm:rounded-xl shadow-lg object-contain"
                     playsInline
-                    autoPlay
+                    preload="none"
                   />
                 ) : (
                   <img
                     src={mediaUrl}
                     alt={media?.name || "media"}
                     className="max-h-[60vh] sm:max-h-[75vh] max-w-full rounded-lg sm:rounded-xl shadow-lg object-contain"
+                    loading="lazy"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = "/placeholder-image.png";

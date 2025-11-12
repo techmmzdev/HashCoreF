@@ -1,6 +1,11 @@
+// Copia de seguridad antes de migrar a React Query
+// Archivo original: ClientDashboard.jsx
+// Fecha de copia: 12/11/2025
+
+// ...aquí irá el contenido original...
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useMemo, useCallback, memo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import { useAuth } from "@/context/AuthContext";
 import {
   FileText,
@@ -56,35 +61,41 @@ ActivityItem.displayName = "ActivityItem";
 
 function ClientDashboard() {
   const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState(null);
+  const [recentActivity, setRecentActivity] = useState([]);
+  const [error, setError] = useState(null);
 
-  // React Query para dashboard cliente
-  const {
-    data,
-    isLoading: loading,
-    isError,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["clientDashboard", user?.clientId],
-    queryFn: async () => {
-      if (!user?.clientId)
-        throw new Error("No se encontró información del cliente");
+  useEffect(() => {
+    if (!user) return; // 🛑 evita peticiones si ya no hay usuario logueado
+    loadDashboardData();
+  }, [user]);
+
+  const loadDashboardData = useCallback(async () => {
+    if (!user?.clientId) {
+      setError("No se encontró información del cliente");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
       const [statsData, activityData] = await Promise.all([
         clientDashboardService.getClientStats(user.clientId),
         clientDashboardService.getRecentActivity(user.clientId),
       ]);
-      return {
-        stats: statsData,
-        recentActivity: activityData,
-      };
-    },
-    enabled: !!user?.clientId,
-    staleTime: 1000 * 60 * 2,
-    refetchOnWindowFocus: true,
-  });
 
-  const stats = data?.stats || null;
-  const recentActivity = data?.recentActivity || [];
+      setStats(statsData);
+      setRecentActivity(activityData);
+    } catch (err) {
+      console.error("Error cargando dashboard:", err);
+      setError("Error al cargar los datos del dashboard");
+    } finally {
+      setLoading(false);
+    }
+  }, [user?.clientId]);
 
   // Helper optimizado para formatear tiempo relativo
   const formatTimeAgo = useCallback((date) => {
@@ -138,15 +149,13 @@ function ClientDashboard() {
     return <ClientDashboardSkeleton />;
   }
 
-  if (isError) {
+  if (error) {
     return (
       <div className="p-6">
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800">
-            {error?.message || "Error al cargar los datos del dashboard"}
-          </p>
+          <p className="text-red-800">{error}</p>
           <button
-            onClick={refetch}
+            onClick={loadDashboardData}
             className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
           >
             Reintentar

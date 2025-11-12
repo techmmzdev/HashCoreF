@@ -4,8 +4,7 @@ import AppLogo from "./AppLogo";
 
 const MobileHeader = ({
   onOpenSidebar,
-  notificationCount = 0,
-  notificationLink = "#",
+  // notificationCount y notificationLink eliminados
   userType = "client",
 }) => {
   return (
@@ -44,33 +43,7 @@ const MobileHeader = ({
       </div>
 
       <div className="flex items-center gap-2">
-        {/* Notificaciones */}
-        {userType === "client" ? (
-          <Link
-            to={notificationLink}
-            className="relative p-2 rounded-md text-gray-600 hover:bg-gray-100"
-            aria-label="Notificaciones"
-          >
-            <Bell className="w-5 h-5" />
-            {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                {notificationCount}
-              </span>
-            )}
-          </Link>
-        ) : (
-          <button
-            className="p-2 rounded-md text-gray-600 hover:bg-gray-100 relative"
-            aria-label="Notificaciones"
-          >
-            <Bell className="w-5 h-5" />
-            {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                {notificationCount}
-              </span>
-            )}
-          </button>
-        )}
+        {/* Ícono de notificaciones eliminado */}
       </div>
     </header>
   );

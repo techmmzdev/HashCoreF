@@ -21,7 +21,7 @@ const NAVIGATION_ITEMS = [
 const AdminLayout = () => {
   const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [pendingPublicationsCount] = useState(0);
+  // Eliminado pendingPublicationsCount
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,7 +47,6 @@ const AdminLayout = () => {
       <div className={`${sidebarOpen ? "" : "sticky top-0 z-40"}`}>
         <MobileHeader
           onOpenSidebar={() => setSidebarOpen(true)}
-          notificationCount={pendingPublicationsCount}
           userType="admin"
         />
       </div>

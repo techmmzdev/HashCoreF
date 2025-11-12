@@ -1,5 +1,9 @@
-import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+// Copia de seguridad antes de migrar a React Query
+// Archivo original: AdminDashboard.jsx
+// Fecha de copia: 12/11/2025
+
+// ...aquí irá el contenido original...
+import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Users,
   FileText,
@@ -66,44 +70,12 @@ const formatTimeAgo = (date) => {
 };
 
 const AdminDashboard = () => {
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState(null);
+  const [monthlyData, setMonthlyData] = useState([]);
+  const [recentActivity, setRecentActivity] = useState([]);
+  const [error, setError] = useState(null);
   const { user } = useAuth();
-
-  // React Query para dashboard
-  const {
-    data,
-    isLoading: loading,
-    isError,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["adminDashboard", user?.id],
-    queryFn: async () => {
-      if (!user) return null;
-      const [statsData, monthlyDataRes, activityData] = await Promise.all([
-        dashboardService.getAdminStats(),
-        dashboardService.getMonthlyData(),
-        dashboardService.getRecentActivity(),
-      ]);
-      // Combinar datos mensuales para el gráfico
-      const combined = monthlyDataRes.monthlyPublications.map((pub, idx) => ({
-        mes: pub.mes,
-        publicaciones: pub.value,
-        usuarios: monthlyDataRes.monthlyUsers[idx]?.value || 0,
-      }));
-      return {
-        stats: statsData,
-        monthlyData: combined,
-        recentActivity: activityData,
-      };
-    },
-    enabled: !!user,
-    staleTime: 1000 * 60 * 2,
-    refetchOnWindowFocus: true,
-  });
-
-  const stats = data?.stats || null;
-  const monthlyData = data?.monthlyData || [];
-  const recentActivity = data?.recentActivity || [];
 
   const chartTheme = useMemo(
     () => ({
@@ -118,7 +90,40 @@ const AdminDashboard = () => {
     []
   );
 
-  // Eliminado: función y efecto de carga manual, ahora todo lo maneja React Query
+  const loadDashboardData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const [statsData, monthlyDataRes, activityData] = await Promise.all([
+        dashboardService.getAdminStats(),
+        dashboardService.getMonthlyData(),
+        dashboardService.getRecentActivity(),
+      ]);
+
+      setStats(statsData);
+      setRecentActivity(activityData);
+
+      // Combinar datos mensuales para el gráfico
+      const combined = monthlyDataRes.monthlyPublications.map((pub, idx) => ({
+        mes: pub.mes,
+        publicaciones: pub.value,
+        usuarios: monthlyDataRes.monthlyUsers[idx]?.value || 0,
+      }));
+
+      setMonthlyData(combined);
+    } catch (err) {
+      console.error("Error cargando dashboard:", err);
+      setError("Error al cargar los datos del dashboard");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!user) return; // 🔒 Evita peticiones si no hay usuario logueado
+    loadDashboardData();
+  }, [loadDashboardData, user]);
 
   const planDistribution = useMemo(() => {
     if (!stats) return [];
@@ -209,15 +214,13 @@ const AdminDashboard = () => {
     return <AdminDashboardSkeleton />;
   }
 
-  if (isError) {
+  if (error) {
     return (
       <div className="p-6">
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800">
-            {error?.message || "Error al cargar los datos del dashboard"}
-          </p>
+          <p className="text-red-800">{error}</p>
           <button
-            onClick={refetch}
+            onClick={loadDashboardData}
             className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
           >
             Reintentar

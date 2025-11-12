@@ -1,3 +1,8 @@
+// Copia de seguridad antes de migrar a React Query
+// Archivo original: AdminClientsPage.jsx
+// Fecha de copia: 12/11/2025
+
+// ...aquí irá el contenido original...
 import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import {
   Plus,
@@ -17,8 +22,11 @@ import AdminClientCardsView from "@/components/admin/AdminClientCardsView";
 import AdminClientForm from "@/components/admin/AdminClientForm";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import { ClientsTableSkeleton } from "../../components/common/Skeleton";
-import { useQuery } from "@tanstack/react-query";
 
+/**
+ * Componente memoizado para las tarjetas de estadísticas
+ * Solo se re-renderiza si cambian sus props (stat)
+ */
 const StatCard = memo(({ stat }) => {
   const Icon = stat.icon;
   return (
@@ -88,51 +96,13 @@ const FILTER_OPTIONS = {
   ],
 };
 
-const transformClientsToUsers = (clients) =>
-  clients.map((client) => ({
-    id: client.user?.id,
-    email: client.user?.email,
-    name: client.user?.name,
-    role: client.user?.role,
-    isActive: client.status,
-    created_at: client.created_at,
-    updated_at: client.updated_at,
-    clients: [
-      {
-        id: client.id,
-        company_name: client.company_name,
-        ruc: client.ruc,
-        contact_email: client.contact_email,
-        contact_phone: client.contact_phone,
-        status: client.status,
-        plan: client.plan || "BASIC",
-      },
-    ],
-  }));
-
 const AdminClientsPage = () => {
-  // Data
   const { isAdmin } = useAuth();
 
-  // React Query para clientes
-  const {
-    data: clientsRaw = [],
-    isLoading: loading,
-    isError,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["adminClients"],
-    queryFn: clientService.getAllClients,
-    enabled: isAdmin,
-    staleTime: 1000 * 60 * 2, // 2 minutos
-    refetchOnWindowFocus: true,
-  });
-  // Transformar datos para la vista
-  const clients = useMemo(
-    () => transformClientsToUsers(clientsRaw),
-    [clientsRaw]
-  );
+  // Data
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Filters & pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -152,6 +122,31 @@ const AdminClientsPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
+  const transformClientsToUsers = useCallback(
+    (clients) =>
+      clients.map((client) => ({
+        id: client.user?.id,
+        email: client.user?.email,
+        name: client.user?.name,
+        role: client.user?.role,
+        isActive: client.status,
+        created_at: client.created_at,
+        updated_at: client.updated_at,
+        clients: [
+          {
+            id: client.id,
+            company_name: client.company_name,
+            ruc: client.ruc,
+            contact_email: client.contact_email,
+            contact_phone: client.contact_phone,
+            status: client.status,
+            plan: client.plan || "BASIC",
+          },
+        ],
+      })),
+    []
+  );
+
   useEffect(() => {
     if (isFormModalOpen) {
       document.body.style.overflow = "hidden";
@@ -162,6 +157,43 @@ const AdminClientsPage = () => {
       document.body.style.overflow = "";
     };
   }, [isFormModalOpen]);
+
+  // Fetch clients
+  const fetchClients = useCallback(async () => {
+    if (!isAdmin) {
+      setError("Acceso denegado. Se requiere rol de Administrador.");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await clientService.getAllClients();
+      setClients(transformClientsToUsers(data || []));
+    } catch (err) {
+      console.error("Error al obtener clientes:", err);
+
+      let errorMsg =
+        "Error al cargar la lista de clientes. Verifica el servidor.";
+      if (typeof err === "string") {
+        errorMsg = err;
+      } else if (err?.message) {
+        errorMsg = err.message;
+      } else if (err?.response?.data?.message) {
+        errorMsg = err.response.data.message;
+      }
+
+      setError(errorMsg);
+      setClients([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [isAdmin, transformClientsToUsers]);
+
+  useEffect(() => {
+    fetchClients();
+  }, [fetchClients]);
 
   // Debounce search
   useEffect(() => {
@@ -282,7 +314,7 @@ const AdminClientsPage = () => {
         );
       }
 
-      await refetch();
+      await fetchClients();
       handleCloseFormModal();
     } catch (err) {
       console.error("Error al guardar cliente:", err);
@@ -343,7 +375,7 @@ const AdminClientsPage = () => {
         icon: "🗑️",
       });
 
-      await refetch();
+      await fetchClients();
     } catch (err) {
       console.error("Error eliminando cliente:", err);
 
@@ -364,36 +396,11 @@ const AdminClientsPage = () => {
       setIsDeleteConfirmOpen(false);
       setUserToDelete(null);
     }
-  }, [userToDelete, refetch]);
+  }, [userToDelete, fetchClients]);
 
   // Loading state
   if (loading) {
     return <ClientsTableSkeleton />;
-  }
-
-  // Error state
-  if (isError) {
-    return (
-      <div className="p-6 bg-red-50 border border-red-200 rounded-xl">
-        <div className="flex items-start gap-3">
-          <UserX className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
-          <div>
-            <p className="font-semibold text-red-900">
-              Error al cargar los clientes
-            </p>
-            <p className="text-red-800 text-sm mt-1">
-              {error?.message || "Error al cargar clientes"}
-            </p>
-            <button
-              onClick={refetch}
-              className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
-            >
-              Reintentar
-            </button>
-          </div>
-        </div>
-      </div>
-    );
   }
 
   // Error state
@@ -408,7 +415,7 @@ const AdminClientsPage = () => {
             </p>
             <p className="text-red-800 text-sm mt-1">{error}</p>
             <button
-              onClick={refetch}
+              onClick={fetchClients}
               className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
             >
               Reintentar

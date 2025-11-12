@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import {
   Calendar,
   Plus,
@@ -96,12 +97,12 @@ const CalendarPage = () => {
   const confirmDelete = async () => {
     try {
       await calendarService.deleteNote(noteToDelete.id);
-      setSuccess("Nota eliminada exitosamente");
+      toast.success("Nota eliminada exitosamente");
       loadNotes();
       setIsConfirmModalOpen(false);
       setNoteToDelete(null);
     } catch {
-      setError("Error al eliminar la nota");
+      toast.error("Error al eliminar la nota");
     }
   };
 
@@ -109,7 +110,7 @@ const CalendarPage = () => {
     setIsNoteModalOpen(false);
     setEditingNote(null);
     loadNotes();
-    setSuccess(editingNote ? "Nota actualizada" : "Nota creada");
+    toast.success(editingNote ? "Nota actualizada" : "Nota creada");
   };
 
   const navigateMonth = (direction) => {
@@ -379,16 +380,12 @@ const CalendarPage = () => {
             {loading ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
-                <p className="text-gray-600 mt-2">
-                  Cargando...
-                </p>
+                <p className="text-gray-600 mt-2">Cargando...</p>
               </div>
             ) : filteredNotes.length === 0 ? (
               <div className="text-center py-8">
                 <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600">
-                  No hay notas para mostrar
-                </p>
+                <p className="text-gray-600">No hay notas para mostrar</p>
                 <button
                   onClick={handleCreateNote}
                   className="mt-4 text-indigo-600 hover:text-indigo-700 font-medium"
