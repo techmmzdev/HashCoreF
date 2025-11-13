@@ -82,25 +82,33 @@ export function AuthProvider({ children }) {
   // Verificar token al cargar la aplicación
   useEffect(() => {
     const initializeAuth = async () => {
-      const token = localStorage.getItem("token");
+      let token = sessionStorage.getItem("token");
+
+      if (!token) {
+        // Intentar refrescar el token usando la cookie httpOnly
+        try {
+          const response = await authService.refreshToken();
+          token = response.token;
+          if (token) {
+            sessionStorage.setItem("token", token);
+          }
+        } catch {
+          dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
+          return;
+        }
+      }
 
       if (token) {
         try {
-          // Decodificar el token para obtener la información del usuario
           const userData = decodeToken(token);
-
           if (userData) {
-            // Token válido, verificar con el backend
             await authService.verifyToken();
             dispatch({ type: AUTH_ACTIONS.VERIFY_TOKEN, payload: userData });
           } else {
-            // Token expirado o inválido
             await authService.logout();
             dispatch({ type: AUTH_ACTIONS.LOGOUT });
           }
-        } catch (error) {
-          // Error al verificar con el backend
-          console.error("Error al verificar token:", error);
+        } catch {
           await authService.logout();
           dispatch({ type: AUTH_ACTIONS.LOGOUT });
         }

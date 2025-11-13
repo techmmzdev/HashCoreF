@@ -14,7 +14,7 @@ const apiClient = axios.create({
 // Interceptor para agregar token automáticamente
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -32,8 +32,8 @@ apiClient.interceptors.response.use(
     // Manejo de errores de autenticación
     if (error.response?.status === 401) {
       // Token inválido o expirado
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
 
       // Solo redirigir si no estamos ya en login
       if (window.location.pathname !== "/login") {

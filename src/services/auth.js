@@ -10,8 +10,8 @@ export const authService = {
       });
 
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("user", JSON.stringify(response.data.user));
       }
 
       return response.data;
@@ -27,8 +27,8 @@ export const authService = {
     } catch (error) {
       console.error("Error during logout:", error);
     } finally {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
     }
   },
 
@@ -48,7 +48,7 @@ export const authService = {
       const response = await apiClient.post("/auth/refresh");
 
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("token", response.data.token);
       }
 
       return response.data;
@@ -57,14 +57,14 @@ export const authService = {
     }
   },
 
-  // Obtener usuario actual del localStorage
+  // Obtener usuario actual del sessionStorage
   getCurrentUser() {
-    const user = localStorage.getItem("user");
+    const user = sessionStorage.getItem("user");
     return user ? JSON.parse(user) : null;
   },
 
   // Verificar si está autenticado
   isAuthenticated() {
-    return !!localStorage.getItem("token");
+    return !!sessionStorage.getItem("token");
   },
 };

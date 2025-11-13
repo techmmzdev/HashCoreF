@@ -37,9 +37,6 @@ export const clientDashboardService = {
       const publishedPublications = publications.filter(
         (p) => p.status === "PUBLISHED"
       ).length;
-      const draftPublications = publications.filter(
-        (p) => p.status === "DRAFT"
-      ).length;
       const scheduledPublications = publications.filter(
         (p) => p.status === "SCHEDULED"
       ).length;
@@ -61,7 +58,6 @@ export const clientDashboardService = {
         myInfo,
         totalPublications,
         publishedPublications,
-        draftPublications,
         scheduledPublications,
         currentMonthEvents,
         upcomingEventsCount,
@@ -140,7 +136,7 @@ export const clientDashboardService = {
                 ? "editada"
                 : pub.status === "SCHEDULED"
                 ? "programada"
-                : "en proceso"
+                : ""
             }: ${pub.title || "Sin título"}`,
             time: pub.created_at,
             color:

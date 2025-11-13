@@ -1,6 +1,5 @@
-// Copia de seguridad antes de migrar a React Query
-// Archivo original: AdminPublicationsPage.jsx
-// Fecha de copia: 12/11/2025
+// Backup de AdminPublicationsPage.jsx
+
 import { useState, useCallback, useMemo, memo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {

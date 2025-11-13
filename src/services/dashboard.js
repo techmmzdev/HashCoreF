@@ -36,10 +36,6 @@ export const dashboardService = {
       const totalClients = clients.length;
       const totalPublications = publications.length;
 
-      // Contar por status de publicaciones
-      const draftPublications = publications.filter(
-        (p) => p.status === "DRAFT"
-      ).length;
       const scheduledPublications = publications.filter(
         (p) => p.status === "SCHEDULED"
       ).length;
@@ -70,7 +66,6 @@ export const dashboardService = {
         totalClients,
         totalPublications,
         activeClients,
-        draftPublications,
         scheduledPublications,
         publishedPublications,
         basicPlan,

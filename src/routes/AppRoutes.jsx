@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import ScrollToTop from "@/components/common/ScrollToTop";
 import { useAuth } from "@/context/AuthContext";
 
 // Pages
@@ -29,74 +30,77 @@ function AppRoutes() {
   const { isAuthenticated, isAdmin, isClient } = useAuth();
 
   return (
-    <Routes>
-      {/* Ruta raíz - Redirige según autenticación */}
-      <Route
-        path="/"
-        element={
-          isAuthenticated ? (
-            isAdmin ? (
-              <Navigate to="/admin" replace />
-            ) : isClient ? (
-              <Navigate to="/client" replace />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          ) : (
-            <HomePage/>
-          )
-        }
-      />
-
-      {/* Login - Accesible solo si NO está autenticado */}
-      <Route path="/login" element={<LoginPage />} />
-
-      {/* Admin Routes - Solo ADMIN */}
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute adminOnly>
-            <AdminLayout />
-          </ProtectedRoute>
-        }
-      >
-        {/* Dashboard principal del admin */}
-        <Route index element={<AdminDashboard />} />
-        <Route path="clients" element={<AdminClientsPage />} />
+    <>
+      <ScrollToTop />
+      <Routes>
+        {/* Ruta raíz - Redirige según autenticación */}
         <Route
-          path="clients/:clientId/publications"
-          element={<AdminPublicationsPage />}
+          path="/"
+          element={
+            isAuthenticated ? (
+              isAdmin ? (
+                <Navigate to="/admin" replace />
+              ) : isClient ? (
+                <Navigate to="/client" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            ) : (
+              <HomePage />
+            )
+          }
         />
-        <Route path="users" element={<AdminsPage />} />
-        <Route path="reports" element={<ReportsPage />} />
-        <Route path="calendar" element={<CalendarPage />} />
 
-        {/* Aquí irán más rutas de admin */}
-        {/* <Route path="publications" element={<PublicationsPage />} /> */}
-      </Route>
+        {/* Login - Accesible solo si NO está autenticado */}
+        <Route path="/login" element={<LoginPage />} />
 
-      {/* Client Routes - Solo CLIENTE */}
-      <Route
-        path="/client"
-        element={
-          <ProtectedRoute clientOnly>
-            <ClientLayout />
-          </ProtectedRoute>
-        }
-      >
-        {/* Dashboard principal del cliente */}
-        <Route index element={<ClientDashboard />} />
-        <Route path="publications" element={<ClientPublicationsPage />} />
-        <Route path="profile" element={<ClientProfilePage />} />
+        {/* Admin Routes - Solo ADMIN */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute adminOnly>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Dashboard principal del admin */}
+          <Route index element={<AdminDashboard />} />
+          <Route path="clients" element={<AdminClientsPage />} />
+          <Route
+            path="clients/:clientId/publications"
+            element={<AdminPublicationsPage />}
+          />
+          <Route path="users" element={<AdminsPage />} />
+          <Route path="reports" element={<ReportsPage />} />
+          <Route path="calendar" element={<CalendarPage />} />
 
-        {/* Aquí irán más rutas de cliente */}
-        {/* <Route path="calendar" element={<MyCalendarPage />} /> */}
-      </Route>
+          {/* Aquí irán más rutas de admin */}
+          {/* <Route path="publications" element={<PublicationsPage />} /> */}
+        </Route>
 
-      {/* Error Pages */}
-      <Route path="/unauthorized" element={<UnauthorizedPage />} />
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+        {/* Client Routes - Solo CLIENTE */}
+        <Route
+          path="/client"
+          element={
+            <ProtectedRoute clientOnly>
+              <ClientLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Dashboard principal del cliente */}
+          <Route index element={<ClientDashboard />} />
+          <Route path="publications" element={<ClientPublicationsPage />} />
+          <Route path="profile" element={<ClientProfilePage />} />
+
+          {/* Aquí irán más rutas de cliente */}
+          {/* <Route path="calendar" element={<MyCalendarPage />} /> */}
+        </Route>
+
+        {/* Error Pages */}
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </>
   );
 }
 

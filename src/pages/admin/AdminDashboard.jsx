@@ -173,7 +173,6 @@ const AdminDashboard = () => {
       {
         title: "Estado de Publicaciones",
         items: [
-          { label: "En Proceso", value: stats.draftPublications || 0 },
           { label: "Programadas", value: stats.scheduledPublications || 0 },
           { label: "Editadas", value: stats.publishedPublications || 0 },
         ],

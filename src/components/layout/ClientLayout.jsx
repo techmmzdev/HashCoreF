@@ -4,7 +4,6 @@ import { LayoutDashboard, FileText, User, Loader2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { BaseSidebar, MobileHeader } from "./shared";
 
-// Navegación específica del cliente
 const CLIENT_NAVIGATION = [
   { name: "Dashboard", href: "/client", icon: LayoutDashboard },
   { name: "Publicaciones", href: "/client/publications", icon: FileText },
@@ -14,12 +13,10 @@ const CLIENT_NAVIGATION = [
 const ClientLayout = () => {
   const { user, logout, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // Eliminado unreadNotifications
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Funciones optimizadas con useCallback
   const handleLogout = useCallback(() => {
     logout();
     navigate("/login");
@@ -33,18 +30,15 @@ const ClientLayout = () => {
     setSidebarOpen(true);
   }, []);
 
-  // Desactivar scroll en body cuando el sidebar móvil esté abierto
   useEffect(() => {
     document.body.style.overflow = sidebarOpen ? "hidden" : "";
     return () => (document.body.style.overflow = "");
   }, [sidebarOpen]);
 
-  // Cerrar sidebar cuando se cambie de ruta
   useEffect(() => {
     setSidebarOpen(false);
   }, [location.pathname]);
 
-  // Pantalla de carga
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -59,8 +53,8 @@ const ClientLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header móvil fijo cuando sidebar está cerrado */}
+    <div className="h-screen bg-gray-50 flex flex-col overflow-hidden">
+      {/* Header móvil fijo */}
       <div className={`${sidebarOpen ? "" : "sticky top-0 z-40"}`}>
         <MobileHeader onOpenSidebar={handleOpenSidebar} userType="client" />
       </div>
@@ -100,10 +94,12 @@ const ClientLayout = () => {
       )}
 
       {/* Contenido principal */}
-      <div className="lg:pl-64 flex flex-col flex-1">
-        <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent hover:scrollbar-thumb-gray-500">
-          <div className="max-w-7xl mx-auto">
-            <Outlet />
+      <div className="flex-1 lg:pl-64 flex flex-col overflow-hidden">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent hover:scrollbar-thumb-gray-500">
+          <div className="p-4 sm:p-6 md:p-8">
+            <div className="max-w-7xl mx-auto">
+              <Outlet />
+            </div>
           </div>
         </main>
       </div>

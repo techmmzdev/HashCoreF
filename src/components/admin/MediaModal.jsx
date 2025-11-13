@@ -29,13 +29,13 @@ const MediaItemPreview = ({ media, handleDelete }) => {
   const mediaUrl = getMediaUrl(media.url);
 
   return (
-    <div className="relative w-full group">
+    <div className="relative w-full group max-w-md mx-auto">
       <div className="w-full rounded-lg overflow-hidden border-2 border-gray-300 bg-gray-100">
         {isVideo ? (
           <video
             src={mediaUrl}
             controls
-            className="w-full h-auto max-h-[500px] object-contain"
+            className="w-full h-auto max-h-80 object-contain"
             playsInline
             preload="none"
           />
@@ -43,7 +43,7 @@ const MediaItemPreview = ({ media, handleDelete }) => {
           <img
             src={mediaUrl}
             alt="media"
-            className="w-full h-auto max-h-[500px] object-contain"
+            className="w-full h-auto max-h-80 object-contain"
             loading="lazy"
           />
         )}
@@ -53,7 +53,7 @@ const MediaItemPreview = ({ media, handleDelete }) => {
         onClick={() => handleDelete(media.id)}
         variant="danger"
         size="sm"
-        className="absolute top-3 right-3 p-2.5 rounded-full transition-all shadow-lg"
+        className="absolute top-2 right-2 p-2 rounded-full transition-all shadow-lg"
         style={{ opacity: 1, pointerEvents: "auto" }}
         title="Eliminar archivo"
       >
@@ -216,7 +216,7 @@ const MediaModal = ({
         loading: "Eliminando archivo...",
         success: (res) =>
           res?.reverted || res?.publication
-            ? "Archivo eliminado. La publicación se ha revertido a En Proceso."
+            ? "Archivo eliminado."
             : "Archivo eliminado correctamente. 🗑️",
         error: (err) =>
           err?.response?.data?.message || "Error al eliminar el archivo.",
@@ -299,7 +299,7 @@ const MediaModal = ({
         </div>
 
         {/* === Body === */}
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-4 bg-gray-50">
           {/* --- Subida --- */}
           <div className="space-y-3">
             <div className="flex flex-col gap-2">

@@ -10,6 +10,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import Pagination from "@/components/common/Pagination";
+import { usePagination } from "@/hooks/usePagination";
 import ReportModal from "@/components/admin/ReportModal";
 import { ReportsSkeleton } from "../../components/common/Skeleton";
 
@@ -18,28 +20,15 @@ const STATUS_CONFIG = {
     label: "Editada",
     color: "green",
     icon: "✅",
-    bgClass:
-      "bg-green-50/50 border-l-4 border-l-green-500",
-    badgeClass:
-      "bg-green-100 text-green-800",
-  },
-  DRAFT: {
-    label: "En Proceso",
-    color: "yellow",
-    icon: "📝",
-    bgClass:
-      "bg-yellow-50/50 border-l-4 border-l-yellow-500",
-    badgeClass:
-      "bg-yellow-100 text-yellow-800",
+    bgClass: "bg-green-50/50 border-t-4 border-t-green-500",
+    badgeClass: "bg-green-100 text-green-800",
   },
   SCHEDULED: {
     label: "Programada",
     color: "indigo",
     icon: "📅",
-    bgClass:
-      "bg-indigo-50/50 border-l-4 border-l-indigo-500",
-    badgeClass:
-      "bg-indigo-100 text-indigo-800",
+    bgClass: "bg-indigo-50/50 border-t-4 border-t-indigo-500",
+    badgeClass: "bg-indigo-100 text-indigo-800",
   },
 };
 
@@ -47,7 +36,6 @@ const STATUS_FILTERS = [
   { key: "ALL", label: "Todas" },
   { key: "PUBLISHED", label: "Editadas" },
   { key: "SCHEDULED", label: "Programadas" },
-  { key: "DRAFT", label: "En Proceso" },
 ];
 
 const StatCard = memo(({ icon: Icon, label, value, colorClass, statusKey }) => (
@@ -61,9 +49,7 @@ const StatCard = memo(({ icon: Icon, label, value, colorClass, statusKey }) => (
         <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
           {label}
         </p>
-        <p className="text-4xl font-bold text-gray-900 mt-2">
-          {value}
-        </p>
+        <p className="text-4xl font-bold text-gray-900 mt-2">{value}</p>
       </div>
       {Icon ? (
         <Icon className={`h-8 w-8 ${colorClass}`} />
@@ -76,47 +62,63 @@ const StatCard = memo(({ icon: Icon, label, value, colorClass, statusKey }) => (
 
 StatCard.displayName = "StatCard";
 
-const PublicationCard = memo(({ publication, onOpenReport }) => {
+const PublicationCard = memo(({ publication, onOpenReport, clientName }) => {
   const statusUpper = useMemo(
     () => (publication.status || "").toUpperCase(),
     [publication.status]
   );
   const statusConfig = STATUS_CONFIG[statusUpper];
 
+  const fecha =
+    publication.publish_date || publication.createdAt || "Sin fecha";
+
   return (
     <article
-      className={`rounded-xl p-5 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 print:page-break-inside-avoid print:break-inside-avoid bg-white border border-gray-200 ${statusConfig?.bgClass}`}
+      className={`group relative rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-sm h-full flex flex-col ${statusConfig?.bgClass}`}
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 print:flex-col print:gap-2">
-        <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 print:text-base">
+      {/* Contenido de la tarjeta */}
+      <div className="p-6 flex flex-col h-full gap-4">
+        {/* Título */}
+        <div className="flex-1">
+          <h3 className="text-base font-bold text-gray-900 mb-3 line-clamp-2">
             {publication.title || "Sin título"}
           </h3>
-          <div className="flex flex-wrap items-center gap-2 mb-3 print:mb-1">
+
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2 mb-4">
             {publication.content_type && (
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-100 text-blue-700">
                 {publication.content_type}
               </span>
             )}
             {statusConfig && (
               <span
-                className={`text-xs font-semibold px-3 py-1 rounded-full ${statusConfig.badgeClass}`}
+                className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusConfig.badgeClass}`}
               >
                 {statusConfig.label}
               </span>
             )}
           </div>
-          <p className="text-sm text-gray-500 print:text-xs">
-            Cliente ID:{" "}
-            <span className="font-medium">
-              {publication.client_id || "N/A"}
+
+          {/* Fecha */}
+          <div className="text-xs text-gray-500 mb-3">
+            {fecha && fecha !== "Sin fecha"
+              ? new Date(fecha).toLocaleDateString()
+              : "Sin fecha"}
+          </div>
+
+          {/* Información del cliente */}
+          <div className="text-sm text-gray-600 truncate">
+            <span className="font-medium text-gray-700">
+              {clientName || "N/A"}
             </span>
-          </p>
+          </div>
         </div>
 
+        {/* Botón */}
         <button
           onClick={() => onOpenReport(publication)}
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2 print:hidden whitespace-nowrap active:scale-95"
+          className="w-full px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 active:scale-95"
         >
           <FileText className="h-4 w-4" />
           Generar Reporte
@@ -137,6 +139,7 @@ const ReportsPage = () => {
   const [selectedPublication, setSelectedPublication] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [clientsMap, setClientsMap] = useState({});
 
   useEffect(() => {
     const loadPublications = async () => {
@@ -144,6 +147,25 @@ const ReportsPage = () => {
       try {
         const data = await publicationService.getAllPublications();
         setPublications(data || []);
+
+        // Cargar datos de clientes
+        const clientIds = [
+          ...new Set((data || []).map((p) => p.client_id).filter(Boolean)),
+        ];
+        const clients = {};
+
+        for (const clientId of clientIds) {
+          try {
+            const clientData = await clientService.getClientById(clientId);
+            clients[clientId] =
+              clientData?.name || clientData?.company_name || "Sin nombre";
+          } catch (err) {
+            console.error(`Error al cargar cliente ${clientId}:`, err);
+            clients[clientId] = "N/A";
+          }
+        }
+
+        setClientsMap(clients);
       } catch (err) {
         console.error("Error al cargar publicaciones:", err);
         toast.error("No se pudieron cargar las publicaciones.");
@@ -157,21 +179,28 @@ const ReportsPage = () => {
 
   const filteredPublications = useMemo(() => {
     const lowerSearch = searchTerm.toLowerCase().trim();
-
     return publications.filter((pub) => {
       const matchesStatus =
         statusFilter === "ALL" ||
         (pub.status || "").toUpperCase() === statusFilter;
-
       const matchesSearch =
         !lowerSearch ||
         (pub.title || "").toLowerCase().includes(lowerSearch) ||
         (pub.content || "").toLowerCase().includes(lowerSearch) ||
-        (pub.client_id || "").toString().includes(lowerSearch);
-
+        (clientsMap[pub.client_id] || "").toLowerCase().includes(lowerSearch);
       return matchesStatus && matchesSearch;
     });
-  }, [publications, searchTerm, statusFilter]);
+  }, [publications, searchTerm, statusFilter, clientsMap]);
+
+  // Paginación reutilizada
+  const {
+    currentPage,
+    pageSize,
+    totalPages,
+    paginatedItems,
+    setPage,
+    setPageSize,
+  } = usePagination(filteredPublications, 4);
 
   const stats = useMemo(() => {
     const statusCounts = publications.reduce((acc, p) => {
@@ -183,7 +212,6 @@ const ReportsPage = () => {
     return {
       total: publications.length,
       published: statusCounts.PUBLISHED || 0,
-      draft: statusCounts.DRAFT || 0,
       scheduled: statusCounts.SCHEDULED || 0,
     };
   }, [publications]);
@@ -219,14 +247,12 @@ const ReportsPage = () => {
     setSelectedClient(null);
   }, []);
 
-  // Loading state
   if (loading) {
     return <ReportsSkeleton />;
   }
 
   return (
     <div className="space-y-6 print:space-y-0 animate-fadeIn">
-      {/* Header */}
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 print:hidden">
         <div className="flex items-center gap-4">
           <button
@@ -247,7 +273,6 @@ const ReportsPage = () => {
         </div>
       </header>
 
-      {/* Stats Cards */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 print:hidden">
         <StatCard
           icon={FileText}
@@ -260,7 +285,6 @@ const ReportsPage = () => {
           value={stats.published}
           statusKey="PUBLISHED"
         />
-        <StatCard label="En Proceso" value={stats.draft} statusKey="DRAFT" />
         <StatCard
           label="Programadas"
           value={stats.scheduled}
@@ -268,7 +292,6 @@ const ReportsPage = () => {
         />
       </section>
 
-      {/* Filtros */}
       <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 print:hidden">
         <div className="space-y-4">
           <div className="relative group">
@@ -307,7 +330,6 @@ const ReportsPage = () => {
         </div>
       </section>
 
-      {/* Lista de Publicaciones */}
       <section>
         {filteredPublications.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border-2 border-dashed border-gray-300">
@@ -324,19 +346,30 @@ const ReportsPage = () => {
             </p>
           </div>
         ) : (
-          <div className="space-y-4 print:space-y-2">
-            {filteredPublications.map((pub) => (
-              <PublicationCard
-                key={pub.id}
-                publication={pub}
-                onOpenReport={handleOpenReport}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 print:grid-cols-1">
+              {paginatedItems.map((pub) => (
+                <PublicationCard
+                  key={pub.id}
+                  publication={pub}
+                  onOpenReport={handleOpenReport}
+                  clientName={clientsMap[pub.client_id]}
+                />
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              pageSize={pageSize}
+              setPage={setPage}
+              setPageSize={setPageSize}
+              totalItems={filteredPublications.length}
+              label="reportes"
+            />
+          </>
         )}
       </section>
 
-      {/* Modal de Reporte */}
       <ReportModal
         open={modalOpen}
         onClose={handleCloseModal}

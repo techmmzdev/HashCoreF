@@ -240,15 +240,6 @@ function ClientDashboard() {
                 {stats?.scheduledPublications || 0}
               </span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600 flex items-center gap-1.5 sm:gap-2">
-                <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
-                En Proceso
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-gray-900">
-                {stats?.draftPublications || 0}
-              </span>
-            </div>
           </div>
         </div>
 

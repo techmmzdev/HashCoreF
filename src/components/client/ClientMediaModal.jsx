@@ -58,18 +58,18 @@ const ClientMediaModal = ({ isOpen, onClose, publication }) => {
               <p className="text-xs sm:text-sm text-gray-500 mt-1">
                 {publication.content_type === "REEL" ? (
                   <span className="flex items-center justify-center gap-1">
-                    <Play className="w-3 h-3" /> Video (Reel)
+                    <Play className="w-3 h-3" /> REEL
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-1">
-                    <ImageIcon className="w-3 h-3" /> Imagen (Post)
+                    <ImageIcon className="w-3 h-3" /> POST
                   </span>
                 )}
               </p>
             </div>
 
             {/* Contenido multimedia */}
-            <div className="w-full flex-1 flex items-center justify-center bg-gray-900 p-2 sm:p-4 min-h-[300px] sm:min-h-[400px] overflow-auto">
+            <div className="w-full flex-1 flex items-center justify-center bg-gray-50 p-2 sm:p-4 min-h-[300px] sm:min-h-[400px]">
               {mediaUrl ? (
                 isVideo ? (
                   <video

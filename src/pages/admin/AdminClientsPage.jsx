@@ -18,6 +18,7 @@ import AdminClientForm from "@/components/admin/AdminClientForm";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import { ClientsTableSkeleton } from "../../components/common/Skeleton";
 import { useQuery } from "@tanstack/react-query";
+import Pagination from "@/components/common/Pagination";
 
 const StatCard = memo(({ stat }) => {
   const Icon = stat.icon;
@@ -497,73 +498,15 @@ const AdminClientsPage = () => {
         onDelete={handleOpenDelete}
       />
 
-      {/* Pagination */}
-      <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="text-sm text-gray-700">
-            Mostrando{" "}
-            <span className="font-bold text-gray-900">
-              {filteredClients.length === 0
-                ? 0
-                : (currentPage - 1) * pageSize + 1}
-            </span>{" "}
-            a{" "}
-            <span className="font-bold text-gray-900">
-              {Math.min(currentPage * pageSize, filteredClients.length)}
-            </span>{" "}
-            de{" "}
-            <span className="font-bold text-gray-900">
-              {filteredClients.length}
-            </span>{" "}
-            clientes
-          </div>
-
-          <div className="flex items-center gap-4 text-sm">
-            {/* Selector de cantidad de ítems */}
-            <label className="flex items-center gap-2">
-              <span className="text-gray-600">Items:</span>
-              <select
-                value={pageSize}
-                onChange={handlePageSizeChange}
-                className="rounded border border-gray-300 bg-transparent px-2 py-1"
-              >
-                {[4, 8].map((size) => (
-                  <option key={size} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            {/* Controles de paginación */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="p-1 border rounded disabled:opacity-50"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-
-              <span className="px-2">
-                {paginationData.totalPages === 0 ? 0 : currentPage} /{" "}
-                {paginationData.totalPages}
-              </span>
-
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={
-                  currentPage === paginationData.totalPages ||
-                  paginationData.totalPages === 0
-                }
-                className="p-1 border rounded disabled:opacity-50"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={paginationData.totalPages}
+        pageSize={pageSize}
+        setPage={handlePageChange}
+        setPageSize={handlePageSizeChange}
+        totalItems={filteredClients.length}
+        label="clientes"
+      />
 
       {/* Modals */}
       <AdminClientForm

@@ -1,3 +1,5 @@
+// Backup de PublicationForm.jsx
+
 import { useState, useEffect } from "react";
 import { X, Calendar, Edit, Plus, Info, AlertTriangle } from "lucide-react";
 import { useFormModal } from "../../hooks/useModal";
@@ -5,17 +7,19 @@ import { Input, Select } from "../common/FormElements";
 import { Loading, Button } from "../common/UIComponents";
 
 const CONTENT_TYPES = ["POST", "REEL"];
-const PUBLICATION_STATUSES = ["SCHEDULED", "PUBLISHED"];
+const PUBLICATION_STATUSES = ["DRAFT", "SCHEDULED", "PUBLISHED"];
 
+// Traducciones de estados para la UI
 const STATUS_LABELS = {
+  DRAFT: "En Proceso",
   SCHEDULED: "Programada",
-  PUBLISHED: "Publicada",
+  PUBLISHED: "Editada",
 };
 
 const emptyForm = {
   title: "",
   content_type: "",
-  status: "",
+  status: "DRAFT",
   publish_date: "",
 };
 
@@ -33,6 +37,7 @@ const PublicationForm = ({
   const [contentTypeChanged, setContentTypeChanged] = useState(false);
   const [hasMedia, setHasMedia] = useState(false);
 
+  // Usar el hook para modal con los manejadores de scroll y ESC
   const { modalRef, handleBackdropClick, handleContentClick } = useFormModal({
     isOpen,
     onClose,
@@ -41,6 +46,7 @@ const PublicationForm = ({
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
+    // produce yyyy-MM-ddTHH:mm
     const parts = new Intl.DateTimeFormat("sv-SE", {
       timeZone: "America/Lima",
       year: "numeric",
@@ -64,9 +70,10 @@ const PublicationForm = ({
       setFormData({
         title: selectedPublication.title || "",
         content_type: selectedPublication.content_type || "POST",
-        status: selectedPublication.status || "SCHEDULED",
+        status: selectedPublication.status || "DRAFT",
         publish_date: formattedDate,
       });
+      // Detectar si tiene media
       setHasMedia(
         selectedPublication.media && selectedPublication.media.length > 0
       );
@@ -81,6 +88,7 @@ const PublicationForm = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    // Detectar cambio en content_type
     if (
       name === "content_type" &&
       isEditing &&
@@ -149,23 +157,22 @@ const PublicationForm = ({
           onClick={!isLoading ? onClose : undefined}
           variant="ghost"
           size="sm"
-          className="absolute right-3 top-3 sm:right-4 sm:top-4 z-20 rounded-full p-1.5 hover:bg-gray-100 transition-colors"
+          className="absolute right-3 top-3 sm:right-4 sm:top-4 z-20 rounded-full p-1.5"
           aria-label="Cerrar modal"
         >
           <X className="h-5 w-5" />
         </Button>
-
-        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4 sm:pb-5 border-b border-gray-200 bg-linear-to-r from-gray-50 to-white">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 pr-8">
+        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-gray-200">
+          <h2 className="text-xl sm:text-2xl font-bold pr-8">
             {isEditing ? "Editar Publicación" : "Crear Nueva Publicación"}
           </h2>
-          <p className="mt-2 text-xs sm:text-sm text-gray-500 font-medium">
-            Cliente ID: <span className="text-gray-700">{clientId}</span>
+          <p className="mt-1 text-xs sm:text-sm text-gray-500">
+            Cliente ID: {clientId}
           </p>
         </div>
 
         {isLoading && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-2xl">
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm">
             <Loading />
           </div>
         )}
@@ -173,7 +180,7 @@ const PublicationForm = ({
         <form
           id="publicationForm"
           onSubmit={handleSubmit}
-          className="px-4 sm:px-6 py-5 sm:py-6 space-y-5 sm:space-y-6 overflow-y-auto flex-1"
+          className="px-4 sm:px-6 py-4 space-y-4 sm:space-y-6 overflow-y-auto"
         >
           <div>
             <Input
@@ -187,77 +194,60 @@ const PublicationForm = ({
             />
           </div>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Select
-                  label="Tipo de Contenido"
-                  name="content_type"
-                  value={formData.content_type}
-                  onChange={handleChange}
-                  error={validationErrors.content_type}
-                  required
-                  placeholder="Seleccionar tipo..."
-                  options={[
-                    { value: "POST", label: "📷 Post" },
-                    { value: "REEL", label: "🎬 Reel" },
-                  ]}
-                />
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Select
+                label="Tipo de Contenido"
+                name="content_type"
+                value={formData.content_type}
+                onChange={handleChange}
+                error={validationErrors.content_type}
+                required
+                options={[
+                  { value: "", label: "Seleccione un Tipo", disabled: true },
+                  ...CONTENT_TYPES.map((type) => ({
+                    value: type,
+                    label: type,
+                  })),
+                ]}
+              />
 
-              <div className="space-y-2">
-                <Select
-                  label="Estado"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                  error={validationErrors.status}
-                  required
-                  placeholder="Seleccionar estado..."
-                  options={[
-                    {
-                      value: "SCHEDULED",
-                      label: `⏰ ${STATUS_LABELS["SCHEDULED"]}`,
-                    },
-                    {
-                      value: "PUBLISHED",
-                      label: `✓ ${STATUS_LABELS["PUBLISHED"]}`,
-                    },
-                  ]}
-                />
-              </div>
-            </div>
-
-            {contentTypeChanged && hasMedia && (
-              <div className="flex items-start gap-3 p-3 bg-amber-50 border border-amber-200 rounded-lg animate-in fade-in slide-in-from-top-2 duration-200">
-                <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
-                <div className="flex-1">
-                  <p className="text-sm text-amber-800 font-medium">
-                    Advertencia
-                  </p>
-                  <p className="text-xs text-amber-700 mt-1 leading-relaxed">
-                    Al cambiar de{" "}
-                    <span className="font-semibold">
-                      {selectedPublication?.content_type}
-                    </span>{" "}
-                    a{" "}
-                    <span className="font-semibold">
-                      {formData.content_type}
-                    </span>
-                    , los archivos incompatibles se eliminarán.
+              {/* Advertencia de cambio de tipo con media */}
+              {contentTypeChanged && hasMedia && (
+                <div className="mt-2 flex items-start gap-2 text-xs text-amber-600 p-2.5 sm:p-2 border border-amber-300 rounded-lg bg-amber-50">
+                  <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+                  <p className="leading-tight">
+                    <strong className="block sm:inline">Advertencia:</strong> Al
+                    cambiar el tipo de{" "}
+                    <strong>{selectedPublication?.content_type}</strong> a{" "}
+                    <strong>{formData.content_type}</strong>, los archivos
+                    incompatibles se eliminarán automáticamente.
                   </p>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+
+            <div>
+              <Select
+                label="Estado"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                options={PUBLICATION_STATUSES.map((status) => ({
+                  value: status,
+                  label: STATUS_LABELS[status],
+                }))}
+              />
+            </div>
           </div>
 
           <div>
             <Input
               label={
-                <span className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-indigo-600" />
-                  <span>Fecha y Hora de Publicación</span>
-                </span>
+                <>
+                  <Calendar className="inline h-4 w-4 mr-1 mb-0.5 text-indigo-600" />
+                  Fecha y Hora de Publicación
+                </>
               }
               name="publish_date"
               type="datetime-local"
@@ -265,22 +255,16 @@ const PublicationForm = ({
               onChange={handleChange}
               error={validationErrors.publish_date}
               required
-              hint="Debe ser una fecha y hora futura"
             />
           </div>
 
-          <div className="flex items-start gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <Info className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
-            <div>
-              <p className="text-xs sm:text-sm text-blue-900">
-                <span className="font-semibold">Nota:</span> Los campos marcados
-                con{" "}
-                <span className="inline-flex items-center justify-center w-4 h-4 bg-red-100 rounded text-red-600 text-xs font-bold ml-1">
-                  *
-                </span>{" "}
-                son obligatorios.
-              </p>
-            </div>
+          <div className="flex items-start gap-2 text-xs sm:text-sm text-gray-600 p-2.5 sm:p-3 border border-dashed rounded-lg bg-gray-50">
+            <Info className="h-4 w-4 sm:h-5 sm:w-5 mt-0.5 text-indigo-600 shrink-0" />
+            <p className="leading-tight">
+              <span className="font-medium text-gray-800">Nota:</span> los
+              campos marcados con <span className="text-red-500">*</span> son
+              obligatorios para crear la publicación.
+            </p>
           </div>
         </form>
 
@@ -290,7 +274,7 @@ const PublicationForm = ({
             onClick={!isLoading ? onClose : undefined}
             disabled={isLoading}
             variant="secondary"
-            className="w-full sm:w-auto transition-colors"
+            className="w-full sm:w-auto"
           >
             Cancelar
           </Button>
@@ -299,7 +283,7 @@ const PublicationForm = ({
             type="submit"
             disabled={isLoading}
             variant="primary"
-            className="w-full sm:w-auto transition-colors"
+            className="w-full sm:w-auto"
             icon={
               isEditing ? (
                 <Edit className="h-4 w-4" />

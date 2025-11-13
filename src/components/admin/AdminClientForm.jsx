@@ -131,21 +131,24 @@ const AdminClientForm = ({
       errors.company_name = "El nombre de la empresa es requerido";
     }
 
-    if (!formData.ruc?.trim()) {
-      errors.ruc = "El RUC es requerido";
-    } else if (!/^[A-Za-z0-9]{1,20}$/.test(formData.ruc.trim())) {
+    if (
+      formData.ruc?.trim() &&
+      !/^[A-Za-z0-9]{1,20}$/.test(formData.ruc.trim())
+    ) {
       errors.ruc = "El RUC debe tener máximo 20 caracteres alfanuméricos";
     }
 
-    if (!formData.contact_phone?.trim()) {
-      errors.contact_phone = "El teléfono de contacto es requerido";
-    } else if (!/^\d{9}$/.test(formData.contact_phone.trim())) {
+    if (
+      formData.contact_phone?.trim() &&
+      !/^\d{9}$/.test(formData.contact_phone.trim())
+    ) {
       errors.contact_phone = "El teléfono debe tener 9 dígitos numéricos";
     }
 
-    if (!formData.contact_email?.trim()) {
-      errors.contact_email = "El email de contacto es requerido";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contact_email)) {
+    if (
+      formData.contact_email?.trim() &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contact_email)
+    ) {
       errors.contact_email = "Email de contacto inválido";
     }
 
@@ -320,7 +323,6 @@ const AdminClientForm = ({
                 value={formData.ruc}
                 onChange={handleChange}
                 icon={Building2}
-                required
                 error={validationErrors.ruc}
                 placeholder="Ej: 20123456789 (máx. 20 caracteres)"
                 maxLength={20}
@@ -332,7 +334,6 @@ const AdminClientForm = ({
                 value={formData.contact_phone}
                 onChange={handleChange}
                 icon={Phone}
-                required
                 error={validationErrors.contact_phone}
                 placeholder="Ej: 987654321 (máx. 9 dígitos)"
                 maxLength={9}
@@ -346,7 +347,6 @@ const AdminClientForm = ({
               value={formData.contact_email}
               onChange={handleChange}
               icon={Mail}
-              required
               error={validationErrors.contact_email}
               placeholder="contacto@empresa.com"
             />

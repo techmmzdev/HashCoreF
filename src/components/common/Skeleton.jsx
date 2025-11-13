@@ -1,6 +1,22 @@
 import React from "react";
 
 // ============================================
+// SKELETON PARA AUTENTICACIÓN (pantalla de carga global)
+export const AuthSkeleton = () => (
+  <div className="w-full max-w-md mx-auto">
+    <div className="space-y-6">
+      <div className="flex flex-col items-center gap-4">
+        <div className="rounded-full bg-gray-200">
+          {/* Avatar Skeleton */}
+          <Skeleton className="h-16 w-16 rounded-full mb-2" />
+        </div>
+        <Skeleton className="h-6 w-40 rounded-lg mb-2" />
+        <Skeleton className="h-4 w-32 rounded-lg" />
+      </div>
+      <Skeleton className="h-11 w-full rounded-lg" />
+    </div>
+  </div>
+);
 // COMPONENTE BASE
 // ============================================
 const Skeleton = ({ className = "", animate = true, delay = 0 }) => {

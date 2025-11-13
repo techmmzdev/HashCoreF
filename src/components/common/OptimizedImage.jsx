@@ -7,7 +7,7 @@ const OptimizedImage = ({
   className = "",
   fallback = "/placeholder-image.png",
   lazy = true,
-  priority = false, // Para imágenes críticas above-the-fold
+  priority = false,
   ...props
 }) => {
   const [hasError, setHasError] = useState(false);
