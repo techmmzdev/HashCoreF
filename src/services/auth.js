@@ -13,6 +13,9 @@ export const authService = {
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("user", JSON.stringify(response.data.user));
       }
+      if (response.data.refreshToken) {
+        sessionStorage.setItem("refreshToken", response.data.refreshToken);
+      }
 
       return response.data;
     } catch (error) {
@@ -45,10 +48,15 @@ export const authService = {
   // Refrescar token - Ruta: POST /api/auth/refresh
   async refreshToken() {
     try {
-      const response = await apiClient.post("/auth/refresh");
+      const refreshToken = sessionStorage.getItem("refreshToken");
+      if (!refreshToken) throw new Error("No hay refresh token disponible");
+      const response = await apiClient.post("/auth/refresh", { refreshToken });
 
       if (response.data.token) {
         sessionStorage.setItem("token", response.data.token);
+      }
+      if (response.data.refreshToken) {
+        sessionStorage.setItem("refreshToken", response.data.refreshToken);
       }
 
       return response.data;
