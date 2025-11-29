@@ -101,156 +101,48 @@ const HomePage = memo(() => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 py-12 md:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center mb-16 md:mb-20">
-          <div className="order-2 lg:order-1">
-            <div className="inline-block bg-brand-orange/10 border border-brand-orange/30 px-3 md:px-4 py-1.5 rounded-full mb-6">
-              <span className="text-brand-orange text-xs md:text-sm font-semibold">
-                ✨ Portal de gestión para clientes HASHTAGPERÚ
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-linear-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
-              Accede a tu panel de
-              <span className="text-brand-orange block mt-2">
-                marketing digital
-              </span>
-            </h1>
-            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-8 leading-relaxed max-w-2xl">
-              Inicia sesión para gestionar tus publicaciones, ver métricas en
-              tiempo real, revisar el calendario de contenido y comunicarte
-              directamente con tu equipo de marketing.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Link
-                to="/login"
-                className="group inline-flex items-center justify-center gap-2 bg-brand-orange hover:bg-brand-orange-hover px-8 py-4 rounded-xl font-semibold transition-all shadow-lg text-base text-white"
-              >
-                🚀 Iniciar Sesión
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <a
-                href="mailto:Christianif.flores@gmail.com"
-                className="inline-flex items-center justify-center gap-2 border-2 border-slate-400/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 hover:border-slate-500 dark:hover:border-slate-500 px-8 py-4 rounded-xl font-semibold transition-all backdrop-blur-sm text-base"
-              >
-                ❓ ¿Necesitas ayuda?
-              </a>
-            </div>
-
-            {/* Stats or Trust Indicators */}
-            <div className="flex flex-col sm:flex-row gap-6 text-sm text-slate-600 dark:text-slate-400">
-              {TRUST_INDICATORS.map((indicator, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div
-                    className={`w-2 h-2 ${indicator.color} rounded-full ${
-                      indicator.animated ? "animate-pulse" : ""
-                    }`}
-                  ></div>
-                  <span>{indicator.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="order-1 lg:order-2">
-            <div className="relative lg:block">
-              <div className="absolute inset-0 bg-brand-orange/20 rounded-3xl blur-3xl opacity-40 animate-pulse"></div>
-              <div className="relative bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300/50 dark:border-slate-600/50 rounded-3xl p-8 backdrop-blur-sm">
-                <div className="text-center">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-orange rounded-full mb-6 shadow-lg">
-                    <Shield className="w-10 h-10 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3 text-brand-orange">
-                    Portal de Cliente
-                  </h3>
-                  <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-                    Dashboard completo con gestión de publicaciones, métricas
-                    detalladas, calendario de contenido y comunicación directa
-                    con tu equipo.
-                  </p>
-                  <div className="mt-6 flex justify-center">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-brand-orange rounded-full animate-bounce"></div>
-                      <div
-                        className="w-2 h-2 bg-brand-orange rounded-full animate-bounce"
-                        style={{ animationDelay: ANIMATION_DELAYS.second }}
-                      ></div>
-                      <div
-                        className="w-2 h-2 bg-brand-orange rounded-full animate-bounce"
-                        style={{ animationDelay: ANIMATION_DELAYS.third }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20">
-          {FEATURES.map((feature, index) => {
-            const IconComponent = feature.icon;
-            return (
-              <div
-                key={index}
-                className="group bg-slate-200/30 dark:bg-slate-800/30 border border-slate-300/50 dark:border-slate-700/50 rounded-2xl p-8 hover:border-brand-orange/50 transition-all duration-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 hover:scale-105"
-              >
-                <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-orange/10 rounded-xl mb-6 group-hover:bg-brand-orange/20 transition-colors">
-                  <IconComponent className="w-7 h-7 text-brand-orange" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">
-                  {feature.title}
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* CTA Section */}
-        <div className="relative mb-16 md:mb-20">
-          <div className="absolute inset-0 bg-brand-orange/5 rounded-3xl blur-3xl"></div>
-          <div className="relative bg-linear-to-r from-slate-200/60 dark:from-slate-800/60 to-slate-300/60 dark:to-slate-900/60 border border-slate-300/50 dark:border-slate-600/50 rounded-3xl p-12 lg:p-16 backdrop-blur-sm">
-            <div className="text-center">
-              <div className="inline-block bg-brand-orange/10 border border-brand-orange/30 px-4 py-2 rounded-full mb-6">
-                <span className="text-brand-orange text-sm font-semibold">
-                  🎯 ¿Nuevo en el sistema?
+      <main>
+        {/* Hero Section */}
+        <div className="max-w-7xl mx-auto px-4 py-12 md:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center mb-16 md:mb-20">
+            <div className="order-2 lg:order-1">
+              <div className="inline-block bg-brand-orange/10 border border-brand-orange/30 px-3 md:px-4 py-1.5 rounded-full mb-6">
+                <span className="text-brand-orange text-xs md:text-sm font-semibold">
+                  ✨ Portal de gestión para clientes HASHTAGPERÚ
                 </span>
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-linear-to-r from-slate-900 dark:from-white to-slate-700 dark:to-slate-300 bg-clip-text text-transparent">
-                Descubre todas las funciones
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-linear-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                Accede a tu panel de
                 <span className="text-brand-orange block mt-2">
-                  de tu panel
+                  marketing digital
                 </span>
+              </h1>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
+                Portal de Gestión Integral
               </h2>
-              <p className="text-lg text-slate-700 dark:text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Explora tu dashboard personal, revisa publicaciones programadas,
-                consulta métricas de rendimiento y mantente al día con tu
-                estrategia digital.
+              <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-8 leading-relaxed max-w-2xl">
+                Inicia sesión para gestionar tus publicaciones, ver métricas en
+                tiempo real, revisar el calendario de contenido y comunicarte
+                directamente con tu equipo de marketing.
               </p>
-
-              {/* Enhanced CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <Link
                   to="/login"
-                  className="group inline-flex items-center justify-center gap-2 bg-brand-orange hover:bg-brand-orange-hover px-8 py-4 rounded-xl font-semibold transition-all shadow-lg text-base text-white"
+                  className="group inline-flex items-center justify-center gap-2 bg-brand-orange hover:bg-brand-orange-hover px-8 py-4 rounded-xl font-semibold transition-all shadow-lg text-base text-black"
                 >
-                  🚀 Ingresar al Sistema
+                  🚀 Iniciar Sesión
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <a
                   href="mailto:Christianif.flores@gmail.com"
-                  className="group inline-flex items-center justify-center gap-2 border-2 border-slate-300/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 hover:border-slate-400 dark:hover:border-slate-500 px-8 py-4 rounded-xl font-semibold transition-all backdrop-blur-sm text-base"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-slate-400/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 hover:border-slate-500 dark:hover:border-slate-500 px-8 py-4 rounded-xl font-semibold transition-all backdrop-blur-sm text-base"
                 >
-                  🆘 Soporte Técnico
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  ❓ ¿Necesitas ayuda?
                 </a>
               </div>
 
-              {/* Trust Indicators */}
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center text-sm text-slate-600 dark:text-slate-400">
+              {/* Stats or Trust Indicators */}
+              <div className="flex flex-col sm:flex-row gap-6 text-sm text-slate-600 dark:text-slate-400">
                 {TRUST_INDICATORS.map((indicator, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <div
@@ -263,9 +155,122 @@ const HomePage = memo(() => {
                 ))}
               </div>
             </div>
+            <div className="order-1 lg:order-2">
+              <div className="relative lg:block">
+                <div className="absolute inset-0 bg-brand-orange/20 rounded-3xl blur-3xl opacity-40 animate-pulse"></div>
+                <div className="relative bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300/50 dark:border-slate-600/50 rounded-3xl p-8 backdrop-blur-sm">
+                  <div className="text-center">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-orange rounded-full mb-6 shadow-lg">
+                      <Shield className="w-10 h-10 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-brand-orange">
+                      Portal de Cliente
+                    </h3>
+                    <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                      Dashboard completo con gestión de publicaciones, métricas
+                      detalladas, calendario de contenido y comunicación directa
+                      con tu equipo.
+                    </p>
+                    <div className="mt-6 flex justify-center">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-brand-orange rounded-full animate-bounce"></div>
+                        <div
+                          className="w-2 h-2 bg-brand-orange rounded-full animate-bounce"
+                          style={{ animationDelay: ANIMATION_DELAYS.second }}
+                        ></div>
+                        <div
+                          className="w-2 h-2 bg-brand-orange rounded-full animate-bounce"
+                          style={{ animationDelay: ANIMATION_DELAYS.third }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20">
+            {FEATURES.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <div
+                  key={index}
+                  className="group bg-slate-200/30 dark:bg-slate-800/30 border border-slate-300/50 dark:border-slate-700/50 rounded-2xl p-8 hover:border-brand-orange/50 transition-all duration-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 hover:scale-105"
+                >
+                  <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-orange/10 rounded-xl mb-6 group-hover:bg-brand-orange/20 transition-colors">
+                    <IconComponent className="w-7 h-7 text-brand-orange" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CTA Section */}
+          <div className="relative mb-16 md:mb-20">
+            <div className="absolute inset-0 bg-brand-orange/5 rounded-3xl blur-3xl"></div>
+            <div className="relative bg-linear-to-r from-slate-200/60 dark:from-slate-800/60 to-slate-300/60 dark:to-slate-900/60 border border-slate-300/50 dark:border-slate-600/50 rounded-3xl p-12 lg:p-16 backdrop-blur-sm">
+              <div className="text-center">
+                <div className="inline-block bg-brand-orange/10 border border-brand-orange/30 px-4 py-2 rounded-full mb-6">
+                  <span className="text-brand-orange text-sm font-semibold">
+                    🎯 ¿Nuevo en el sistema?
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-linear-to-r from-slate-900 dark:from-white to-slate-700 dark:to-slate-300 bg-clip-text text-transparent">
+                  Descubre todas las funciones
+                  <span className="text-brand-orange block mt-2">
+                    de tu panel
+                  </span>
+                </h2>
+                <p className="text-lg text-slate-700 dark:text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                  Explora tu dashboard personal, revisa publicaciones
+                  programadas, consulta métricas de rendimiento y mantente al
+                  día con tu estrategia digital.
+                </p>
+
+                {/* Enhanced CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                  <Link
+                    to="/login"
+                    className="group inline-flex items-center justify-center gap-2 bg-brand-orange hover:bg-brand-orange-hover px-8 py-4 rounded-xl font-semibold transition-all shadow-lg text-base text-black"
+                  >
+                    🚀 Ingresar al Sistema
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <a
+                    href="mailto:Christianif.flores@gmail.com"
+                    className="group inline-flex items-center justify-center gap-2 border-2 border-slate-300/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 hover:border-slate-400 dark:hover:border-slate-500 px-8 py-4 rounded-xl font-semibold transition-all backdrop-blur-sm text-base"
+                  >
+                    🆘 Soporte Técnico
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
+
+                {/* Trust Indicators */}
+                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center text-sm text-slate-600 dark:text-slate-400">
+                  {TRUST_INDICATORS.map((indicator, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 ${indicator.color} rounded-full ${
+                          indicator.animated ? "animate-pulse" : ""
+                        }`}
+                      ></div>
+                      <span>{indicator.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-slate-300/50 dark:border-slate-700/50 py-12 bg-linear-to-b from-slate-100/80 dark:from-slate-900/80 to-slate-200 dark:to-black">

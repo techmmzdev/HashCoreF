@@ -130,7 +130,7 @@ const LoginPage = () => {
       {showSplash ? (
         <SplashScreen onFinish={handleSplashFinish} />
       ) : (
-        <div className="h-screen w-full flex items-center justify-center relative overflow-hidden px-4">
+        <main className="h-screen w-full flex items-center justify-center relative overflow-hidden px-4">
           {/* Fondo con patrón moderno */}
           <div className="absolute inset-0 z-0 bg-linear-to-br from-gray-900 via-black to-gray-900">
             {/* Patrón de puntos - más visible con blanco */}
@@ -331,7 +331,7 @@ const LoginPage = () => {
               </p>
             </div>
           </div>
-        </div>
+        </main>
       )}
     </>
   );
