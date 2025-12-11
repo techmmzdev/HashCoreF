@@ -74,7 +74,6 @@ if (isDevelopment()) {
   console.log("📡 Configuración de URLs:", {
     API: getApiUrl(),
     Uploads: getUploadsUrl(),
-    Socket: getSocketUrl(),
     Mode: import.meta.env.MODE,
   });
 }
