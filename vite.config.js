@@ -41,7 +41,7 @@ export default defineConfig({
           // Separar librerías de UI grandes
           ui: ["framer-motion", "lucide-react", "recharts"],
           // Separar utilidades de red
-          network: ["axios", "socket.io-client"],
+          network: ["axios"],
         },
       },
     },
